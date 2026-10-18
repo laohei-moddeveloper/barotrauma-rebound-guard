@@ -1,0 +1,176 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Threading;
+using Barotrauma.LuaCs;
+using Barotrauma.LuaCs.Compatibility;
+using HarmonyLib;
+
+namespace ReboundGuard
+{
+    // Generic LuaCs patch scaffolding optimization. The original generated body
+    // still dispatches all callbacks and applies all parameter/result changes.
+    internal static class LuaBridgeOptimizer
+    {
+        private sealed class State
+        {
+            internal LuaPatcherService.MethodKey Key;
+            internal bool Prefix;
+            internal MethodInfo Generated;
+            internal MethodInfo Bridge;
+            internal MethodBase Target;
+            internal bool HasCallbacks()
+            {
+                try
+                {
+                    LuaPatcherService service = LuaPatcherService.instance;
+                    if (service == null) return true; // retain native error handling
+                    if (!service.registeredPatches.TryGetValue(Key, out var entry)) return false;
+                    bool active = Prefix ? entry.Prefixes.Count != 0 : entry.Postfixes.Count != 0;
+                    if (!active) Interlocked.Increment(ref emptyCallsAvoided);
+                    return active;
+                }
+                catch { return true; }
+            }
+        }
+        private sealed class Context
+        {
+            internal ModuleBuilder Module;
+            internal readonly List<State> States = new List<State>();
+        }
+        private static readonly ConditionalWeakTable<LuaPatcherService, Context> Contexts = new ConditionalWeakTable<LuaPatcherService, Context>();
+        private static readonly MethodInfo Factory = AccessTools.Method(typeof(LuaPatcherService), "CreateDynamicHarmonyPatch");
+        private static readonly MethodInfo ClearAll = AccessTools.Method(typeof(LuaPatcherService), "ClearAll");
+        private static long wrappersBuilt, emptyCallsAvoided, resets;
+        internal static void Install(Harmony harmony)
+        {
+            if (!Settings.OptimizeLuaBridge || Factory == null || ClearAll == null) return;
+            // The factory is checked independently of unrelated GameScreen code.
+            string hash = Convert.ToHexString(SHA256.HashData(Factory.GetMethodBody().GetILAsByteArray()));
+            bool supported = hash == "FDDE4BAB2C7F247FFAFFCEFF29FC9E60838E7BC8CEC9FD9B48516EDDE3CA30BE" ||
+                hash == "D3CD997DE4AF581816D86F5F6A6E809FAD18B4EB8E3B456B9A92C50A7BBB71B7";
+            string clearHash = Convert.ToHexString(SHA256.HashData(ClearAll.GetMethodBody().GetILAsByteArray()));
+            supported &= clearHash == "1A598A5252DA28324FDAD98DA2FF72DC33FF2CD373A90C7D1282471DA024B057" ||
+                clearHash == "A9CEFCABE087A9FCDE7CBCF3A4F3CED4907590FD9545766D1243AB5F83C4D41F";
+            if (!supported || PatchSafety.HasForeignPatch(Factory) || PatchSafety.HasForeignPatch(ClearAll))
+            { Plugin.Log("Lua bridge optimization not installed: unsupported factory or competing patch; factory_sha256=" + hash); return; }
+            harmony.Patch(Factory, postfix: new HarmonyMethod(typeof(LuaBridgeOptimizer), nameof(AfterFactory)));
+            harmony.Patch(ClearAll, postfix: new HarmonyMethod(typeof(LuaBridgeOptimizer), nameof(AfterClear)));
+            Plugin.Log("generic Lua bridge optimization installed: empty phase guard, cached method metadata, typed return forwarding; callbacks retained");
+        }
+        private static void AfterFactory(LuaPatcherService __instance, MethodBase original, ILuaCsHook.HookMethodType hookType, ref MethodInfo __result)
+        {
+            if (!Settings.OptimizeLuaBridge || __result == null) return;
+            MethodInfo generated = __result;
+            try { __result = Build(__instance, original, generated, hookType == ILuaCsHook.HookMethodType.Before); }
+            catch (Exception error) { __result = generated; Plugin.Log("Lua bridge factory fallback: " + error.GetType().Name + "; " + original.Name); }
+        }
+        private static MethodInfo Build(LuaPatcherService service, MethodBase original, MethodInfo generated, bool prefix)
+        {
+            ParameterInfo[] old = generated.GetParameters();
+            if (old.Length < 2 || old[0].Name != "__originalMethod" || old[0].ParameterType != typeof(MethodBase)) return generated;
+            Type resultType = (original as MethodInfo)?.ReturnType;
+            if (resultType != null && (resultType.IsByRef || resultType.IsPointer || resultType.IsByRefLike)) return generated;
+            Context context = Contexts.GetValue(service, _ => new Context());
+            if (context.Module == null)
+            {
+                var assembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("ReboundGuard.LuaBridge." + Guid.NewGuid().ToString("N")), AssemblyBuilderAccess.RunAndCollect);
+                context.Module = assembly.DefineDynamicModule("Bridge");
+            }
+            var state = new State { Key = LuaPatcherService.MethodKey.Create(original), Prefix = prefix, Generated = generated, Target = original };
+            var access = typeof(System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute).GetConstructor(new[] { typeof(string) });
+            foreach (string name in old.Select(parameter => (parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType() : parameter.ParameterType).Assembly.GetName().Name)
+                .Append(resultType?.Assembly.GetName().Name).Append(typeof(LuaPatcherService).Assembly.GetName().Name).Append(original.DeclaringType?.Assembly.GetName().Name).Where(name => name != null).Distinct())
+                ((AssemblyBuilder)context.Module.Assembly).SetCustomAttribute(new CustomAttributeBuilder(access, new object[] { name }));
+            TypeBuilder type = context.Module.DefineType("Bridge" + Guid.NewGuid().ToString("N"), TypeAttributes.Public);
+            FieldBuilder metadata = type.DefineField("Original", typeof(MethodBase), FieldAttributes.Public | FieldAttributes.Static);
+            FieldBuilder guard = type.DefineField("Guard", typeof(Func<bool>), FieldAttributes.Public | FieldAttributes.Static);
+            // LuaCs.ClearAll expects this field on every registered wrapper type.
+            type.DefineField("LuaCs", typeof(Barotrauma.LuaCsSetup), FieldAttributes.Public | FieldAttributes.Static);
+            Type[] signature = old.Skip(1).Select(parameter => parameter.Name == "__result" ? resultType.MakeByRefType() : parameter.ParameterType).ToArray();
+            if (signature.Any(parameter => (parameter.IsByRef ? parameter.GetElementType() : parameter).IsByRefLike)) return generated;
+            MethodBuilder method = type.DefineMethod(prefix ? "HarmonyPrefix" : "HarmonyPostfix", MethodAttributes.Public | MethodAttributes.Static, generated.ReturnType, signature);
+            for (int i = 1; i < old.Length; i++) method.DefineParameter(i, old[i].Attributes, old[i].Name);
+            ILGenerator il = method.GetILGenerator(); Label active = il.DefineLabel();
+            il.Emit(OpCodes.Ldsfld, guard); il.Emit(OpCodes.Callvirt, typeof(Func<bool>).GetMethod("Invoke")); il.Emit(OpCodes.Brtrue, active);
+            if (prefix) il.Emit(OpCodes.Ldc_I4_1);
+            il.Emit(OpCodes.Ret); il.MarkLabel(active);
+            int result = Array.FindIndex(old, parameter => parameter.Name == "__result");
+            LocalBuilder boxed = null, returned = prefix ? il.DeclareLocal(typeof(bool)) : null;
+            if (result >= 0)
+            {
+                boxed = il.DeclareLocal(typeof(object));
+                il.Emit(OpCodes.Ldarg, result - 1); il.Emit(OpCodes.Ldobj, resultType);
+                if (resultType.IsValueType) il.Emit(OpCodes.Box, resultType);
+                il.Emit(OpCodes.Stloc, boxed);
+            }
+            il.Emit(OpCodes.Ldsfld, metadata);
+            for (int i = 1; i < old.Length; i++)
+            {
+                if (i == result) il.Emit(OpCodes.Ldloca, boxed);
+                else il.Emit(OpCodes.Ldarg, i - 1);
+            }
+            il.Emit(OpCodes.Call, generated);
+            if (prefix) il.Emit(OpCodes.Stloc, returned);
+            if (result >= 0)
+            {
+                il.Emit(OpCodes.Ldarg, result - 1); il.Emit(OpCodes.Ldloc, boxed);
+                il.Emit(resultType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, resultType);
+                il.Emit(OpCodes.Stobj, resultType);
+            }
+            if (prefix) il.Emit(OpCodes.Ldloc, returned);
+            il.Emit(OpCodes.Ret);
+            Type built = type.CreateType();
+            built.GetField("Original").SetValue(null, original);
+            built.GetField("Guard").SetValue(null, (Func<bool>)state.HasCallbacks);
+            built.GetField("LuaCs").SetValue(null, Barotrauma.LuaCsSetup.Instance);
+            context.States.Add(state); Interlocked.Increment(ref wrappersBuilt);
+            state.Bridge = built.GetMethod(method.Name);
+            return state.Bridge;
+        }
+        private static void AfterClear(LuaPatcherService __instance)
+        {
+            if (Contexts.TryGetValue(__instance, out Context context))
+            {
+                foreach (State state in context.States) state.Generated.DeclaringType.GetField("LuaCs")?.SetValue(null, null);
+                Contexts.Remove(__instance); Interlocked.Increment(ref resets);
+            }
+            if (Settings.RecycleLuaPatchModules)
+                __instance.patchModuleBuilder = new Lazy<ModuleBuilder>(__instance.CreateModuleBuilder);
+        }
+        internal static void Stop()
+        {
+            foreach (var pair in Contexts.ToArray())
+            {
+                LuaPatcherService service = pair.Key;
+                foreach (State state in pair.Value.States)
+                {
+                    if (!service.registeredPatches.TryGetValue(state.Key, out var entry)) continue;
+                    MethodInfo current = state.Prefix ? entry.HarmonyPrefixMethod : entry.HarmonyPostfixMethod;
+                    if (current != state.Bridge) continue;
+                    // Restore native wrappers without touching any callback dictionary.
+                    var info = Harmony.GetPatchInfo(state.Target);
+                    Patch oldPatch = (state.Prefix ? info?.Prefixes : info?.Postfixes)?.FirstOrDefault(patch => patch.PatchMethod == state.Bridge);
+                    if (oldPatch == null)
+                    {
+                        AccessTools.Field(typeof(LuaPatcherService.PatchedMethod), state.Prefix ? "<HarmonyPrefixMethod>k__BackingField" : "<HarmonyPostfixMethod>k__BackingField").SetValue(entry, state.Generated);
+                        continue;
+                    }
+                    var restore = new HarmonyMethod(state.Generated);
+                    if (oldPatch != null) { restore.priority = oldPatch.priority; restore.before = oldPatch.before; restore.after = oldPatch.after; }
+                    service.harmony.Unpatch(state.Target, state.Bridge);
+                    if (state.Prefix) service.harmony.Patch(state.Target, prefix: restore);
+                    else service.harmony.Patch(state.Target, postfix: restore);
+                    AccessTools.Field(typeof(LuaPatcherService.PatchedMethod), state.Prefix ? "<HarmonyPrefixMethod>k__BackingField" : "<HarmonyPostfixMethod>k__BackingField").SetValue(entry, state.Generated);
+                }
+                Contexts.Remove(service);
+            }
+        }
+        internal static string Report() => "generic Lua bridge: wrappers_built=" + Interlocked.Exchange(ref wrappersBuilt, 0) +
+            "; empty_phases_avoided=" + Interlocked.Exchange(ref emptyCallsAvoided, 0) + "; contexts_released=" + Interlocked.Exchange(ref resets, 0);
+    }
+}

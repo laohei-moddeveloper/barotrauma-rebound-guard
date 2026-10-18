@@ -1,0 +1,12 @@
+{
+  "project": "reboundguard-experimental-040",
+  "file_id": "3822098302",
+  "title": "深潜稳帧 | Rebound Guard",
+  "app_id": 602960,
+  "status": "uploaded_public",
+  "needs_workshop_agreement": false,
+  "created_utc": "2026-10-18T08:13:19.4439782Z",
+  "last_submit_result": "OK",
+  "submitted_utc": "2026-10-18T08:14:13.7974228Z",
+  "luacs_dependency_added": true
+}

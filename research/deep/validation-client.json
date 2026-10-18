@@ -1,0 +1,562 @@
+{
+  "date": "2026-10-18",
+  "runtime": "8.0.0",
+  "processors": 20,
+  "assembly": "Barotrauma",
+  "version": "1.13.4.0",
+  "assertions": 1057372,
+  "body_benchmark": [
+    {
+      "bodies": 256,
+      "serial_median_ms": 0.0010866666666666666,
+      "parallel_median_ms": 0.002513333333333333,
+      "serial_p95_ms": 0.0036599999999999996,
+      "parallel_p95_ms": 0.016513333333333335,
+      "speedup": 0.4323607427055703
+    },
+    {
+      "bodies": 2048,
+      "serial_median_ms": 0.008786666666666667,
+      "parallel_median_ms": 0.005706666666666666,
+      "serial_p95_ms": 0.020946666666666666,
+      "parallel_p95_ms": 0.01128,
+      "speedup": 1.5397196261682244
+    },
+    {
+      "bodies": 8192,
+      "serial_median_ms": 0.03963333333333333,
+      "parallel_median_ms": 0.030746666666666665,
+      "serial_p95_ms": 0.0514,
+      "parallel_p95_ms": 0.04384,
+      "speedup": 1.2890286209887252
+    },
+    {
+      "bodies": 32768,
+      "serial_median_ms": 0.23618,
+      "parallel_median_ms": 0.08731333333333334,
+      "serial_p95_ms": 0.27126,
+      "parallel_p95_ms": 0.11383333333333333,
+      "speedup": 2.704970603955104
+    }
+  ],
+  "queue_benchmark": [
+    {
+      "candidates": 256,
+      "vanilla_median_ms": 0.0405,
+      "indexed_median_ms": 0.007,
+      "vanilla_p95_ms": 0.0406,
+      "indexed_p95_ms": 0.0082,
+      "speedup": 5.785714285714286
+    },
+    {
+      "candidates": 2048,
+      "vanilla_median_ms": 2.4364,
+      "indexed_median_ms": 0.0558,
+      "vanilla_p95_ms": 2.5417,
+      "indexed_p95_ms": 0.0689,
+      "speedup": 43.66308243727598
+    },
+    {
+      "candidates": 8192,
+      "vanilla_median_ms": 39.7997,
+      "indexed_median_ms": 0.2975,
+      "vanilla_p95_ms": 40.4166,
+      "indexed_p95_ms": 0.4059,
+      "speedup": 133.78050420168069
+    }
+  ],
+  "existing_physics_benchmark": [
+    {
+      "scene": "independent_pairs",
+      "requested_contact_threshold": 2147483647,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 512,
+      "contacts": 256,
+      "step_median_ms": 0.066,
+      "step_p95_ms": 0.0802,
+      "contacts_median_ms": 0.0058,
+      "island_solve_median_ms": 0.0558
+    },
+    {
+      "scene": "independent_pairs",
+      "requested_contact_threshold": 64,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 512,
+      "contacts": 256,
+      "step_median_ms": 0.0566,
+      "step_p95_ms": 0.0605,
+      "contacts_median_ms": 0.0044,
+      "island_solve_median_ms": 0.0491
+    },
+    {
+      "scene": "shared_static_hub",
+      "requested_contact_threshold": 2147483647,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 256,
+      "contacts": 256,
+      "step_median_ms": 0.1074,
+      "step_p95_ms": 0.15,
+      "contacts_median_ms": 0.0043,
+      "island_solve_median_ms": 0.0463
+    },
+    {
+      "scene": "shared_static_hub",
+      "requested_contact_threshold": 64,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 256,
+      "contacts": 256,
+      "step_median_ms": 0.1069,
+      "step_p95_ms": 0.1254,
+      "contacts_median_ms": 0.0044,
+      "island_solve_median_ms": 0.0459
+    }
+  ],
+  "ordered_solver_research": {
+    "checks": 86,
+    "contact_points": 2,
+    "benchmarks": [
+      {
+        "graph": "disjoint",
+        "constraints": 4096,
+        "serial_ms": 0.12223999999999999,
+        "cached_schedule_ms": 0.042820000000000004,
+        "cold_schedule_median_ms": 0.1437,
+        "cold_schedule_p95_ms": 0.2042,
+        "speedup_cached": 2.8547407753386262
+      },
+      {
+        "graph": "grid",
+        "constraints": 4096,
+        "serial_ms": 0.12107000000000001,
+        "cached_schedule_ms": 0.12955,
+        "cold_schedule_median_ms": 0.1982,
+        "cold_schedule_p95_ms": 0.5278,
+        "speedup_cached": 0.9345426476263992
+      },
+      {
+        "graph": "hub",
+        "constraints": 4096,
+        "serial_ms": 0.11077,
+        "cached_schedule_ms": 0.11701999999999999,
+        "cold_schedule_median_ms": 0.1839,
+        "cold_schedule_p95_ms": 0.2721,
+        "speedup_cached": 0.9465903264399249
+      }
+    ],
+    "default_enabled": false,
+    "note": "Calls installed native private range solver. Bitwise comparisons cover synthetic dependency graphs, not a complete live multiplayer round. Cold topology construction is included separately."
+  },
+  "constraint_preparation": {
+    "checks": 34,
+    "benchmarks": [
+      {
+        "contacts": 64,
+        "serial_median_ms": 0.0022,
+        "complete_parallel_median_ms": 0.0040625,
+        "cloned_serial_ms": 0.00195,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.0022625
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.00275
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.0029375
+          }
+        ],
+        "serial_p95_ms": 0.0043125,
+        "complete_parallel_p95_ms": 0.0083375,
+        "speedup": 0.5415384615384615
+      },
+      {
+        "contacts": 256,
+        "serial_median_ms": 0.007825,
+        "complete_parallel_median_ms": 0.0066125,
+        "cloned_serial_ms": 0.0078375,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.0081625
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.005675
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.00645
+          }
+        ],
+        "serial_p95_ms": 0.0085625,
+        "complete_parallel_p95_ms": 0.0132625,
+        "speedup": 1.1833648393194707
+      },
+      {
+        "contacts": 1024,
+        "serial_median_ms": 0.0318125,
+        "complete_parallel_median_ms": 0.0118625,
+        "cloned_serial_ms": 0.03125,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.0316875
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.0181
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.019225
+          }
+        ],
+        "serial_p95_ms": 0.035975,
+        "complete_parallel_p95_ms": 0.0280125,
+        "speedup": 2.6817702845100104
+      },
+      {
+        "contacts": 4096,
+        "serial_median_ms": 0.1283625,
+        "complete_parallel_median_ms": 0.04105,
+        "cloned_serial_ms": 0.1343875,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.1328625
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.07115
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.0398125
+          }
+        ],
+        "serial_p95_ms": 0.135675,
+        "complete_parallel_p95_ms": 0.0828625,
+        "speedup": 3.1269792935444576
+      },
+      {
+        "contacts": 16384,
+        "serial_median_ms": 0.5051375,
+        "complete_parallel_median_ms": 0.18055,
+        "cloned_serial_ms": 0.54475,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.5147875
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.2773
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.1582875
+          }
+        ],
+        "serial_p95_ms": 0.543425,
+        "complete_parallel_p95_ms": 0.2503625,
+        "speedup": 2.797770700636943
+      }
+    ],
+    "actual_hook_benchmark": {
+      "contacts": 4096,
+      "unpatched_ms": 0.1261375,
+      "patched_serial_ms": 0.1307125,
+      "patched_parallel_ms": 0.0380375
+    },
+    "note": "Installed original method versus range-cloned native IL. Full TryRun cost includes conflict checks and scheduling. Synthetic repeated polygon manifold with independent constraint objects but shared read-only body states; not whole-game FPS."
+  },
+  "world_replay": {
+    "scenes": [
+      {
+        "mode": "ordered_velocity",
+        "scene": "stack",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 2882,
+        "parallel_range_calls": 3920,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "mixed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 1606,
+        "parallel_range_calls": 6072,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "moving_platform",
+        "steps": 240,
+        "bodies_created": 165,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3188,
+        "parallel_range_calls": 5152,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "jointed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 60,
+        "collision_callbacks": 2806,
+        "parallel_range_calls": 2776,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "stack",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 2882,
+        "parallel_range_calls": 490,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "mixed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 1606,
+        "parallel_range_calls": 759,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "moving_platform",
+        "steps": 240,
+        "bodies_created": 165,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3188,
+        "parallel_range_calls": 644,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "jointed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 60,
+        "collision_callbacks": 2806,
+        "parallel_range_calls": 347,
+        "state_and_callback_order": "bit-exact each step"
+      }
+    ],
+    "note": "Complete installed Farseer World.Step on synthetic scenes, including changing contacts, scripted impulses, generation/removal and a kinematic body. Thresholds deliberately lowered to exercise scheduling. No Barotrauma ragdolls, Lua hooks, loaded submarines or networking."
+  },
+  "world_performance": {
+    "rows": [
+      {
+        "scene": "dense_1024",
+        "bodies": 1024,
+        "contacts": 3906,
+        "unpatched_median_ms": 3.4382,
+        "unpatched_second_median_ms": 4.628,
+        "parallel_median_ms": 3.4994,
+        "patched_serial_median_ms": 3.3127,
+        "unpatched_p95_ms": 5.7013,
+        "parallel_p95_ms": 4.3466,
+        "parallel_prepare_calls": 130,
+        "speedup": 0.9825112876493113,
+        "all_130_steps_bit_exact": true
+      },
+      {
+        "scene": "dense_4096",
+        "bodies": 4096,
+        "contacts": 15906,
+        "unpatched_median_ms": 14.6168,
+        "unpatched_second_median_ms": 15.5165,
+        "parallel_median_ms": 15.6542,
+        "patched_serial_median_ms": 14.585,
+        "unpatched_p95_ms": 18.3865,
+        "parallel_p95_ms": 19.5631,
+        "parallel_prepare_calls": 130,
+        "speedup": 0.9337302449182967,
+        "all_130_steps_bit_exact": true
+      },
+      {
+        "scene": "shared_floor_1024",
+        "bodies": 1024,
+        "contacts": 1024,
+        "unpatched_median_ms": 1.0404,
+        "unpatched_second_median_ms": 1.0046,
+        "parallel_median_ms": 0.9841,
+        "patched_serial_median_ms": 1.07,
+        "unpatched_p95_ms": 1.2766,
+        "parallel_p95_ms": 1.1572,
+        "parallel_prepare_calls": 0,
+        "speedup": 1.057209633167361,
+        "all_130_steps_bit_exact": true
+      }
+    ],
+    "velocity_iterations": 8,
+    "position_iterations": 3,
+    "note": "Whole installed World.Step, original iteration counts. Synthetic stress: bodies reset before each step to maintain contacts; reset/state comparison excluded from timings. Two unpatched baselines bracket patched runs. Not a loaded submarine or multiplayer round."
+  },
+  "nearby_item_index": {
+    "checks": 992,
+    "benchmarks": [
+      {
+        "items": 512,
+        "unpatched_median_ms": 0.04589375,
+        "patched_fallback_median_ms": 0.0465625,
+        "indexed_median_ms": 0.00548125,
+        "cold_query_ms": 0.108,
+        "far_native_ms": 0.0042125,
+        "far_indexed_ms": 0.00440625,
+        "dense_native_ms": 0.04618125,
+        "dense_fallback_ms": 0.0476375,
+        "background_ready_delay_ms": 10.9716,
+        "indexed_serial_audit_ms": 0.00550625,
+        "append_query_ms": 0.0323,
+        "remove_query_ms": 0.0182,
+        "unpatched_100_queries_ms": 4.862,
+        "patched_fallback_100_queries_ms": 6.6455,
+        "indexed_100_queries_ms": 0.5418,
+        "speedup_cached": 8.372862029646521
+      },
+      {
+        "items": 4096,
+        "unpatched_median_ms": 0.37941875,
+        "patched_fallback_median_ms": 0.37356875,
+        "indexed_median_ms": 0.0914125,
+        "cold_query_ms": 1.1675,
+        "far_native_ms": 0.03421875,
+        "far_indexed_ms": 0.03436875,
+        "dense_native_ms": 0.38054375,
+        "dense_fallback_ms": 0.424925,
+        "background_ready_delay_ms": 12.54,
+        "indexed_serial_audit_ms": 0.0787375,
+        "append_query_ms": 0.2567,
+        "remove_query_ms": 0.1978,
+        "unpatched_100_queries_ms": 38.4705,
+        "patched_fallback_100_queries_ms": 38.9471,
+        "indexed_100_queries_ms": 8.07,
+        "speedup_cached": 4.150622179680022
+      },
+      {
+        "items": 16384,
+        "unpatched_median_ms": 2.0573125,
+        "patched_fallback_median_ms": 2.02504375,
+        "indexed_median_ms": 0.2951375,
+        "cold_query_ms": 3.5383,
+        "far_native_ms": 0.174275,
+        "far_indexed_ms": 0.15723125,
+        "dense_native_ms": 2.1467625,
+        "dense_fallback_ms": 2.0306125,
+        "background_ready_delay_ms": 7.5872,
+        "indexed_serial_audit_ms": 0.4446625,
+        "append_query_ms": 1.3125,
+        "remove_query_ms": 1.099,
+        "unpatched_100_queries_ms": 208.2513,
+        "patched_fallback_100_queries_ms": 198.258,
+        "indexed_100_queries_ms": 42.1448,
+        "speedup_cached": 6.970691626784126
+      }
+    ],
+    "note": "Complete installed AddNearbyTargets with live distance/validity checks and original target order. Actual tag set reference/version/count audited each query, including JIT-inlined mutations and direct HashSet Add/Remove/Clear. Synthetic item/prefab objects; list changes, movement, empty/all-target and conflict fallbacks tested."
+  },
+  "container_effect_guard": {
+    "checks": 71,
+    "benchmarks": [
+      {
+        "items": 0,
+        "original_ns": 29.5,
+        "guard_ns": 5.5
+      },
+      {
+        "items": 2048,
+        "original_ns": 17502.5,
+        "guard_ns": 6
+      },
+      {
+        "items": 8192,
+        "original_ns": 88686.5,
+        "guard_ns": 5.5
+      }
+    ],
+    "note": "Native target predicate on synthetic distant items. Does not measure an entire container Update or a live round. Per-step conflict scan measured separately.",
+    "safety_check_ns": 53.5
+  },
+  "plugin_lifecycle": {
+    "initialization": "all default features installed together",
+    "dispose": "all own patches removed",
+    "reload": "same plugin instance initializes/disposes twice; profiler reset",
+    "diagnostic_writer": "marker flushed under isolated host",
+    "note": "Plugin lifecycle only; no game entry point or live round started."
+  },
+  "field_iteration": {
+    "checks": 22,
+    "owner_inspection_legacy_ns": 666.32,
+    "owner_inspection_direct_ns": 31.21,
+    "owner_inspection_legacy_bytes_per_1000": 744000,
+    "owner_inspection_direct_bytes_per_1000": 0,
+    "empty_method_ns": 1.515,
+    "empty_method_with_profiler_ns": 137.455,
+    "legacy_idle_scope_ns": 4032.25,
+    "lazy_idle_scope_ns": 5.295,
+    "legacy_idle_scope_bytes_per_1000": 4448000,
+    "lazy_idle_scope_bytes_per_1000": 0,
+    "note": "Owner inspection excludes GetPatchInfo wrapper allocations. Profiler timer includes Harmony overhead on an empty method, not game FPS. No live multiplayer run."
+  },
+  "native_mod_hot_paths": {
+    "checks": 72,
+    "calls_per_batch": 10000,
+    "lua_rule_ms": 7.1575,
+    "native_getter_ms": 0.2508,
+    "lua_rule_bytes": 17280000,
+    "native_getter_bytes": 0,
+    "speedup": 28.538676236044655,
+    "note": "Original Lua rule via real MoonSharp and actual Character objects versus actual Harmony-patched getter. Lua fixture omits the complete LuaCs generated prefix/postfix wrapper overhead. Not whole-game FPS or a new live combat benchmark."
+  },
+  "generic_lua_bridge": {
+    "checks": 41,
+    "calls_per_batch": 20000,
+    "native_luacs_ms": 8.4651,
+    "optimized_bridge_ms": 4.6969,
+    "native_luacs_bytes": 16480000,
+    "optimized_bridge_bytes": 7040000,
+    "speedup": 1.8022738401924672,
+    "reset_recycles_module": true,
+    "clear_all_sha256": "1A598A5252DA28324FDAD98DA2FF72DC33FF2CD373A90C7D1282471DA024B057",
+    "reference_getter_sha256": "1E32B9D8EAFC563B3CFC28B66492E50EFF2C85B1E38CFBAFBA00365958933095",
+    "reference_iterator_sha256": "56513853E098403628ACF56B223D7D60F6AA166713D866D2EDD470AA2098CC5A",
+    "reference_dispose_sha256": "FB38E821D118062141EBF7B486D125A1499972F4196FBBEF7276987032236EF6",
+    "note": "Actual LuaPatcherService generated wrappers and C# callbacks; isolates generic bridge overhead without Lua VM cost. Callback order, arguments, PreventExecution, result types, reset and detach verified. Not whole-game FPS or loading-time proof."
+  },
+  "loading_lifecycle": {
+    "checks": 22,
+    "native_dispose_ms": 2026.2782,
+    "optimized_dispose_ms": 9.9596,
+    "native_stranded_operations": 1,
+    "optimized_stranded_operations": 0,
+    "note": "Actual AssemblyLoader with one metadata reference; disposing an early-ended iterator reproduces the native two-second unload wait. Native full GC is retained. Does not establish a complete game loading-time improvement."
+  },
+  "limitations": "Isolated real game methods and synthetic queues/bodies. No loaded submarine, live combat, networking session, GPU or gameplay benchmark."
+}

@@ -1,0 +1,690 @@
+[
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Server/Core/ItemOptimizerPlugin.Server.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Server/Core/ItemOptimizerPlugin.Server.cs",
+    "sha256": "9cb284af0fa4e6613d38d89c62a0378cb37827508b9c516ded773019339070f3",
+    "bytes": 3200
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Server/Core/ServerOptimizer.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Server/Core/ServerOptimizer.cs",
+    "sha256": "bd17027f042425ac7a0636bcb0866199a9d065584976ae85f677a35b4ea0d9e5",
+    "bytes": 5070
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Server/Diagnostics/ServerPerfTracker.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Server/Diagnostics/ServerPerfTracker.cs",
+    "sha256": "77f2fc0bd8941149fb1260b328a378218c006aa8d80b860c191e8b46611b0bde",
+    "bytes": 6909
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Character/CharacterStaggerPatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Character/CharacterStaggerPatch.cs",
+    "sha256": "e062c3b9595f603a0456c7caedf8e89d8d43c31284f80bc7d391a8ba7fe8bb40",
+    "bytes": 2912
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Character/CharacterZoneSkipPatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Character/CharacterZoneSkipPatch.cs",
+    "sha256": "25d09a56174249338d77ea380e27687b7c028112abe3bd79dfa18ef63a6958f4",
+    "bytes": 2014
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Component/ButtonTerminalPatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Component/ButtonTerminalPatch.cs",
+    "sha256": "35f0eb2eaa0f06dd7bb16560d38ff895bbb1fc7c30fc4fbc445e825d61887dbd",
+    "bytes": 2379
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Component/PumpPatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Component/PumpPatch.cs",
+    "sha256": "b4033e55b3ca962d652e22a6fc04bc663a8972e702835c57edd654631a789a66",
+    "bytes": 4155
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Power/PowerContainerRewrite.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Power/PowerContainerRewrite.cs",
+    "sha256": "8a465d17897f59246ca86c8c4ae005f10ddb60c35e7123822a9a782262ed4efc",
+    "bytes": 7567
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Power/PowerTransferRewrite.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Power/PowerTransferRewrite.cs",
+    "sha256": "849db4c12d340ab4b3d2eb31532f7939ac418499387769a490a3ea052bed90f6",
+    "bytes": 12346
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Power/RelayRewrite.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Power/RelayRewrite.cs",
+    "sha256": "b0b4d5c5d9a4a1438b0b46ddf1ad3daf6bc2242a08774be34851c1a49f591ddf",
+    "bytes": 10048
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Sensor/MotionSensorRewrite.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Sensor/MotionSensorRewrite.cs",
+    "sha256": "04bbf1aa1b85908d7738c222b356cd5d68221e0e01638284fc5fb3509b909c74",
+    "bytes": 47116
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/Item/Sensor/WaterDetectorRewrite.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/Item/Sensor/WaterDetectorRewrite.cs",
+    "sha256": "b02f696ce733e3da9e8d54f88c61f305ae36c3d6f2586c725146f5b4794ce4fc",
+    "bytes": 8944
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/ColdStorageDetector.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/ColdStorageDetector.cs",
+    "sha256": "1860e533d06b4bc279032378894f324d5490f55b01a1f324a9af43dbd25e8ea4",
+    "bytes": 5371
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/ComponentDispatchTranspiler.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/ComponentDispatchTranspiler.cs",
+    "sha256": "9da9c7df30a1b266be284931ff100c49b606b279040efb25c5a03316c83204c2",
+    "bytes": 9664
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/GapSafetyPatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/GapSafetyPatch.cs",
+    "sha256": "5322deb93c99ca2336ab48cf9ec6691bda3cfc2e9826920ad852e3b19e6db4e6",
+    "bytes": 6034
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/HasStatusTagCachePatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/HasStatusTagCachePatch.cs",
+    "sha256": "b1d033b9e6e48a983e11b5cdcfc59946e7e450a319d5a974c6f082007d601a21",
+    "bytes": 10440
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/HullCharacterTracker.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/HullCharacterTracker.cs",
+    "sha256": "3f7fad4c7597449f155ec7b779410bba2776d5bf1bbdfdec3dfbc2a8ec273ccd",
+    "bytes": 3427
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/ItemUpdateTranspiler.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/ItemUpdateTranspiler.cs",
+    "sha256": "3161e81418344836c78fab3a147af2e61d0b29147f223f5b6a8df90e9c8eb1da",
+    "bytes": 4678
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/MapEntity/UpdateAllTakeover.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/MapEntity/UpdateAllTakeover.cs",
+    "sha256": "809121a99c3ae220dd03a2a0fa93b8d5dbbf5bcaa472dbb6eda55f84a4e426fd",
+    "bytes": 34160
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Patches/SubmarineZonePatch.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Patches/SubmarineZonePatch.cs",
+    "sha256": "2b0e3cfcf22c65bd78106e16e4d132ace74d3cc4495db90a619a112cacd39178",
+    "bytes": 2875
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/CommandBuffer.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/CommandBuffer.cs",
+    "sha256": "90c7abe99aa5127ffb0e2c94e4ec97de1148d9e6910150a3e1588fd1d9ee2cef",
+    "bytes": 5296
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/Commands.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/Commands.cs",
+    "sha256": "e599e591512afc5ed2e2660cafca4d412ee6a14a7cbf42853af220c9bff80ce5",
+    "bytes": 8096
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/NativeComponent.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/NativeComponent.cs",
+    "sha256": "7ee8a51e8c669632a9b07386981ce41924181da4c5cade78638e0d89f8e9200c",
+    "bytes": 2621
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/NativeRuntime.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/NativeRuntime.cs",
+    "sha256": "d6f9c8bbe4624209d2f3ec91319f35b49e2387a217c93f52c565e6053b3acb18",
+    "bytes": 8088
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/NativeRuntimeBridge.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/NativeRuntimeBridge.cs",
+    "sha256": "eb2e47dd1e31f15c0d115da978c9cefb15cf793315816c521ba69a6f53b6017a",
+    "bytes": 13180
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/Sensors/MotionSensorNative.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/Sensors/MotionSensorNative.cs",
+    "sha256": "7dc49bcffda546aedf3b25c092086b975f35ea86ba28ffc213d777780027ba7e",
+    "bytes": 2483
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/Snapshots.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/Snapshots.cs",
+    "sha256": "b991d396fcf84c0541c2a230933ce0e61b330460bb56841e60b34dbdd1f78757",
+    "bytes": 3180
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/TickContext.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/TickContext.cs",
+    "sha256": "d245a1c4fc3f814259473a52b76892eea4d5f1f9b5f97be8e358ffad55e3d9fd",
+    "bytes": 5390
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/WorldGrid.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/WorldGrid.cs",
+    "sha256": "32a6451c0c11c370920dcb0ec0352975e6d204ff8ea2b75e74026c74fceb3863",
+    "bytes": 4794
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/Zone.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/Zone.cs",
+    "sha256": "3624de279ba33a26e99962fb16dec21155d6e7f0a40b7538c14d169aacbd5cfe",
+    "bytes": 3537
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/ZoneGraph.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/ZoneGraph.cs",
+    "sha256": "abf47476c38d9c1a2ce3f987f33024b1973b6e4429681cc6a61b7b02385e44aa",
+    "bytes": 7795
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/World/ZoneTier.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/World/ZoneTier.cs",
+    "sha256": "a2a2837056e702730f213e3776455cca4a874b1d23716556b761e1ab2a3d6a8e",
+    "bytes": 1000
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/README.md",
+    "sha256": "a38cfde3b33e6a19a73e3e96eb264a1e5399e2ac8f715c951d87e5da0cf3a5e6",
+    "bytes": 14649
+  },
+  {
+    "repo": "zhu-rengong/barotrauma-mod-shadowculling",
+    "commit": "797d42272592472fe1ffade57b6f17564ff67a6f",
+    "path": "ClientProject/ClientSource/Culling/PluginClient.cs",
+    "url": "https://raw.githubusercontent.com/zhu-rengong/barotrauma-mod-shadowculling/797d42272592472fe1ffade57b6f17564ff67a6f/ClientProject/ClientSource/Culling/PluginClient.cs",
+    "sha256": "85acb24424ebf13787e9aa681a626a86800a94194797a603be10315b84ae7149",
+    "bytes": 37024
+  },
+  {
+    "repo": "zhu-rengong/barotrauma-mod-shadowculling",
+    "commit": "797d42272592472fe1ffade57b6f17564ff67a6f",
+    "path": "ClientProject/ClientSource/Geometry/EntityBounds.cs",
+    "url": "https://raw.githubusercontent.com/zhu-rengong/barotrauma-mod-shadowculling/797d42272592472fe1ffade57b6f17564ff67a6f/ClientProject/ClientSource/Geometry/EntityBounds.cs",
+    "sha256": "ed0df25758ced841ca4173c31090680a30fdf5064fb002c1b7d7260981c7b260",
+    "bytes": 2035
+  },
+  {
+    "repo": "zhu-rengong/barotrauma-mod-shadowculling",
+    "commit": "797d42272592472fe1ffade57b6f17564ff67a6f",
+    "path": "SharedProject/SharedSource/Patching/Patches.cs",
+    "url": "https://raw.githubusercontent.com/zhu-rengong/barotrauma-mod-shadowculling/797d42272592472fe1ffade57b6f17564ff67a6f/SharedProject/SharedSource/Patching/Patches.cs",
+    "sha256": "c6b1df8bc4ad24d24d9a142c20c1d0fc21d082f9fc32ca75f4445543b789fec1",
+    "bytes": 10005
+  },
+  {
+    "repo": "zhu-rengong/barotrauma-mod-shadowculling",
+    "commit": "797d42272592472fe1ffade57b6f17564ff67a6f",
+    "path": "SharedProject/SharedSource/Plugin/PluginSettings.cs",
+    "url": "https://raw.githubusercontent.com/zhu-rengong/barotrauma-mod-shadowculling/797d42272592472fe1ffade57b6f17564ff67a6f/SharedProject/SharedSource/Plugin/PluginSettings.cs",
+    "sha256": "8b468e6e1684ad4d5a399cea599731c287857cda273a134fd1da1def5916b05e",
+    "bytes": 3920
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/GameMain.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaServer/ServerSource/GameMain.cs",
+    "sha256": "5b8fd89ff215b3db8e4d5aaddb42b1e49b3b101ad5a99955ed6dbf1e938ea553",
+    "bytes": 16520
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaClient/ClientSource/GameMain.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaClient/ClientSource/GameMain.cs",
+    "sha256": "bdc5e333f178a89c36f1f742bbcc8f368cdb1b423a61a953a3926b310c598487",
+    "bytes": 55772
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Timing.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Timing.cs",
+    "sha256": "5da61a3fedb9bd16fe50566ed2413554ab9d7802bdb56c34f305db82cde0b7c3",
+    "bytes": 1969
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Screens/GameScreen.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Screens/GameScreen.cs",
+    "sha256": "70c6b3fd332f5b971a6f587665bf6c8bbb215b3c937bb3ba30457690bc730d25",
+    "bytes": 11389
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Map/MapEntity.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Map/MapEntity.cs",
+    "sha256": "0fdcc4e2130daf03e4bb0cff14cca1015fcc6950d4d4650f3169b0b7aa43cc09",
+    "bytes": 36922
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/StatusEffects/StatusEffect.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/StatusEffects/StatusEffect.cs",
+    "sha256": "6de5bad7dc9cc13cdc50460907b0c6a86ee3fdcb51856c3547f280b85673de09",
+    "bytes": 157369
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/ItemContainer.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Items/Components/ItemContainer.cs",
+    "sha256": "60092c6704545dbe17e00ada2019c1a3cf10511f7dd871d93cb28fb375a95b49",
+    "bytes": 58021
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/Signal/MotionSensor.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Items/Components/Signal/MotionSensor.cs",
+    "sha256": "632651ce5270fe21b91e19b2b12afefa6ac4a36100f21e3da7be6b02116c805b",
+    "bytes": 15361
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaClient/ClientSource/Physics/PhysicsBody.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaClient/ClientSource/Physics/PhysicsBody.cs",
+    "sha256": "36347f9766903a57d2ddb1437d10b18f8f07bd14e8442f1e2590a845b7862f07",
+    "bytes": 7994
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Physics/PhysicsBody.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Physics/PhysicsBody.cs",
+    "sha256": "979a213944d4d89521b5f5310ca7e99fd20512601da82166cf85d3ffa9b1f176",
+    "bytes": 40398
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/Networking/GameServer.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaServer/ServerSource/Networking/GameServer.cs",
+    "sha256": "bac90cf876fd236002706e5153024d6f071eeb0294bb3276292211996d7014a4",
+    "bytes": 237007
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Item.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Items/Item.cs",
+    "sha256": "30cad3788c1f48429e3fdb3e233d52f0179ec0e67b104ab35ba9e4704a23adf9",
+    "bytes": 193827
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Characters/Character.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Characters/Character.cs",
+    "sha256": "3bd07ccbed377b617ef79a4250f42ec116cd95ee9e47c39720971dce34cb378d",
+    "bytes": 271364
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/Characters/CharacterNetworking.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaServer/ServerSource/Characters/CharacterNetworking.cs",
+    "sha256": "f1da9cfc903faa3a4dbb543b43f05d38a57d53b250bcb98cecf580d864bed1ea",
+    "bytes": 38403
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/GameMain.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaServer/ServerSource/GameMain.cs",
+    "sha256": "980183350d8e4de09047bc6d41e068ede731ffce0245cfb1054d7379b5ab3838",
+    "bytes": 18358
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaClient/ClientSource/GameMain.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaClient/ClientSource/GameMain.cs",
+    "sha256": "cbf41368c3f21c40ba1225d84d3c01835e93998346d6cc87c262558a3f43afaf",
+    "bytes": 56223
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Timing.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Timing.cs",
+    "sha256": "16c6baa0e61f1c9a32d42ba94aff40d8740b545250c37ff5665d681dd2ad59a6",
+    "bytes": 1970
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Screens/GameScreen.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Screens/GameScreen.cs",
+    "sha256": "8e0f681a88b272b1de028b7cf3b2de76cb7b2c5172c0466dc36287349f847620",
+    "bytes": 10242
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Map/MapEntity.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Map/MapEntity.cs",
+    "sha256": "97ff59abb7d0f5cf1cab1ff7db9e26f5cc214cbdcc72171326ddbd9235467d01",
+    "bytes": 38648
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/StatusEffects/StatusEffect.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/StatusEffects/StatusEffect.cs",
+    "sha256": "75c54039db95d19eb9dad33a329711d348d97d4d6bf999f14bad6e23efd086d0",
+    "bytes": 158766
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/ItemContainer.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Items/Components/ItemContainer.cs",
+    "sha256": "60092c6704545dbe17e00ada2019c1a3cf10511f7dd871d93cb28fb375a95b49",
+    "bytes": 58021
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/Signal/MotionSensor.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Items/Components/Signal/MotionSensor.cs",
+    "sha256": "632651ce5270fe21b91e19b2b12afefa6ac4a36100f21e3da7be6b02116c805b",
+    "bytes": 15361
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaClient/ClientSource/Physics/PhysicsBody.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaClient/ClientSource/Physics/PhysicsBody.cs",
+    "sha256": "36347f9766903a57d2ddb1437d10b18f8f07bd14e8442f1e2590a845b7862f07",
+    "bytes": 7994
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Physics/PhysicsBody.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Physics/PhysicsBody.cs",
+    "sha256": "979a213944d4d89521b5f5310ca7e99fd20512601da82166cf85d3ffa9b1f176",
+    "bytes": 40398
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/Networking/GameServer.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaServer/ServerSource/Networking/GameServer.cs",
+    "sha256": "f7cd7fed2852caeadf8f1c747f14ce9b6cca47045f9f3493eaa3d6a6f1c989e0",
+    "bytes": 238939
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Item.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Items/Item.cs",
+    "sha256": "eafc595ae4fa581f2f01ca57cf6520208a0b86c5f496df1fa24ccd4ac3e0f85a",
+    "bytes": 194254
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Characters/Character.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Characters/Character.cs",
+    "sha256": "6cf1ffe9caf6854d7a6d5669a390a868454598117dbc1eb5990c2486c6e8d14c",
+    "bytes": 271472
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaServer/ServerSource/Characters/CharacterNetworking.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaServer/ServerSource/Characters/CharacterNetworking.cs",
+    "sha256": "f1da9cfc903faa3a4dbb543b43f05d38a57d53b250bcb98cecf580d864bed1ea",
+    "bytes": 38403
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/SingleThreadWorker.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/SingleThreadWorker.cs",
+    "sha256": "a50f405a28529aa691f78ca8e915894370e374d1129016f16c19e8c0ad4a3360",
+    "bytes": 1785
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/README.md",
+    "sha256": "5d553345efb97ad91a84c57a5b5056e7e30f271be84cfec96e96803c3d33f89a",
+    "bytes": 239
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/World.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/World.cs",
+    "sha256": "279881af43230f6fe5fa25dfa900287e566a37597a699c629b0a5ab7c26195ff",
+    "bytes": 61271
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/Island.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/Island.cs",
+    "sha256": "2f02255257ea6af5d56330927f390008fbeb9c0387847b8267f9d569f2deb78e",
+    "bytes": 15851
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Map/Gap.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Map/Gap.cs",
+    "sha256": "cfd340e78b4e272498532e970819310c6a1e4d92a6ea986cff3ee2479d9356b2",
+    "bytes": 42940
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/Power/Powered.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Barotrauma/BarotraumaShared/SharedSource/Items/Components/Power/Powered.cs",
+    "sha256": "9c9b9f0c3a0e51cb9f8798b542349893f9e1cdba40c98eb1dc408fb0ced22015",
+    "bytes": 32035
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/World.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/World.cs",
+    "sha256": "279881af43230f6fe5fa25dfa900287e566a37597a699c629b0a5ab7c26195ff",
+    "bytes": 61271
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/Island.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/Island.cs",
+    "sha256": "2f02255257ea6af5d56330927f390008fbeb9c0387847b8267f9d569f2deb78e",
+    "bytes": 15851
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Map/Gap.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Map/Gap.cs",
+    "sha256": "2f86419a5b88d1f39be4f997cd10b43f123e2c42184c6f41c4bf3d47c3476d60",
+    "bytes": 42482
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Barotrauma/BarotraumaShared/SharedSource/Items/Components/Power/Powered.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Barotrauma/BarotraumaShared/SharedSource/Items/Components/Power/Powered.cs",
+    "sha256": "9c9b9f0c3a0e51cb9f8798b542349893f9e1cdba40c98eb1dc408fb0ced22015",
+    "bytes": 32035
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Core/OptimizerConfig.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Core/OptimizerConfig.cs",
+    "sha256": "65c75ea4a98355b604974536d88f28cbd6056ce2089ac2a5f147ae1ace88efde",
+    "bytes": 30173
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Signal/SignalGraphEvaluator.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Signal/SignalGraphEvaluator.cs",
+    "sha256": "1d7e1ac3aa93e315f60c22613cda51bc53c03f98ef306c64264ae30acb90c36f",
+    "bytes": 21655
+  },
+  {
+    "repo": "yosu-ovo/ItemOptimizer",
+    "commit": "892e00ae0b79a52824209d2c86d3c28ba8296e78",
+    "path": "CSharp/Shared/Signal/SignalGraphPatches.cs",
+    "url": "https://raw.githubusercontent.com/yosu-ovo/ItemOptimizer/892e00ae0b79a52824209d2c86d3c28ba8296e78/CSharp/Shared/Signal/SignalGraphPatches.cs",
+    "sha256": "13b13823271dc793e473d14f8e67f15eff95630d2767feb9b170241f8d5682ff",
+    "bytes": 7834
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/ContactManager.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/ContactManager.cs",
+    "sha256": "b4871f2bd408673a19dbc61965961d0352e387734243e9ab72d136fc2e76bb98",
+    "bytes": 21337
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/Contacts/Contact.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/Contacts/Contact.cs",
+    "sha256": "730ebc11b0c5938a48c5c1eab0b27cf98f34e7468e6197e51f975f76745088dc",
+    "bytes": 21165
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Settings.cs",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Settings.cs",
+    "sha256": "5889ee378505dadfbe27ce56e0d000c4f56a3c4aa4f03af115297b8036ce4824",
+    "bytes": 9386
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/ContactManager.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/ContactManager.cs",
+    "sha256": "b4871f2bd408673a19dbc61965961d0352e387734243e9ab72d136fc2e76bb98",
+    "bytes": 21337
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Dynamics/Contacts/Contact.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Dynamics/Contacts/Contact.cs",
+    "sha256": "730ebc11b0c5938a48c5c1eab0b27cf98f34e7468e6197e51f975f76745088dc",
+    "bytes": 21165
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Settings.cs",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Settings.cs",
+    "sha256": "5889ee378505dadfbe27ce56e0d000c4f56a3c4aa4f03af115297b8036ce4824",
+    "bytes": 9386
+  },
+  {
+    "repo": "ProjectEP/LuaCsForBarotraumaEP",
+    "commit": "2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd",
+    "path": "Libraries/Farseer Physics Engine 3.5/Farseer.NetStandard.csproj",
+    "url": "https://raw.githubusercontent.com/ProjectEP/LuaCsForBarotraumaEP/2fcfcf6432cc42b34d10cb5fb4cff23ef57fd9fd/Libraries/Farseer%20Physics%20Engine%203.5/Farseer.NetStandard.csproj",
+    "sha256": "248a2c006c278ef98018f4605fdb6b032e62245d299c9d499748c22ff7efb691",
+    "bytes": 1205
+  },
+  {
+    "repo": "FakeFishGames/Barotrauma",
+    "commit": "e6e95da83b1b5ca8b55ec52653c7cf6b40e30247",
+    "path": "Libraries/Farseer Physics Engine 3.5/Farseer.NetStandard.csproj",
+    "url": "https://raw.githubusercontent.com/FakeFishGames/Barotrauma/e6e95da83b1b5ca8b55ec52653c7cf6b40e30247/Libraries/Farseer%20Physics%20Engine%203.5/Farseer.NetStandard.csproj",
+    "sha256": "248a2c006c278ef98018f4605fdb6b032e62245d299c9d499748c22ff7efb691",
+    "bytes": 1205
+  }
+]

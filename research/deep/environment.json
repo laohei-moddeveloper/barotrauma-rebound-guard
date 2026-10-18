@@ -1,0 +1,241 @@
+{
+  "date_utc": "2026-10-18T07:52:13.8424364Z",
+  "game_version": "1.13.4.0",
+  "test_runtime": "game-bundled .NET 8.0.0",
+  "files": [
+    {
+      "file": "Barotrauma.dll",
+      "sha256": "70D4F424A0DB55B6A4CE4781BA840EF443D15AC7060CAF16C2543CDAEF5C6E40"
+    },
+    {
+      "file": "DedicatedServer.dll",
+      "sha256": "C29090D937CB9E54E38FD3ACAD6DA3B1BC3E74ADCE4EB091A6D4F2E54DFF22BD"
+    },
+    {
+      "file": "BarotraumaCore.dll",
+      "sha256": "F76D3824DB445FF4F6337F1141A7C323363277E12471E25E14BEF485E0DD9D88"
+    },
+    {
+      "file": "Farseer.NetStandard.dll",
+      "sha256": "20851BA49BADF3F9037D887654C3F45018885268D76A0FB7D1099CB059610B44"
+    },
+    {
+      "file": "0Harmony.dll",
+      "sha256": "F6447E8D528FDD946CCDF00D7BA758797160444D85AD66BB45FCBD2941A7C3B9"
+    }
+  ],
+  "note": "Installed audited game dependencies rechecked unchanged. Isolated method tests, no new live combat or host crash reproduction. No game binaries in release.",
+  "mod_version": "0.4.0",
+  "mod_and_test_optimization": "Release",
+  "test_tiered_compilation": false,
+  "mod_files": [
+    {
+      "sha256": "6BE05BA7B867D77D81BE624C55A626015C6A49A9B54142EA0EE55056B981DB6D",
+      "path": "CSharp\\Client\\CorrectionMath.cs"
+    },
+    {
+      "sha256": "F6D7C45ACE046D6DF2C672D7F42065944BB4C02793C59C0F77F457B742AB43D3",
+      "path": "CSharp\\Client\\CorrectionPatch.cs"
+    },
+    {
+      "sha256": "D10380F4D2848CE98E4E307CFFE6FEA313767287FFD3335F629770FF97BFF1C7",
+      "path": "CSharp\\Client\\ExitLifetimePatch.cs"
+    },
+    {
+      "sha256": "782E6DFD4D8C76151721F7FFAC71D841E1671D94F60E7B4365FDD4621AB9BEEB",
+      "path": "CSharp\\Server\\InputBacklogMonitor.cs"
+    },
+    {
+      "sha256": "6611DA5F0824AAA2106400A2527BA0678817283685776F3D5390B86CB90EF477",
+      "path": "CSharp\\Server\\NetworkQueuePatch.cs"
+    },
+    {
+      "sha256": "F47CA8D0CF415A853F3CFC639BF1C79334EEE6C64BE1EA937375706C4DFBD8BB",
+      "path": "CSharp\\Shared\\BinaryEvidence.cs"
+    },
+    {
+      "sha256": "FE86431B86CB2396AC5ADA2D0E4C2B74DE38E0BAA17148F43FF53D1E672F656C",
+      "path": "CSharp\\Shared\\BodyMaintenance.cs"
+    },
+    {
+      "sha256": "63E2E272BA3A0101EC7EA13837BC1501B64BC33A4372B449A8725825B2E1B75E",
+      "path": "CSharp\\Shared\\ConstraintSolverResearch.cs"
+    },
+    {
+      "sha256": "BBBCFD17B5308E009DB34E64D73EFCE8CD21C7C1B6CCB2324607CC9656789AE0",
+      "path": "CSharp\\Shared\\ContainerEffectFastPath.cs"
+    },
+    {
+      "sha256": "3130988E9DD284B50D96E85554BD3C50BFA15B1CB74BAC1DB00709FE83D8354E",
+      "path": "CSharp\\Shared\\CorrectionTelemetry.cs"
+    },
+    {
+      "sha256": "19D88690883253ABE53A06767A05236A7042311FA2AE922C8780845E96A32102",
+      "path": "CSharp\\Shared\\CrashEvidence.cs"
+    },
+    {
+      "sha256": "0D7C606F088B5B53F1D4C27F2788F93DDD6AA9867EEBF928DCAB3121A05614F8",
+      "path": "CSharp\\Shared\\DiagnosticLog.cs"
+    },
+    {
+      "sha256": "2A2F90833CA2E07C245F65B7EE393A8DA124F8EDB9F0BB71BC230E5F6CEEC10D",
+      "path": "CSharp\\Shared\\LoadingLifecyclePatch.cs"
+    },
+    {
+      "sha256": "F0BB14219809387015F80B536E5D1250BB049AF11E0E19A244C99CD21EDB1912",
+      "path": "CSharp\\Shared\\LuaBridgeOptimizer.cs"
+    },
+    {
+      "sha256": "27C1CA0732F212A4BDAB87BD4A976F4E233CA21406B75889A6A9A353A36DE1FB",
+      "path": "CSharp\\Shared\\NativeLoopRange.cs"
+    },
+    {
+      "sha256": "C0D7B7807F7E331D88260226B12F7D98D67C8A7E7EA602BE9367402B78E7AE50",
+      "path": "CSharp\\Shared\\NativeModHotPaths.cs"
+    },
+    {
+      "sha256": "0A893D628289945FD8B11869C4DE301F926791D44AEC783E0673DED11067F6A6",
+      "path": "CSharp\\Shared\\NearbyItemIndex.cs"
+    },
+    {
+      "sha256": "5993AC68D9BE3DE290C39FF59D5A2C78289CB4B093CA59F49AF835D9307349EA",
+      "path": "CSharp\\Shared\\OrderedConstraintSchedule.cs"
+    },
+    {
+      "sha256": "F2C0B52EF80C0015849E056082BAE9C8911330D389FA605F3E4CEB8C5C1CDA63",
+      "path": "CSharp\\Shared\\ParallelConstraintPreparation.cs"
+    },
+    {
+      "sha256": "21A199C40305E756407C5FCEFE7C15452089F254B317C0EB79CD0D88B8736F88",
+      "path": "CSharp\\Shared\\PatchSafety.cs"
+    },
+    {
+      "sha256": "DFF8771E432D0D9349E527F1ECFE938083B49CBF6FF3081F9229CF8A69C2E6A2",
+      "path": "CSharp\\Shared\\Plugin.cs"
+    },
+    {
+      "sha256": "0BEB0E7610DDC8FEB8816405EA59B82EEB2F870C5097BC317F4E95EC4DEA61CC",
+      "path": "CSharp\\Shared\\QueueMembership.cs"
+    },
+    {
+      "sha256": "BDBCDA74902E153E1980E725C85F6C7B8C0A5E421FBFAD79B147CA0CF6CDF1DF",
+      "path": "CSharp\\Shared\\Settings.cs"
+    },
+    {
+      "sha256": "601F5C286000A2ABCEC345B5882E50CFBD3A067BF92D796140AC772D404B8198",
+      "path": "CSharp\\Shared\\StepHealth.cs"
+    },
+    {
+      "sha256": "18C307DAAC17B88DDCBE2DD4354F24CCA0E05F14D0C91B821AA066B48D147B48",
+      "path": "CSharp\\Shared\\SubsystemProfiler.cs"
+    },
+    {
+      "sha256": "0F588B24F0DB4D6023D1D98C4851C8B5AA19D63C6220CDFC33DDE29A802B0F15",
+      "path": "filelist.xml"
+    }
+  ],
+  "test_files": [
+    {
+      "sha256": "54A7514699483F789A7B096CD6E20D39FAD7FD46C9FB810DA6F8BEBBFAD028EC",
+      "path": "Bootstrap.cs"
+    },
+    {
+      "sha256": "21ADA7E39BD3171E8C5B7E82E314B81DAF0D4458A914B6334D4C582438851D6A",
+      "path": "ConstraintPreparationTests.cs"
+    },
+    {
+      "sha256": "8CEB22A271B6E17F4984463246AA78566329BC36DFCB18FFC9ABB38D9D69052D",
+      "path": "ConstraintSolverTests.cs"
+    },
+    {
+      "sha256": "944A87965BC9EBA7ADDD13DDBB8CDFEA389499488F9ADFB255D0C1A690058266",
+      "path": "ContainerEffectTests.cs"
+    },
+    {
+      "sha256": "6706F9CE8E9605A70B58488FD8B18D5D532A08007A22DF9A13E6CF203906AE14",
+      "path": "DeepRegression.cs"
+    },
+    {
+      "sha256": "B3AA35D3704B1D23AB066343B4C0A04A4A46093F185D342DF670BB6F64120B96",
+      "path": "FieldIterationTests.cs"
+    },
+    {
+      "sha256": "F5E4BDA6ED3456645111A23AD40DC6B56B7F616ACEE73BEC630A218E2A67879A",
+      "path": "LoadingLifecycleTests.cs"
+    },
+    {
+      "sha256": "E768EA9B5CA94088F9894E324BA487425CE74EEE50AB781CE7D1874CC0B4F9EB",
+      "path": "LuaBridgeTests.cs"
+    },
+    {
+      "sha256": "D7FB1E95E83407B3F83764C111CAB3F224E16E88C59ED5756C29410817732AD4",
+      "path": "NativeModHotPathTests.cs"
+    },
+    {
+      "sha256": "B29229C8C0E35D166408CED627FB0FE8981FABF1D3014B1CB3924787EDEA6E1E",
+      "path": "NearbyItemIndexTests.cs"
+    },
+    {
+      "sha256": "1989BA83A18B68AAA6EAA6314BA5676661A04B9D5D699778956E4AA85BE29259",
+      "path": "PhysicsBenchmark.cs"
+    },
+    {
+      "sha256": "113841F72C390C3536F1508DB1DAFF3E85CA7BBD90EC47BD21BD722BF61E3B19",
+      "path": "PluginLifecycleTests.cs"
+    },
+    {
+      "sha256": "DE568BE8ED689190408CDCD7E0927814BBD9FFCBED5CBDC790B1F7E9C05F13E1",
+      "path": "Regression.cs"
+    },
+    {
+      "sha256": "B9DFF0836780388AD64A281414EB1D043659A20FE70A0FAFEA841F33C9E70DDE",
+      "path": "WorldPerformanceTests.cs"
+    },
+    {
+      "sha256": "F73C028DE94F8C900D2E9B21523ED4B04C6BE4DC97299D06090FE11D225EFC2D",
+      "path": "WorldReplayTests.cs"
+    }
+  ],
+  "compat_files": [
+    {
+      "sha256": "F526EFC550C174D6C215644DD60EEA99F5C2C7141BAC2CE0892FAC8A4BAAC4F8",
+      "path": "Mudraptor-IsHuman.lua"
+    },
+    {
+      "sha256": "05C23F8E276589B16408EDA789CF3010DFF46E33ABE969AE9C89D6B764A88C25",
+      "path": "TSM-accessoriesbuff.lua"
+    }
+  ],
+  "script_files": [
+    {
+      "sha256": "C0F32F32580D491AE9E9B24959E4C69D887CBE3576A4D87D82E1C50F6FC85488",
+      "path": "Install.ps1"
+    },
+    {
+      "sha256": "B60DF974920F11A8FB395A5CF765092EF31B5219C7DE88FAAABCDF33A9C787EA",
+      "path": "Install-All.ps1"
+    },
+    {
+      "sha256": "111DC87706F134AB5F831CE3AB5C96B66135DC3DA59B4CE9A80074AFEF076A2F",
+      "path": "Install-KnownModFixes.ps1"
+    },
+    {
+      "sha256": "7899F61D0262FBD3E70D19CD22AF7441FF3F2F2B15AF8F564ED74FB441D04789",
+      "path": "Collect-Reports.ps1"
+    }
+  ],
+  "validation_files": [
+    {
+      "sha256": "EEAE5DB31F0BD253B3A65E5E45997DC46B1B4E077922317302583F087E3486E2",
+      "path": "validation-client.json"
+    },
+    {
+      "sha256": "D1FD5088C0CB6EFC29552BEB023BBD2CE65F83C96B82EFEF427CE542AC8C3768",
+      "path": "validation-server.json"
+    }
+  ],
+  "known_mod_original_source_sha256": {
+    "mudraptor_shared_lua": "631DCB17A38167AFEFDD6A0D64678F1D90314DB8AB6554CCF7CFA4E612C973B0",
+    "tsm_accessoriesbuff_lua": "DDA5991659E6B1FE0398E612FC3D92317427E004AE79ED6B3CCAF24847AF77BE"
+  }
+}

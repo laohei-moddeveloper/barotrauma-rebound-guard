@@ -1,0 +1,14 @@
+# Rebound Guard project instructions
+
+- Canonical source: `LocalMod/ReboundGuard`. Current gameplay code is 0.4.0, tested against Windows Barotrauma 1.13.4.0 and matching LuaCs/C# methods.
+- Read `docs/HANDOFF.md` and the Chinese README before changing code. A private migration bundle may additionally contain `handoff/PROJECT_HANDOFF.zh-CN.md` with field evidence.
+- User priorities: substantial general improvements to stutter, FPS, rubberbanding, desync and loading, plus useful multicore work. Preserve observable gameplay. Imperceptible reductions may be considered with evidence.
+- Do not equate local benchmark speedups, CPU usage, correction-branch counts or reported allocation with whole-game improvement, visible rubberbanding, or leaks.
+- Preserve method fingerprint and competing-patch guards. Do not force unknown builds through. Position projection and shared ordered velocity-solver research stay disabled until justified by realistic evidence.
+- Do not blindly parallelize shared AI, Lua VM, water, power, physics-body writes or side effects. Maintain order/barriers and validate actual state/callback equivalence.
+- Test changes using the existing isolated real-game harness, appropriate to the change. Do not interrupt an active game or replace game DLLs just to run tests.
+- Tools accept `-GameDir`; old computer paths in scripts are defaults only. Verify the new machine's actual files. Migrated `build/net8-harness-*` are cached old runtimes; do not mix them silently with a different installed build.
+- Public GitHub/Workshop content must exclude private reports, raw traces, saves, installed game DLLs, decompiled third-party trees, credentials and migration-private material. Use explicit publication allowlists.
+- Workshop item already exists: **3822098302**, app **602960**. Update that item when publication is requested; do not create duplicates. Publishing must verify the currently logged-on account owns it.
+- `workshop/Publish-Workshop.ps1 -Action Create` was a one-time operation and must not be repeated for this project. `publish-state.json` persists the existing target. Localized metadata uses `Update-Localizations.ps1`.
+- User currently permits Edge browser control only for browser UI work; do not use desktop/native UI automation. Shell file/build operations remain part of the project work.
