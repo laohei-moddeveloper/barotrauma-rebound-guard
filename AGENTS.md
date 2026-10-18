@@ -12,3 +12,10 @@
 - Workshop item already exists: **3822098302**, app **602960**. Update that item when publication is requested; do not create duplicates. Publishing must verify the currently logged-on account owns it.
 - `workshop/Publish-Workshop.ps1 -Action Create` was a one-time operation and must not be repeated for this project. `publish-state.json` persists the existing target. Localized metadata uses `Update-Localizations.ps1`.
 - User currently permits Edge browser control only for browser UI work; do not use desktop/native UI automation. Shell file/build operations remain part of the project work.
+
+## Codex Cloud source synchronization
+
+- This is a separate Git repository inside the local Codex project `潜渊症模组开发`. The user has authorized cloud access to its public Git source alongside the BaroDock repository. This does not authorize uploading the private migration bundle or publishing a new Steam Workshop item.
+- Keep `migration-private/`, `handoff/`, cached game and LuaCs binaries, raw reports, local research, credentials, and ignored files out of Git. Stage explicit paths and review `git diff --cached --name-only` before every cloud-related push.
+- After creating or updating a local branch for cloud work, commit the intended public files, push that branch to `origin`, and verify the remote ref. A local-only branch or uncommitted file is not available in a new cloud task. Do not merge branches merely to make them visible.
+- Use the Windows game and isolated harness only when available. Cloud review of source does not replace real-game validation or the release checks in `docs/HANDOFF.md`.
