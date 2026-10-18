@@ -52,7 +52,11 @@ namespace ReboundGuard
             // The factory is checked independently of unrelated GameScreen code.
             string hash = Convert.ToHexString(SHA256.HashData(Factory.GetMethodBody().GetILAsByteArray()));
             bool supported = hash == "FDDE4BAB2C7F247FFAFFCEFF29FC9E60838E7BC8CEC9FD9B48516EDDE3CA30BE" ||
-                hash == "D3CD997DE4AF581816D86F5F6A6E809FAD18B4EB8E3B456B9A92C50A7BBB71B7";
+                hash == "D3CD997DE4AF581816D86F5F6A6E809FAD18B4EB8E3B456B9A92C50A7BBB71B7" ||
+                // The installed LuaCs factory has the same resolved instructions
+                // and locals as the audited builds; only raw metadata tokens differ.
+                hash == "F75580569D4AF4C2D30753CCCA54BBFFC76DD44A5EFD3E0BC934C38CB1C23D2A" ||
+                hash == "CD852EB93E71D235BD698AFE705B0915692FDFE8C6506B106A963021787E8E2F";
             string clearHash = Convert.ToHexString(SHA256.HashData(ClearAll.GetMethodBody().GetILAsByteArray()));
             supported &= clearHash == "1A598A5252DA28324FDAD98DA2FF72DC33FF2CD373A90C7D1282471DA024B057" ||
                 clearHash == "A9CEFCABE087A9FCDE7CBCF3A4F3CED4907590FD9545766D1243AB5F83C4D41F";

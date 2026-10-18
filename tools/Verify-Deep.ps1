@@ -1,12 +1,27 @@
-param([string]$GameDir='E:\steam\steamapps\common\Barotrauma',[ValidateSet('Client','Server')][string]$Side='Client',[ValidateSet('All','Bridge','Native','Loading')][string]$Suite='All')
+param([string]$GameDir='E:\steam\steamapps\common\Barotrauma',[ValidateSet('Client','Server')][string]$Side='Client',[ValidateSet('All','Bridge','Native','Loading')][string]$Suite='All',[string]$ReportPath='')
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'Verify.ps1') -GameDir $GameDir -Side $Side -CompileOnly
 $runtime=Join-Path $build ('net8-harness-'+$Side.ToLowerInvariant())
 New-Item -ItemType Directory -Path $runtime -Force | Out-Null
 # Local-only test runtime. Never distribute game binaries or this folder.
-foreach($dll in Get-ChildItem -LiteralPath $GameDir -Filter '*.dll' -File) {
+$installedDlls=@(Get-ChildItem -LiteralPath $GameDir -Filter '*.dll' -File)
+$installedNames=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+foreach($dll in $installedDlls) { [void]$installedNames.Add($dll.Name) }
+foreach($cached in Get-ChildItem -LiteralPath $runtime -Filter '*.dll' -File) {
+    if($cached.Name -eq 'TestRunner.dll' -or $cached.Name -eq ('ReboundGuard.'+$Side+'.dll')) { continue }
+    if(-not $installedNames.Contains($cached.Name)) {
+        throw "Cached runtime DLL is absent from installed game: $($cached.FullName). Archive the old harness before testing this build."
+    }
+}
+foreach($dll in $installedDlls) {
     $copy=Join-Path $runtime $dll.Name
-    if(-not(Test-Path -LiteralPath $copy)) { Copy-Item -LiteralPath $dll.FullName -Destination $copy }
+    if(Test-Path -LiteralPath $copy) {
+        if((Get-FileHash -LiteralPath $copy -Algorithm SHA256).Hash -ne (Get-FileHash -LiteralPath $dll.FullName -Algorithm SHA256).Hash) {
+            throw "Cached runtime DLL differs from installed game: $copy. Archive the old harness before testing this build."
+        }
+    } else {
+        Copy-Item -LiteralPath $dll.FullName -Destination $copy
+    }
 }
 Copy-Item -LiteralPath $output -Destination (Join-Path $runtime ([IO.Path]::GetFileName($output))) -Force
 Copy-Item -LiteralPath (Join-Path $root 'compat') -Destination $runtime -Recurse -Force
@@ -41,6 +56,7 @@ foreach($diagnostic in $result.Diagnostics){if($diagnostic.Severity -ne 'Hidden'
 if(-not$result.Success){throw 'Deep test compilation failed'}
 $report=Join-Path $root ('research\deep\validation-'+$Side.ToLowerInvariant()+'.json')
 if($Suite -ne 'All'){$report=Join-Path $root ('research\deep\validation-'+$Side.ToLowerInvariant()+'-'+$Suite.ToLowerInvariant()+'.json')}
+if($ReportPath){$report=$ReportPath}
 $stdout=Join-Path $runtime 'stdout.txt'
 $stderr=Join-Path $runtime 'stderr.txt'
 $process=Start-Process -FilePath (Join-Path $runtime 'TestRunner.exe') -ArgumentList @(('"'+$GameDir+'"'),('"'+$report+'"'),$Suite) -WorkingDirectory $runtime -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr

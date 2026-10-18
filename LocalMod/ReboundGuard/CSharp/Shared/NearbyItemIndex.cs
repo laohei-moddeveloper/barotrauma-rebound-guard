@@ -91,7 +91,10 @@ namespace ReboundGuard
             using (var stream = File.OpenRead(typeof(Item).Assembly.Location))
             {
                 string assembly = Convert.ToHexString(SHA256.HashData(stream));
-                return assembly == (client ? "70D4F424A0DB55B6A4CE4781BA840EF443D15AC7060CAF16C2543CDAEF5C6E40" : "C29090D937CB9E54E38FD3ACAD6DA3B1BC3E74ADCE4EB091A6D4F2E54DFF22BD");
+                // All Cecil-resolved method bodies in the installed LuaCs
+                // assembly match the audited build; the binary hash changed.
+                return assembly == (client ? "70D4F424A0DB55B6A4CE4781BA840EF443D15AC7060CAF16C2543CDAEF5C6E40" : "C29090D937CB9E54E38FD3ACAD6DA3B1BC3E74ADCE4EB091A6D4F2E54DFF22BD") ||
+                    assembly == (client ? "CC1CF44F23F82062AFC802E7CB1BFC713EFBC3DB5705F7EF4D4F69DE6B4ED19A" : "E692D2E26A3013B2CE0FAFCF28284A493E9334451E5320194C54370B72E3388E");
             }
         }
         internal static void Install(Harmony harmony)
