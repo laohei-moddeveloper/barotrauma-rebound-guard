@@ -1,4 +1,8 @@
-Mode: built-in image_gen edit.
-Input: assets/cover-original.png (first generated concept; superseded by the practical design).
-Final prompt:
-Use case: ads-marketing. Redesign the supplied Steam Workshop cover to match the user's correction: a practical, immediately understandable performance-tool thumbnail, attractive but not cinematic science fiction. Keep only the product identity and square format; replace the whole poster treatment. Flat graphic editorial design, dark charcoal/slate background, warm cream Chinese typography, small muted teal and amber accents, clean industrial utility aesthetic reminiscent of a submarine maintenance manual. At the top small label exactly "潜渊症优化工具". Dominant very large bold perfectly readable title exactly "深潜稳帧". Smaller line exactly "REBOUND GUARD". Central graphic: simple clear 2D side-on cutaway submarine schematic, with a restrained wrench and CPU chip symbol to identify a performance utility; no space imagery, glowing energy shield, sonar rings, dramatic deep sea, or photoreal rendering. Below the schematic, three large clear separated feature blocks with the exact Chinese labels "调用减负", "独立并行", "加载修复", each with one simple corresponding icon (fewer repeated blocks, CPU cores, folder with wrench). Bottom modest readable badge exactly "LuaCs / C# · 测试版". Very legible at small 200-pixel thumbnail scale, sparse purposeful layout, typography is the hero, crisp functional design. No other text, no FPS numbers, no before/after fake benchmark, no guaranteed cure, no watermarks, no official logo. Output a finished polished square cover.
+2026-10-19 multiplayer release artwork, generated with built-in image_gen.
+Input: workshop/assets/cover-practical.png.
+Output: workshop/assets/cover-multiplayer.png; JPEG export preview-multiplayer.jpg.
+Square industrial deep-sea cover, cream 深潜稳帧 / REBOUND GUARD titles,
+icy cyan and amber, side-cutaway submarine and shield focal motif.
+Small BAROTRAUMA label; 联机优化 · MULTIPLAYER footer and LuaCs / C# badge.
+No numerical FPS claims, benchmark charts or guaranteed cure claims.
+The JPEG is a stripped format conversion of the generated artwork.

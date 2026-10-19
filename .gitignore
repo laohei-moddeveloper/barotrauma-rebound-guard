@@ -20,6 +20,7 @@ __pycache__/
 !/research/deep/validation-server.json
 !/research/deep/download-manifest.json
 /release/*.zip
+/release/SHA256-performance-*.txt
 /workshop/assets/cover-original.png
 /workshop/assets/preview.jpg
 /workshop/public-files-prepublish.json

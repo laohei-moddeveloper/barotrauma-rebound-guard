@@ -1,1 +1,5 @@
-0.4.0 首次工坊发布：通用 LuaCs 调用包装减负、引用枚举计数修复、动态模块重置与已知客户端退出顺序修复。保留查询/队列及独立阶段并行，增加分配与崩溃诊断。客户端、服务端隔离回归通过；真实联机收益待持续验证。
+多人性能实验版 / Multiplayer performance snapshot · 2026-10-19
+优化发送队列与附近索引维护，补充帧间隔诊断和 LuaCs 桥接优化；更新中英简介、GitHub 链接及封面。
+Refine server queues and nearby-item index maintenance; add frame diagnostics and LuaCs bridge improvements. Refresh bilingual metadata, GitHub link and artwork.
+新增尾部维护路径尚待 Windows 隔离验证；非整局 FPS 或回弹改善保证。
+New tail-maintenance paths await Windows isolated validation; no whole-game FPS or rubberbanding guarantee.

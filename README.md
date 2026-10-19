@@ -2,9 +2,9 @@
 
 Experimental Barotrauma performance utilities and lifetime fixes. [中文说明](README.zh-CN.md) · [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3822098302) · [Development handoff](docs/HANDOFF.md)
 
-![Workshop cover](workshop/assets/preview-practical.jpg)
+![Workshop cover](workshop/assets/preview-multiplayer.jpg)
 
-Current gameplay code: **0.4.0**, verified on Windows, Barotrauma **1.13.4.0**, with matching LuaCs/C# method builds.
+Current snapshot: **0.4.0 experimental**, build `performance-maintenance-20261019`, for audited Windows / Barotrauma **1.13.4.0** and matching LuaCs. The foundation passed Windows client/server isolated checks; the later nearby tail-maintenance paths await that validation. See the [bilingual release notes](docs/RELEASE-20261019.zh-CN.md).
 
 The common patch reduces empty LuaCs callback-phase work and repeated method metadata/result wrapping, adds conservative query/queue indexes and independent-stage parallel work, and fixes audited reference-enumerator and shutdown lifetime defects. Actual callbacks and simulation rules remain. Default physics, AI and effect frequencies are unchanged.
 

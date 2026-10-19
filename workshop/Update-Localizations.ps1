@@ -6,9 +6,10 @@ $state=Get-Content -Raw -LiteralPath (Join-Path $PSScriptRoot 'publish-state.jso
 if($state.project -ne 'reboundguard-experimental-040' -or $state.file_id -ne '3822098302'){throw 'Unexpected workshop target'}
 try {
     [Steamworks.SteamClient]::Init(602960,$true)
+    if(-not [Steamworks.SteamClient]::IsLoggedOn -or [uint][Steamworks.SteamClient]::AppId -ne 602960){throw 'Expected logged-on Barotrauma Steam account'}
     $id=[Steamworks.Data.PublishedFileId]::op_Implicit([ulong]$state.file_id)
     $item=[Steamworks.Ugc.Item]::GetAsync($id,0).WaitAsync([TimeSpan]::FromSeconds(45)).GetAwaiter().GetResult()
-    if(-not$item -or $item.Owner.Id -ne [Steamworks.SteamClient]::SteamId){throw 'Current Steam account does not own the item'}
+    if(-not$item -or $item.Result -ne [Steamworks.Result]::OK -or $item.Owner.Id -ne [Steamworks.SteamClient]::SteamId -or [uint]$item.ConsumerApp -ne 602960){throw 'Current Steam account does not own the item'}
     if(-not$VerifyOnly){foreach($locale in @(@{Language='schinese';Title='title.txt';Description='description.bbcode.txt'},@{Language='english';Title='title.en.txt';Description='description.en.bbcode.txt'})) {
         $title=[IO.File]::ReadAllText((Join-Path $PSScriptRoot $locale.Title)).Trim()
         $description=[IO.File]::ReadAllText((Join-Path $PSScriptRoot $locale.Description)).Trim()
