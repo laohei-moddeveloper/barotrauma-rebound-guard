@@ -1,16 +1,16 @@
 {
   "id": "3822098302",
-  "title": "深潜稳帧 | Rebound Guard",
+  "title": "深潜稳帧 Rebound Guard | 联机性能优化",
   "visibility": "Public",
   "result": "OK",
   "banned": false,
-  "bytes": 466467,
-  "preview": "https://images.steamusercontent.com/ugc/14814485677098744160/68DD5A729404E69B544E165F6D8D5CC21FDAB8AD/",
+  "bytes": 559234,
+  "preview": "https://images.steamusercontent.com/ugc/16569421270333077265/F34BC4CBEC7590F56BA9EEE899C659220E5745D6/",
   "tags": [
     "client-side",
     "server-side"
   ],
   "description_matches": true,
   "url": "https://steamcommunity.com/sharedfiles/filedetails/?source=Facepunch.Steamworks&id=3822098302",
-  "updated_utc": "2026-10-18T08:14:13.0000000Z"
+  "updated_utc": "2026-10-19T02:33:10.0000000Z"
 }

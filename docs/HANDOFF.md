@@ -63,7 +63,7 @@ Test optional native ports against later-arriving foreign hooks and real reload/
 
 ## Publishing
 
-Latest outcome: [2026-10-19 publication record](PUBLICATION-20261019.zh-CN.md). GitHub prerelease and three assets are published; Workshop content/localizations/artwork are prepared but not uploaded because this cloud session has no local Windows Steam connection. Historical verification JSONs do not establish this new upload.
+Latest outcome: [2026-10-19 publication record](PUBLICATION-20261019.zh-CN.md). GitHub prerelease and three assets are published; the exact source release archive was subsequently uploaded to existing Workshop item 3822098302 from Windows. Public content (559234 bytes), new artwork, both localized titles/descriptions and the existing LuaCs dependency were read back. Current Workshop verification JSONs record this upload; no game entry point or additional game tests were run.
 
 `workshop/` contains prepared localized titles/descriptions, final cover, existing item state, and SDK publication scripts. The 2026-10-19 publication snapshot is documented in [bilingual release notes](RELEASE-20261019.zh-CN.md). The user requested direct packaging without further optimization/tests; native-validation status remains explicit.
 

@@ -18,11 +18,17 @@
 
 源码包包含安装脚本、当前 canonical 源码、公开说明、验证工具，以及独立准备的工坊目录与发布脚本。采用明确文件清单，不复制私人研究、原始日志或旧运行时。附件由 GitHub runner 独立压缩；其 ZIP digest 与云端先前本地压缩包可以不同，以上以公开附件读回值为准。
 
-## 工坊已准备，尚未上传
+## 工坊已完成本机上传与读回
 
-当前云端只有 Linux `/workspace`，无本机执行连接、Windows Steam SDK 或登录会话。因此本轮没有上传工坊，也未执行归属检查或新语言内容读回。既有 `publish-state.json` 与 `localization-verification.json` 仍是历史发布状态，不能当作本轮完成证据。
+2026-10-19 10:33（Asia/Hong_Kong），本机 Windows 已更新原条目 [3822098302](https://steamcommunity.com/sharedfiles/filedetails/?id=3822098302)。先下载上表 GitHub 源码附件并核对完整 SHA256，再从独立 build 目录解压发布；未使用仓库内历史工坊目录。当前登录 Steam 账号的条目归属与 App 602960 检查通过。
 
-准备内容：
+- 内容提交返回 `OK`，无需新协议确认；公开状态，内容大小 **559234 字节**。
+- 新封面已更新，读回 URL 见 `workshop/verification.json`。
+- `schinese` / `english` 分别提交并通过原生语言查询独立读回，标题和简介完整匹配；见 `workshop/localization-verification.json`。
+- 重复 `AddDependency` 返回 false，发布入口因此在语言更新前停止。没有把该结果当成依赖成功：另行执行语言更新后，以 `WithChildren(true)` 查询实际依赖列表，确认 **2559634234** 已存在。见 `workshop/dependency-verification.json`。`publish-state.json` 分别保留添加返回值与实际存在的验证状态。
+- 仅调用 Steam SDK 上传和查询；未启动游戏客户端或服务器，未安装模组或改写游戏 DLL。本次发布没有追加游戏测试。
+
+发布内容：
 
 - 原条目 **3822098302**，App **602960**，不会创建新条目。
 - 简体中文：**深潜稳帧 Rebound Guard | 联机性能优化**。
