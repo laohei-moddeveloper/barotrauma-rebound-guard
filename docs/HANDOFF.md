@@ -63,6 +63,8 @@ Test optional native ports against later-arriving foreign hooks and real reload/
 
 ## Publishing
 
+Latest outcome: [2026-10-19 publication record](PUBLICATION-20261019.zh-CN.md). GitHub prerelease and three assets are published; Workshop content/localizations/artwork are prepared but not uploaded because this cloud session has no local Windows Steam connection. Historical verification JSONs do not establish this new upload.
+
 `workshop/` contains prepared localized titles/descriptions, final cover, existing item state, and SDK publication scripts. The 2026-10-19 publication snapshot is documented in [bilingual release notes](RELEASE-20261019.zh-CN.md). The user requested direct packaging without further optimization/tests; native-validation status remains explicit.
 
 `tools/Build-Release.ps1 -ResearchSnapshot` creates fresh allowlisted source and Workshop ZIPs, including a hashed `PUBLIC-PACKAGE.json`. It excludes private research, old runtime caches and installed game binaries. The GitHub tag workflow publishes these as a prerelease without executing game/tests. After extracting the source ZIP on Windows, `pwsh -NoProfile -File workshop/Publish-Prepared.ps1 -GameDir YOUR_GAME_DIR` uploads existing item **3822098302** from its prepared content, checks ownership, then updates and independently reads back Simplified Chinese and English metadata. It does not start the game. Do not use the historical checked-in `workshop/publish` directory: it lacks the new package manifest and publishing refuses it. Steam SDK comes from an installed game and is not distributed publicly. `Publish` updates content; localization updates should change only the requested language metadata. Always read back both languages and preserve the Chinese entry.
