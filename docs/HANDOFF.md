@@ -43,6 +43,14 @@ Quick suites: `-Suite Bridge`, `-Suite Loading`, `-Suite Native`. The harness us
 
 ## Next investigation
 
+### Multiplayer performance foundations (2026-10-19 research branch)
+
+See [the Chinese performance roadmap](PERFORMANCE-ROADMAP.zh-CN.md). User scope is multiplayer clients and the actual server; single-player work is deferred. Startup/environment logs identify this branch as `performance-foundations-20261019` while keeping the existing experimental mod version.
+
+Implemented counted queue membership with weak per-queue reuse across sends, external-version invalidation, send-boundary hot-reference release and round/plugin cleanup. Nearby queries now distinguish structural invalidation from dependent bucket revisions, preserve live per-query tag audits and update only changed buckets. Added independent client update/draw/game-draw wall-time and draw-interval measurements, catch-up step counts, assembly-level Lua bridge access-grant deduplication, and window-aligned field-report analysis. Call durations include waits and do not measure GPU time.
+
+Portable .NET 8 checks and synthetic report tests are runnable without game binaries; the same queue/frame suites are included in the native deep harness. The existing `validation-*.json` and evidence manifest describe the earlier 0.4.0 validation, **not these changes**. Native full builds, Harmony execution, the new Lua bridge checks, real packet comparisons and multiplayer A/B remain pending because audited Windows game dependencies are not in the cloud. Do not package this branch using the old release evidence.
+
 Obtain same-session **actual server** input/position-queue diagnostics and the latest host crash report/Windows error. Supplied field reports so far are clients; correction counts are not visible rubberband counts. Compare real workloads before expanding optimization scope.
 
 Investigate per-loader full compacting GC during unload, but do not simply remove it: the plugin is disposed before the batch of assembly loaders, collectible ALC/native-library lifetimes matter, and existing manager GC runs too. Generic initial patch creation currently runs the original factory and an additional bridge factory; no initial-loading speed claim is justified.

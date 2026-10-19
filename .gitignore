@@ -1,5 +1,8 @@
 # Private development evidence and generated caches
 /build/
+/tests/Portable/bin/
+/tests/Portable/obj/
+__pycache__/
 /migration-private/
 /handoff/
 /实战日志分析-20261018.md

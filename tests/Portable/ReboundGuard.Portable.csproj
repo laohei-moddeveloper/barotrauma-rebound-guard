@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Runtime.TieredCompilation" Value="false" />
+    <Compile Include="../../LocalMod/ReboundGuard/CSharp/Shared/QueueMembership.cs" Link="QueueMembership.cs" />
+    <Compile Include="../../LocalMod/ReboundGuard/CSharp/Shared/FrameHealth.cs" Link="FrameHealth.cs" />
+    <Compile Include="../../LocalMod/ReboundGuard/CSharp/Shared/BucketStamp.cs" Link="BucketStamp.cs" />
+    <Compile Include="../QueueMembershipTests.cs" Link="QueueMembershipTests.cs" />
+    <Compile Include="../FrameHealthTests.cs" Link="FrameHealthTests.cs" />
+    <Compile Include="../BucketStampTests.cs" Link="BucketStampTests.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+</Project>

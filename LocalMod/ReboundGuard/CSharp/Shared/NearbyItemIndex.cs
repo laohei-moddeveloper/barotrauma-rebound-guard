@@ -35,21 +35,28 @@ namespace ReboundGuard
             internal ImmutableHashSet<Identifier> PrefabTags; internal HashSet<Identifier> Tags;
             internal int Version, Count;
         }
+        private sealed class Bucket
+        {
+            internal readonly List<Item> Items = new List<Item>();
+            internal long Revision;
+        }
         private sealed class InitialState
         {
             internal readonly Dictionary<Item, Node> Nodes = new Dictionary<Item, Node>();
-            internal readonly Dictionary<Identifier, List<Item>> Buckets = new Dictionary<Identifier, List<Item>>();
+            internal readonly Dictionary<Identifier, Bucket> Buckets = new Dictionary<Identifier, Bucket>();
             internal readonly List<Node> Ordered = new List<Node>();
             internal bool Valid = true; internal int Version;
         }
         private sealed class Candidate
         {
             internal long Generation = -1, DenseGeneration = -1;
+            internal long ObservedGeneration = -1;
             internal int DenseListVersion = -1;
+            internal BucketStamp Dependencies;
             internal readonly List<Item> Items = new List<Item>();
         }
         private static Dictionary<Item, Node> Nodes = new Dictionary<Item, Node>();
-        private static Dictionary<Identifier, List<Item>> Buckets = new Dictionary<Identifier, List<Item>>();
+        private static Dictionary<Identifier, Bucket> Buckets = new Dictionary<Identifier, Bucket>();
         private static readonly HashSet<Identifier> ScratchKeys = new HashSet<Identifier>();
         private static readonly HashSet<Item> ScratchItems = new HashSet<Item>();
         private static List<Node> OrderedNodes = new List<Node>();
@@ -74,7 +81,8 @@ namespace ReboundGuard
         private static readonly MethodInfo Original = AccessTools.Method(typeof(StatusEffect), "AddNearbyTargets");
         private static MethodBase[] protectedMethods;
         private static int listVersion = -1;
-        private static long generation, queries, scannedCandidates, avoidedCandidates, rebuilds, tagUpdates, denseFallbacks, spatialFallbacks;
+        private static long generation, structureGeneration, queries, scannedCandidates, avoidedCandidates, rebuilds, tagUpdates, denseFallbacks, spatialFallbacks;
+        private static long candidateRebuilds, candidateReuses;
         private static bool installed, valid;
         [ThreadStatic] private static bool safeInSimulation;
         [ThreadStatic] private static bool safetyChecked, safetyAllowed;
@@ -190,7 +198,7 @@ namespace ReboundGuard
             if (built.Version != Version(items)) { reason = "discarded stale build; native queries active"; return false; }
             foreach (var entry in Candidates) { entry.Value.Items.Clear(); entry.Value.Generation = -1; }
             Nodes = built.Nodes; Buckets = built.Buckets; OrderedNodes = built.Ordered;
-            valid = built.Valid; listVersion = built.Version; generation++; rebuilds++;
+            valid = built.Valid; listVersion = built.Version; generation++; structureGeneration++; rebuilds++;
             reason = valid ? "eligible" : "original fallback: duplicate initial item";
             return valid;
         }
@@ -218,8 +226,8 @@ namespace ReboundGuard
                 node.Keys = keys.ToArray(); state.Ordered.Add(node);
                 foreach (Identifier key in node.Keys)
                 {
-                    if (!state.Buckets.TryGetValue(key, out var bucket)) state.Buckets[key] = bucket = new List<Item>();
-                    bucket.Add(source.Item);
+                    if (!state.Buckets.TryGetValue(key, out var bucket)) state.Buckets[key] = bucket = new Bucket();
+                    bucket.Items.Add(source.Item);
                 }
             }
             if (!state.Valid) { state.Nodes.Clear(); state.Buckets.Clear(); state.Ordered.Clear(); }
@@ -251,8 +259,8 @@ namespace ReboundGuard
                     Nodes.Add(item, node); sawNew = true;
                     foreach (Identifier key in node.Keys)
                     {
-                        if (!Buckets.TryGetValue(key, out var bucket)) Buckets[key] = bucket = new List<Item>();
-                        bucket.Add(item);
+                        if (!Buckets.TryGetValue(key, out var bucket)) Buckets[key] = bucket = new Bucket();
+                        bucket.Items.Add(item);
                     }
                 }
                 node.Order = i; node.Seen = seen; NextNodes.Add(node);
@@ -263,15 +271,15 @@ namespace ReboundGuard
                 {
                     if (node.Seen == seen) continue;
                     foreach (Identifier key in node.Keys)
-                    { var bucket = Buckets[key]; bucket.Remove(node.Item); if (bucket.Count == 0) Buckets.Remove(key); }
+                    { var bucket = Buckets[key]; bucket.Items.Remove(node.Item); if (bucket.Items.Count == 0) Buckets.Remove(key); }
                     Nodes.Remove(node.Item);
                 }
-                if (sort) foreach (var bucket in Buckets.Values) bucket.Sort((left, right) => Nodes[left].Order.CompareTo(Nodes[right].Order));
+                if (sort) foreach (var bucket in Buckets.Values) bucket.Items.Sort((left, right) => Nodes[left].Order.CompareTo(Nodes[right].Order));
                 OrderedNodes.Clear(); OrderedNodes.AddRange(NextNodes);
             }
             else { Nodes.Clear(); OrderedNodes.Clear(); Buckets.Clear(); }
             NextNodes.Clear();
-            listVersion = Version(items); generation++; rebuilds++;
+            listVersion = Version(items); generation++; structureGeneration++; rebuilds++;
             reason = valid ? "eligible" : "original fallback: unsupported item/prefab or duplicate entry";
         }
         private static bool HasChanged(Node node)
@@ -315,17 +323,22 @@ namespace ReboundGuard
                 node.PrefabTags = node.Prefab.Tags;
                 node.ForceRefresh = false;
                 if (ScratchKeys.SetEquals(node.Keys)) return;
-                foreach (Identifier key in node.Keys)
-                { var bucket = Buckets[key]; bucket.Remove(item); if (bucket.Count == 0) Buckets.Remove(key); }
-                node.Keys = ScratchKeys.ToArray();
+                long revision = ++generation;
                 foreach (Identifier key in node.Keys)
                 {
-                    if (!Buckets.TryGetValue(key, out var bucket)) Buckets[key] = bucket = new List<Item>();
-                    int low = 0, high = bucket.Count;
-                    while (low < high) { int middle = low + (high - low) / 2; if (Nodes[bucket[middle]].Order < node.Order) low = middle + 1; else high = middle; }
-                    bucket.Insert(low, item);
+                    if (ScratchKeys.Contains(key)) continue;
+                    var bucket = Buckets[key]; bucket.Items.Remove(item); bucket.Revision = revision;
+                    if (bucket.Items.Count == 0) Buckets.Remove(key);
                 }
-                generation++; tagUpdates++;
+                foreach (Identifier key in ScratchKeys)
+                {
+                    if (Array.IndexOf(node.Keys, key) >= 0) continue;
+                    if (!Buckets.TryGetValue(key, out var bucket)) Buckets[key] = bucket = new Bucket();
+                    int low = 0, high = bucket.Items.Count;
+                    while (low < high) { int middle = low + (high - low) / 2; if (Nodes[bucket.Items[middle]].Order < node.Order) low = middle + 1; else high = middle; }
+                    bucket.Items.Insert(low, item); bucket.Revision = revision;
+                }
+                node.Keys = ScratchKeys.ToArray(); tagUpdates++;
         }
         private static bool DenseEnoughToIndex(List<Item> items, Vector2 position, float range)
         {
@@ -365,18 +378,29 @@ namespace ReboundGuard
             }
             if (valid) RefreshTags();
             if (!valid) return items;
-            if (candidate.Generation != generation)
+            var dependencies = candidate.Dependencies;
+            if (candidate.ObservedGeneration != generation)
             {
+                dependencies = new BucketStamp();
+                foreach (Identifier identifier in identifiers)
+                    if (Buckets.TryGetValue(identifier, out var dependency)) dependencies.Include(dependency.Revision);
+            }
+            if (candidate.Generation != structureGeneration || !candidate.Dependencies.Equals(dependencies))
+            {
+                candidate.Generation = -1;
                 candidate.Items.Clear(); ScratchItems.Clear();
                 foreach (Identifier identifier in identifiers)
                     if (Buckets.TryGetValue(identifier, out var bucket))
-                        foreach (Item item in bucket) if (ScratchItems.Add(item)) candidate.Items.Add(item);
+                        foreach (Item item in bucket.Items) if (ScratchItems.Add(item)) candidate.Items.Add(item);
                 candidate.Items.Sort((left, right) => Nodes[left].Order.CompareTo(Nodes[right].Order));
-                ScratchItems.Clear(); candidate.Generation = generation;
+                ScratchItems.Clear(); candidate.Generation = structureGeneration; candidate.Dependencies = dependencies; candidateRebuilds++;
             }
+            else candidateReuses++;
+            candidate.ObservedGeneration = generation;
             if (candidate.Items.Count * 4L >= items.Count * 3L)
             {
                 candidate.DenseGeneration = generation; candidate.DenseListVersion = Version(items);
+                candidate.Generation = -1; // Items below is discarded, not a cached empty result.
                 candidate.Items.Clear(); candidate.Items.TrimExcess(); denseFallbacks++;
                 return items;
             }
@@ -417,9 +441,10 @@ namespace ReboundGuard
             string text = "nearby item index: " + reason + "; installed=" + installed + "; enabled=" + Settings.UseNearbyItemIndex + "; queries=" + queries + "; candidates=" + scannedCandidates +
                 "; avoided_item_visits=" + avoidedCandidates + "; rebuilds=" + rebuilds + "; tag_updates=" + tagUpdates;
             text += "; parallel_tag_audits=" + parallelAudits + "; background_builds=" + backgroundBuilds + "; dense_fallbacks=" + denseFallbacks + "; spatial_fallbacks=" + spatialFallbacks;
+            text += "; candidate_rebuilds=" + candidateRebuilds + "; candidate_reuses=" + candidateReuses;
             text += "; observed_calls=" + calls + "; mixed_fallbacks=" + mixedFallbacks + "; powered_fallbacks=" + poweredFallbacks + "; identifier_fallbacks=" + identifierFallbacks + "; small_fallbacks=" + smallFallbacks + "; max_items=" + maximumItems + "; safety_checks=" + safetyChecks;
             calls = mixedFallbacks = poweredFallbacks = identifierFallbacks = smallFallbacks = safetyChecks = 0; maximumItems = 0;
-            queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = 0; return text;
+            queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = candidateRebuilds = candidateReuses = 0; return text;
         }
         internal static void Reset()
         {
@@ -433,7 +458,7 @@ namespace ReboundGuard
             calls = mixedFallbacks = poweredFallbacks = identifierFallbacks = smallFallbacks = safetyChecks = 0; maximumItems = 0;
             Nodes.Clear(); OrderedNodes.Clear(); NextNodes.Clear(); Buckets.Clear(); ScratchKeys.Clear(); ScratchItems.Clear(); Candidates.Clear();
             foreach (var changed in ChangedByWorker) changed.Clear();
-            generation++; queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = 0;
+            generation++; structureGeneration++; queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = candidateRebuilds = candidateReuses = 0;
         }
     }
 }

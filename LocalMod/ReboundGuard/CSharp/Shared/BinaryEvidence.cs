@@ -15,7 +15,7 @@ namespace ReboundGuard
         internal static void Report()
         {
             Plugin.Log("environment: mod=" + Plugin.ModVersion + "; role=" + (typeof(Item).Assembly.GetName().Name == "DedicatedServer" ? "server" : "client") +
-                "; runtime=" + Environment.Version + "; processors=" + Environment.ProcessorCount + "; max_workers=" + Settings.MaximumWorkers);
+                "; build=" + Plugin.BuildLabel + "; runtime=" + Environment.Version + "; processors=" + Environment.ProcessorCount + "; max_workers=" + Settings.MaximumWorkers);
             foreach (Assembly assembly in new[] { typeof(Item).Assembly, typeof(ContactSolver).Assembly, typeof(Harmony).Assembly })
             {
                 try

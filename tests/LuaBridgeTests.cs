@@ -27,6 +27,16 @@ namespace ReboundGuardTests
             LuaPatcherService.instance=service;
         }
         private static MethodInfo Target(string name)=>AccessTools.Method(typeof(LuaBridgeTests),name);
+        private static void CheckAccessGrants(MethodInfo bridge)
+        {
+            string[] grants = bridge.DeclaringType.Assembly.GetCustomAttributesData()
+                .Where(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute")
+                .Select(attribute => (string)attribute.ConstructorArguments.Single().Value).ToArray();
+            Check(grants.Length > 0 && grants.Length == grants.Distinct(StringComparer.Ordinal).Count(), "bridge emits assembly access grants once per distinct assembly");
+            Check(grants.Contains(typeof(LuaPatcherService).Assembly.GetName().Name) &&
+                grants.Contains(typeof(LuaBridgeTests).Assembly.GetName().Name) &&
+                grants.Contains(typeof(bool).Assembly.GetName().Name), "deduplication preserves required LuaCs, target and result assembly grants");
+        }
         [MethodImpl(MethodImplOptions.NoInlining)] public static int IntTarget(int x,ref float factor){originalCalls++;factor+=.5f;return x+(int)factor;}
         [MethodImpl(MethodImplOptions.NoInlining)] public static bool BoolTarget(){originalCalls++;return false;}
         [MethodImpl(MethodImplOptions.NoInlining)] public static string StringTarget(string value){originalCalls++;return value;}
@@ -111,6 +121,7 @@ namespace ReboundGuardTests
                 Check(BoolTarget(),"new callback immediately observed after empty phase");
                 if(optimized)
                 {
+                    CheckAccessGrants(entry.HarmonyPrefixMethod);
                     Check(entry.HarmonyPrefixMethod.GetParameters().All(parameter=>parameter.Name!="__originalMethod"),"generic wrapper no longer requests per-call MethodBase");
                     Check(entry.HarmonyPostfixMethod.GetParameters().Single(parameter=>parameter.Name=="__result").ParameterType==typeof(bool).MakeByRefType(),"bool result forwarded without outer object reference");
                     AccessTools.Method(Optimizer,"Stop").Invoke(null,null);
@@ -123,6 +134,13 @@ namespace ReboundGuardTests
                 bool recycled=!ReferenceEquals(oldModule,service.patchModuleBuilder) && !service.patchModuleBuilder.IsValueCreated;
                 Check(!BoolTarget(),"service reset removes callbacks and patches");
                 if(optimized) Check(recycled,"service reset releases the old dynamic module builder");
+                if(optimized)
+                {
+                    Patch(service,"after-reset",Target(nameof(BoolTarget)),(instance,table)=>DynValue.NewBoolean(true),false);
+                    Check(BoolTarget(),"new bridge works after context reset");
+                    CheckAccessGrants(service.registeredPatches[key].HarmonyPostfixMethod);
+                    service.Reset();
+                }
                 return(signature,benchmark.ms,benchmark.bytes,recycled);
             }
             finally

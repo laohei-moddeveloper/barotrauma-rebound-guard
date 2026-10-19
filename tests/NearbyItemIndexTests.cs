@@ -73,6 +73,31 @@ namespace ReboundGuardTests
                 beforeSafety = (long)AccessTools.Field(typeof(NearbyItemIndex), "safetyChecks").GetValue(null);
                 for (int i = 0; i < 8; i++) effects[0].AddNearbyTargets(Vector2.Zero, new List<ISerializableEntity>());
                 Check((long)AccessTools.Field(typeof(NearbyItemIndex), "safetyChecks").GetValue(null) == beforeSafety + 1, "eligible queries share one conflict check in a step");
+                // Unrelated tag changes must not force every candidate union/sort.
+                Item probe = Item.ItemList[originalCount + 40];
+                Compare(effects[0], Vector2.Zero);
+                long candidateBuilds = (long)AccessTools.Field(typeof(NearbyItemIndex), "candidateRebuilds").GetValue(null);
+                ((HashSet<Identifier>)probe.GetTags()).Add("unrelated_probe".ToIdentifier());
+                Compare(effects[0], Vector2.Zero);
+                Check((long)AccessTools.Field(typeof(NearbyItemIndex), "candidateRebuilds").GetValue(null) == candidateBuilds,
+                    "unrelated tag change preserves cached candidates after live audit");
+                ((HashSet<Identifier>)probe.GetTags()).Add("tag2".ToIdentifier());
+                Compare(effects[0], Vector2.Zero);
+                Check((long)AccessTools.Field(typeof(NearbyItemIndex), "candidateRebuilds").GetValue(null) == candidateBuilds + 1,
+                    "related tag change rebuilds candidates");
+                ((HashSet<Identifier>)probe.GetTags()).Add("probe_only".ToIdentifier());
+                var dependent = Effect("tag2", "probe_only");
+                Compare(dependent, Vector2.Zero);
+                Item nextProbe = Item.ItemList[originalCount + 41];
+                ((HashSet<Identifier>)nextProbe.GetTags()).Add("tag2".ToIdentifier());
+                Compare(dependent, Vector2.Zero); // tag2 now has a newer revision.
+                ((HashSet<Identifier>)probe.GetTags()).Remove("probe_only".ToIdentifier());
+                Compare(dependent, Vector2.Zero); // Delete the non-maximum bucket.
+                ((HashSet<Identifier>)probe.GetTags()).Add("probe_only".ToIdentifier());
+                Compare(dependent, Vector2.Zero); // Recreate the removed bucket.
+                Compare(effects[4], Vector2.Zero); // Dense fallback discards its candidate list.
+                ((HashSet<Identifier>)probe.GetTags()).Add("another_unrelated_probe".ToIdentifier());
+                Compare(effects[4], Vector2.Zero); // Discarded candidates cannot mean empty targets.
                 var random = new Random(506782);
                 for (int step = 0; step < 240; step++)
                 {

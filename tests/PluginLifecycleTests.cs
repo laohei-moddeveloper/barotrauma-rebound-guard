@@ -22,6 +22,15 @@ namespace ReboundGuardTests
                 if (loop == null || !loop.Owners.Contains(owner)) throw new Exception("Plugin initialization failed or removed all patches");
                 foreach (var method in new[] { AccessTools.Method(typeof(StatusEffect), "AddNearbyTargets"), AccessTools.Method(typeof(ContactSolver), "InitializeVelocityConstraints") })
                     if (Harmony.GetPatchInfo(method)?.Owners.Contains(owner) != true) throw new Exception("Default feature missing after full plugin initialization: " + method.Name);
+                if (typeof(Item).Assembly.GetName().Name == "Barotrauma")
+                {
+                    foreach (var method in new[] {
+                        AccessTools.DeclaredMethod(typeof(GameMain), "Update", new[] { typeof(Microsoft.Xna.Framework.GameTime) }),
+                        AccessTools.DeclaredMethod(typeof(GameMain), "Draw", new[] { typeof(Microsoft.Xna.Framework.GameTime) }),
+                        AccessTools.DeclaredMethod(typeof(GameScreen), "Draw") })
+                        if (method == null || Harmony.GetPatchInfo(method)?.Owners.Contains(owner) != true)
+                            throw new Exception("Client frame measurement hook missing");
+                }
                 AccessTools.Method(typeof(Plugin), "Log").Invoke(null, new object[] { "isolated lifecycle diagnostic marker" });
                 path = (string)AccessTools.PropertyGetter(logger, "CurrentPath").Invoke(null, null);
             }

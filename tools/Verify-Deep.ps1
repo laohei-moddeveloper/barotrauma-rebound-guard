@@ -44,7 +44,7 @@ $deps=[IO.File]::ReadAllText((Join-Path $GameDir 'Barotrauma.deps.json')).Replac
 [IO.File]::WriteAllText((Join-Path $runtime 'TestRunner.deps.json'),$deps)
 $refs.Add([Microsoft.CodeAnalysis.MetadataReference]::CreateFromFile($output))
 $testTrees=[Collections.Generic.List[Microsoft.CodeAnalysis.SyntaxTree]]::new()
-foreach($name in @('Bootstrap.cs','DeepRegression.cs','PhysicsBenchmark.cs','ConstraintSolverTests.cs','ConstraintPreparationTests.cs','NearbyItemIndexTests.cs','ContainerEffectTests.cs','WorldReplayTests.cs','WorldPerformanceTests.cs','PluginLifecycleTests.cs','FieldIterationTests.cs','NativeModHotPathTests.cs','LuaBridgeTests.cs','LoadingLifecycleTests.cs')) {
+foreach($name in @('Bootstrap.cs','DeepRegression.cs','QueueMembershipTests.cs','FrameHealthTests.cs','BucketStampTests.cs','PhysicsBenchmark.cs','ConstraintSolverTests.cs','ConstraintPreparationTests.cs','NearbyItemIndexTests.cs','ContainerEffectTests.cs','WorldReplayTests.cs','WorldPerformanceTests.cs','PluginLifecycleTests.cs','FieldIterationTests.cs','NativeModHotPathTests.cs','LuaBridgeTests.cs','LoadingLifecycleTests.cs')) {
     $testTrees.Add([Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree]::ParseText([IO.File]::ReadAllText((Join-Path $root ('tests\'+$name)))))
 }
 $testOptions=[Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions]::new([Microsoft.CodeAnalysis.OutputKind]::ConsoleApplication)

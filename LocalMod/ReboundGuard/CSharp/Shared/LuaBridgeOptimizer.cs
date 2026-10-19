@@ -41,6 +41,7 @@ namespace ReboundGuard
         {
             internal ModuleBuilder Module;
             internal readonly List<State> States = new List<State>();
+            internal readonly HashSet<string> AccessGrants = new HashSet<string>(StringComparer.Ordinal);
         }
         private static readonly ConditionalWeakTable<LuaPatcherService, Context> Contexts = new ConditionalWeakTable<LuaPatcherService, Context>();
         private static readonly MethodInfo Factory = AccessTools.Method(typeof(LuaPatcherService), "CreateDynamicHarmonyPatch");
@@ -89,7 +90,14 @@ namespace ReboundGuard
             var access = typeof(System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute).GetConstructor(new[] { typeof(string) });
             foreach (string name in old.Select(parameter => (parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType() : parameter.ParameterType).Assembly.GetName().Name)
                 .Append(resultType?.Assembly.GetName().Name).Append(typeof(LuaPatcherService).Assembly.GetName().Name).Append(original.DeclaringType?.Assembly.GetName().Name).Where(name => name != null).Distinct())
+            {
+                // These attributes belong to the assembly, not each wrapper.
+                // Re-emitting the same grant for every hook grows metadata and
+                // repeats reflection work while loading large mod combinations.
+                if (context.AccessGrants.Contains(name)) continue;
                 ((AssemblyBuilder)context.Module.Assembly).SetCustomAttribute(new CustomAttributeBuilder(access, new object[] { name }));
+                context.AccessGrants.Add(name); // Only cache a successful emission.
+            }
             TypeBuilder type = context.Module.DefineType("Bridge" + Guid.NewGuid().ToString("N"), TypeAttributes.Public);
             FieldBuilder metadata = type.DefineField("Original", typeof(MethodBase), FieldAttributes.Public | FieldAttributes.Static);
             FieldBuilder guard = type.DefineField("Guard", typeof(Func<bool>), FieldAttributes.Public | FieldAttributes.Static);
