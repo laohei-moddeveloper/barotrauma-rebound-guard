@@ -25,7 +25,7 @@ namespace ReboundGuard
     {
         internal const string HarmonyId = "barotrauma.reboundguard.experimental.v040";
         internal const string ModVersion = "0.4.0";
-        internal const string BuildLabel = "performance-foundations-20261019";
+        internal const string BuildLabel = "performance-maintenance-20261019";
         private Harmony harmony;
         private static long windowStart;
         private static int steps;

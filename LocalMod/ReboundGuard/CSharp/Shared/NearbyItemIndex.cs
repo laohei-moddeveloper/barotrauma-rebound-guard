@@ -83,6 +83,7 @@ namespace ReboundGuard
         private static int listVersion = -1;
         private static long generation, structureGeneration, queries, scannedCandidates, avoidedCandidates, rebuilds, tagUpdates, denseFallbacks, spatialFallbacks;
         private static long candidateRebuilds, candidateReuses;
+        private static long tailAppends, tailRemovals, unchangedSequences, prefixItemsChecked;
         private static bool installed, valid;
         [ThreadStatic] private static bool safeInSimulation;
         [ThreadStatic] private static bool safetyChecked, safetyAllowed;
@@ -235,6 +236,7 @@ namespace ReboundGuard
         }
         private static void Rebuild(List<Item> items)
         {
+            if (Settings.IncrementalNearbyListMaintenance && TryTailUpdate(items)) return;
             valid = true; NextNodes.Clear();
             long seen = ++rebuildGeneration;
             bool sort = false, sawNew = false;
@@ -281,6 +283,82 @@ namespace ReboundGuard
             NextNodes.Clear();
             listVersion = Version(items); generation++; structureGeneration++; rebuilds++;
             reason = valid ? "eligible" : "original fallback: unsupported item/prefab or duplicate entry";
+        }
+        private static bool TryTailUpdate(List<Item> items)
+        {
+            // Count/version alone cannot prove append/removal: AddRange, Clear,
+            // indexer writes and reordering can produce misleading deltas. Audit
+            // every shared reference before choosing this path.
+            if (!valid || Nodes.Count != OrderedNodes.Count || Math.Abs((long)items.Count - OrderedNodes.Count) > 64) return false;
+            int oldCount = OrderedNodes.Count, shared = Math.Min(oldCount, items.Count);
+            for (int i = 0; i < shared; i++)
+            {
+                if (!ReferenceEquals(items[i], OrderedNodes[i].Item)) { prefixItemsChecked += i + 1; return false; }
+            }
+            prefixItemsChecked += shared;
+            if (items.Count == oldCount)
+            {
+                listVersion = Version(items); unchangedSequences++;
+                return true; // Actual tag state is still audited after this call.
+            }
+            NextNodes.Clear(); ScratchItems.Clear();
+            try
+            {
+                if (items.Count > oldCount)
+                {
+                    // Validate/stage the entire new tail before changing live
+                    // index state. Reject duplicates against both old and new items.
+                    for (int i = oldCount; i < items.Count; i++)
+                    {
+                        Item item = items[i];
+                        if (item == null || Nodes.ContainsKey(item) || !ScratchItems.Add(item) || !CollectKeys(item)) return false;
+                        NextNodes.Add(new Node { Item = item, Prefab = item.Prefab, PrefabTags = item.Prefab.Tags,
+                            Keys = ScratchKeys.ToArray(), Tags = Tags(item), TagsVersion = TagsVersion(Tags(item)),
+                            TagsCount = Tags(item).Count, Order = i });
+                    }
+                    valid = false;
+                    long revision = ++generation;
+                    foreach (Node node in NextNodes)
+                    {
+                        Nodes.Add(node.Item, node); OrderedNodes.Add(node);
+                        foreach (Identifier key in node.Keys)
+                        {
+                            if (!Buckets.TryGetValue(key, out var bucket)) Buckets[key] = bucket = new Bucket();
+                            bucket.Items.Add(node.Item); bucket.Revision = revision;
+                        }
+                    }
+                    // Appending preserves relative order and all prior objects.
+                    // Only candidates depending on touched buckets are invalid.
+                    tailAppends++;
+                }
+                else
+                {
+                    valid = false;
+                    long revision = ++generation;
+                    for (int i = oldCount - 1; i >= items.Count; i--)
+                    {
+                        Node node = OrderedNodes[i];
+                        foreach (Identifier key in node.Keys)
+                        {
+                            var bucket = Buckets[key];
+                            // Removing backwards means this item is the last in
+                            // each ordered bucket, without a linear Remove search.
+                            bucket.Items.RemoveAt(bucket.Items.Count - 1); bucket.Revision = revision;
+                            if (bucket.Items.Count == 0) Buckets.Remove(key);
+                        }
+                        Nodes.Remove(node.Item);
+                    }
+                    OrderedNodes.RemoveRange(items.Count, oldCount - items.Count);
+                    // A stale candidate can retain an item under a FORMER tag.
+                    // Clear all candidate references on removals, not just the
+                    // buckets in that item's current cached key set.
+                    foreach (var entry in Candidates) { entry.Value.Items.Clear(); entry.Value.Generation = -1; }
+                    structureGeneration++; tailRemovals++;
+                }
+                valid = true; listVersion = Version(items); rebuilds++; reason = "eligible";
+                return true;
+            }
+            finally { NextNodes.Clear(); ScratchItems.Clear(); }
         }
         private static bool HasChanged(Node node)
         {
@@ -442,8 +520,10 @@ namespace ReboundGuard
                 "; avoided_item_visits=" + avoidedCandidates + "; rebuilds=" + rebuilds + "; tag_updates=" + tagUpdates;
             text += "; parallel_tag_audits=" + parallelAudits + "; background_builds=" + backgroundBuilds + "; dense_fallbacks=" + denseFallbacks + "; spatial_fallbacks=" + spatialFallbacks;
             text += "; candidate_rebuilds=" + candidateRebuilds + "; candidate_reuses=" + candidateReuses;
+            text += "; tail_appends=" + tailAppends + "; tail_removals=" + tailRemovals + "; unchanged_sequences=" + unchangedSequences + "; prefix_items_checked=" + prefixItemsChecked;
             text += "; observed_calls=" + calls + "; mixed_fallbacks=" + mixedFallbacks + "; powered_fallbacks=" + poweredFallbacks + "; identifier_fallbacks=" + identifierFallbacks + "; small_fallbacks=" + smallFallbacks + "; max_items=" + maximumItems + "; safety_checks=" + safetyChecks;
             calls = mixedFallbacks = poweredFallbacks = identifierFallbacks = smallFallbacks = safetyChecks = 0; maximumItems = 0;
+            tailAppends = tailRemovals = unchangedSequences = prefixItemsChecked = 0;
             queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = candidateRebuilds = candidateReuses = 0; return text;
         }
         internal static void Reset()
@@ -458,6 +538,7 @@ namespace ReboundGuard
             calls = mixedFallbacks = poweredFallbacks = identifierFallbacks = smallFallbacks = safetyChecks = 0; maximumItems = 0;
             Nodes.Clear(); OrderedNodes.Clear(); NextNodes.Clear(); Buckets.Clear(); ScratchKeys.Clear(); ScratchItems.Clear(); Candidates.Clear();
             foreach (var changed in ChangedByWorker) changed.Clear();
+            tailAppends = tailRemovals = unchangedSequences = prefixItemsChecked = 0;
             generation++; structureGeneration++; queries = scannedCandidates = avoidedCandidates = rebuilds = tagUpdates = parallelAudits = backgroundBuilds = denseFallbacks = spatialFallbacks = candidateRebuilds = candidateReuses = 0;
         }
     }

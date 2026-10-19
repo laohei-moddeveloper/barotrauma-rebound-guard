@@ -126,6 +126,30 @@ namespace ReboundGuardTests
             Check(index.Contains(equal, new Key(9)), "partial index is rebuilt after hash failure");
             return hashes;
         }
+        private static object CountedHashWork()
+        {
+            var keys = Enumerable.Range(0, 4096).Select(i => new Key(i)).ToArray();
+            var queue = new Queue<Key>(keys);
+            var index = new QueueMembership<Key>(Version<Key>());
+            long before = Key.HashCalls;
+            Check(index.Contains(queue, keys[0]), "counted rebuild sees actual first key");
+            long cold = Key.HashCalls - before;
+            Check(cold <= keys.Length + 4, "count-map rebuild hashes each entry once");
+            var duplicateQueue = new Queue<Key>(new[] { new Key(7) });
+            Check(index.Contains(duplicateQueue, new Key(7)), "counted duplicate setup");
+            before = Key.HashCalls;
+            for (int i = 0; i < 1000; i++) index.Enqueue(duplicateQueue, new Key(7));
+            long added = Key.HashCalls - before;
+            Check(added <= 1000, "counted enqueue uses one dictionary probe");
+            before = Key.HashCalls;
+            for (int i = 0; i < 1000; i++) Check(index.Dequeue(duplicateQueue).Id == 7, "duplicate drain FIFO");
+            long removed = Key.HashCalls - before;
+            Check(removed <= 1000, "remaining duplicates decrement with one dictionary probe");
+            Check(index.Contains(duplicateQueue, new Key(7)) && duplicateQueue.Count == 1, "last duplicate remains after counted drain");
+            index.Dequeue(duplicateQueue);
+            Check(!index.Contains(duplicateQueue, new Key(7)), "final counted duplicate removed");
+            return new { cold_4096_hash_calls = cold, duplicate_1000_enqueue_hash_calls = added, duplicate_1000_dequeue_hash_calls = removed };
+        }
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static WeakReference PopulateExpired(QueueMembershipCache<Key> cache)
         {
@@ -274,14 +298,14 @@ namespace ReboundGuardTests
         public static object Run()
         {
             checks = 0;
-            Randomized(); NullsAndDuplicates(); long hashes = IncrementalWork(); CacheBoundaries();
+            Randomized(); NullsAndDuplicates(); long hashes = IncrementalWork(); CacheBoundaries(); object counted = CountedHashWork();
             var rows = new List<object>();
             foreach (int count in new[] { 256, 2048, 8192 })
             {
                 foreach (string workload in new[] { "append", "drain", "rotate" }) rows.Add(Benchmark(count, workload));
                 rows.Add(SendBenchmark(count));
             }
-            return new { checks, drain_4096_hash_calls = hashes, benchmarks = rows,
+            return new { checks, drain_4096_hash_calls = hashes, counted_hash_work = counted, benchmarks = rows,
                 note = "Actual QueueMembership source; deterministic FIFO/membership checks and synthetic single-thread queues. Includes old-helper controls before and after each run. No game networking, packet replay, FPS or visible rubberband measurement." };
         }
     }

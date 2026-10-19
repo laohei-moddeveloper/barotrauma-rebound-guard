@@ -46,11 +46,66 @@ namespace ReboundGuardTests
             BeginMethod.Invoke(null, null); effect.AddNearbyTargets(point, indexed);
             Check(native.SequenceEqual(indexed), "native target membership, order and duplicate property objects preserved");
         }
+        private static long Counter(string name) => (long)AccessTools.Field(typeof(NearbyItemIndex), name).GetValue(null);
+        private static void TailMaintenanceChecks(int originalCount)
+        {
+            int count = Item.ItemList.Count;
+            var stable = Effect("tag2");
+            var unique = Effect("tail_old_key");
+            foreach (StatusEffect effect in new[] { stable, unique })
+                AccessTools.PropertySetter(typeof(StatusEffect), "Range").Invoke(effect, new object[] { 1000f });
+            var tail = MakeItem(90001);
+            ((HashSet<Identifier>)tail.GetTags()).Add("tail_old_key".ToIdentifier());
+            Compare(stable, Vector2.Zero);
+            long appends = Counter("tailAppends");
+            Item.ItemList.Add(tail);
+            Compare(unique, Vector2.Zero);
+            Check(Counter("tailAppends") == appends + 1, "appended tail uses prefix-validated maintenance");
+            var table = AccessTools.Field(typeof(NearbyItemIndex), "Candidates").GetValue(null);
+            object[] lookup = { unique.TargetIdentifiers, null };
+            Check((bool)table.GetType().GetMethod("TryGetValue").Invoke(table, lookup), "former-tag candidate exists");
+            var oldCandidates = (List<Item>)AccessTools.Field(lookup[1].GetType(), "Items").GetValue(lookup[1]);
+            Check(oldCandidates.Contains(tail), "former-tag candidate initially retains tail");
+            ((HashSet<Identifier>)tail.GetTags()).Remove("tail_old_key".ToIdentifier());
+            ((HashSet<Identifier>)tail.GetTags()).Add("tail_new_key".ToIdentifier());
+            Compare(stable, Vector2.Zero); // Audit changes without querying the old target set.
+            Check(oldCandidates.Contains(tail), "stale former-tag candidate retained before structural removal");
+            long removals = Counter("tailRemovals");
+            Item.ItemList.RemoveAt(Item.ItemList.Count - 1);
+            Compare(stable, Vector2.Zero);
+            Check(Counter("tailRemovals") == removals + 1 && oldCandidates.Count == 0,
+                "tail removal releases references in candidates under former tags");
+            Compare(unique, Vector2.Zero);
+
+            // Same version/count delta as two Adds, but actually a removal plus
+            // AddRange(3). Version arithmetic cannot establish prefix identity.
+            Item removed = Item.ItemList[originalCount + 10];
+            appends = Counter("tailAppends");
+            Item.ItemList.RemoveAt(originalCount + 10);
+            Item.ItemList.AddRange(new[] { MakeItem(91001), MakeItem(91002), MakeItem(91003) });
+            Compare(stable, Vector2.Zero);
+            Check(Counter("tailAppends") == appends, "misleading version/count deltas fall back after prefix mismatch");
+            Item.ItemList.RemoveRange(Item.ItemList.Count - 3, 3);
+            Item.ItemList.Insert(originalCount + 10, removed);
+            Compare(stable, Vector2.Zero);
+
+            appends = Counter("tailAppends");
+            Item.ItemList.AddRange(Enumerable.Range(0, 65).Select(i => MakeItem(92000 + i)));
+            Compare(stable, Vector2.Zero);
+            Check(Counter("tailAppends") == appends, "large list changes keep general rebuild path");
+            Item.ItemList.RemoveRange(count, 65);
+            Compare(stable, Vector2.Zero);
+            Item.ItemList[originalCount + 1] = Item.ItemList[originalCount + 1];
+            long unchanged = Counter("unchangedSequences");
+            Compare(stable, Vector2.Zero);
+            Check(Counter("unchangedSequences") == unchanged + 1, "identical reference sequence still performs real tag audit");
+        }
         public static object Run()
         {
             Check((bool)AccessTools.Method(typeof(NearbyItemIndex), "SupportedCodeMatches").Invoke(null, null), "installed nearby loop and audited assembly fingerprints");
             bool enabled = Config.UseNearbyItemIndex; int minimum = Config.MinimumItemsForNearbyIndex;
             bool background = Config.BackgroundNearbyIndexBuild;
+            bool incremental = Config.IncrementalNearbyListMaintenance;
             int auditMinimum = Config.MinimumItemsForParallelTagAudit;
             int originalCount = Item.ItemList.Count;
             var harmony = new Harmony("barotrauma.reboundguard.experimental.v040");
@@ -59,6 +114,7 @@ namespace ReboundGuardTests
             {
                 Config.UseNearbyItemIndex = true; Config.MinimumItemsForNearbyIndex = 1;
                 Config.BackgroundNearbyIndexBuild = false;
+                Config.IncrementalNearbyListMaintenance = true;
                 Config.MinimumItemsForParallelTagAudit = 1;
                 for (int i = 0; i < 2048; i++) Item.ItemList.Add(MakeItem(i));
                 var effects = new[] { Effect("tag2"), Effect("tag2", "prefab3"), Effect("prefab3"), Effect("absent"), Effect("prefabtag"), Effect("item"), Effect(Array.Empty<string>()), Effect(null) };
@@ -98,6 +154,7 @@ namespace ReboundGuardTests
                 Compare(effects[4], Vector2.Zero); // Dense fallback discards its candidate list.
                 ((HashSet<Identifier>)probe.GetTags()).Add("another_unrelated_probe".ToIdentifier());
                 Compare(effects[4], Vector2.Zero); // Discarded candidates cannot mean empty targets.
+                TailMaintenanceChecks(originalCount);
                 var random = new Random(506782);
                 for (int step = 0; step < 240; step++)
                 {
@@ -180,6 +237,21 @@ namespace ReboundGuardTests
                     Item.ItemList.RemoveAt(Item.ItemList.Count - 1);
                     rebuildStart = Stopwatch.GetTimestamp(); query();
                     double removeQuery = (Stopwatch.GetTimestamp() - rebuildStart) * 1000.0 / Stopwatch.Frequency;
+                    var mutationItem = MakeItem(count + 200);
+                    Action mutationQueries = () =>
+                    {
+                        Item.ItemList.Add(mutationItem); query();
+                        Item.ItemList.RemoveAt(Item.ItemList.Count - 1); query();
+                    };
+                    Config.IncrementalNearbyListMaintenance = false;
+                    for (int i = 0; i < 4; i++) mutationQueries();
+                    var mutationBefore = Time(mutationQueries, 1);
+                    Config.IncrementalNearbyListMaintenance = true;
+                    for (int i = 0; i < 4; i++) mutationQueries();
+                    var mutationAfter = Time(mutationQueries, 1);
+                    Config.IncrementalNearbyListMaintenance = false;
+                    var mutationControl = Time(mutationQueries, 1);
+                    Config.IncrementalNearbyListMaintenance = true;
                     for (int i = originalCount; i < Item.ItemList.Count; i++) AccessTools.Field(typeof(MapEntity), "rect").SetValue(Item.ItemList[i], new Rectangle(100000 + i, 0, 1, 1));
                     harmony.Unpatch(originalMethod, AccessTools.Method(typeof(NearbyItemIndex), "BeforeQuery"));
                     EndMethod.Invoke(null, null); var farNative = Time(query);
@@ -194,7 +266,10 @@ namespace ReboundGuardTests
                     BeginMethod.Invoke(null, null); denseQuery(); var denseIndexed = Time(denseQuery); Compare(denseEffect, Vector2.Zero);
                     benchmarks.Add(new { items = count, unpatched_median_ms = unpatched.median, patched_fallback_median_ms = native.median, indexed_median_ms = indexed.median, cold_query_ms = cold,
                         far_native_ms = farNative.median, far_indexed_ms = farIndexed.median, dense_native_ms = denseNative.median, dense_fallback_ms = denseIndexed.median,
-                        background_ready_delay_ms = readyMs, indexed_serial_audit_ms = serialAudit.median, append_query_ms = appendQuery, remove_query_ms = removeQuery, unpatched_100_queries_ms = unpatchedBatch.median, patched_fallback_100_queries_ms = nativeBatch.median, indexed_100_queries_ms = indexedBatch.median, speedup_cached = unpatched.median / indexed.median });
+                        background_ready_delay_ms = readyMs, indexed_serial_audit_ms = serialAudit.median, append_query_ms = appendQuery, remove_query_ms = removeQuery,
+                        append_remove_queries_full_before_ms = mutationBefore.median, append_remove_queries_incremental_ms = mutationAfter.median,
+                        append_remove_queries_full_after_ms = mutationControl.median,
+                        unpatched_100_queries_ms = unpatchedBatch.median, patched_fallback_100_queries_ms = nativeBatch.median, indexed_100_queries_ms = indexedBatch.median, speedup_cached = unpatched.median / indexed.median });
                 }
                 return new { checks, benchmarks, note = "Complete installed AddNearbyTargets with live distance/validity checks and original target order. Actual tag set reference/version/count audited each query, including JIT-inlined mutations and direct HashSet Add/Remove/Clear. Synthetic item/prefab objects; list changes, movement, empty/all-target and conflict fallbacks tested." };
             }
@@ -205,6 +280,7 @@ namespace ReboundGuardTests
                 AccessTools.Method(typeof(NearbyItemIndex), "Reset").Invoke(null, null);
                 Config.UseNearbyItemIndex = enabled; Config.MinimumItemsForNearbyIndex = minimum;
                 Config.BackgroundNearbyIndexBuild = background;
+                Config.IncrementalNearbyListMaintenance = incremental;
                 Config.MinimumItemsForParallelTagAudit = auditMinimum;
             }
         }

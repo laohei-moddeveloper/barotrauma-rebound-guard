@@ -2,6 +2,8 @@
 
 PR #1 follow-up: [2026-10-19 Windows compile and isolated validation](validation/2026-10-19-windows-pr1.md). This report identifies the separate installed LuaCs server Binary directory and records new branch-specific evidence; the release-era results below remain historical.
 
+Next source increment: [post-Windows maintenance work](PERFORMANCE-MAINTENANCE.zh-CN.md), build `performance-maintenance-20261019`: prefix-validated nearby tail maintenance, single-probe queue counts and a fresh-snapshot offline runner accepting separate Client/LuaCs Server dependency roots. Its portable/runner tests passed in cloud; the added native paths still require another Windows isolated run. The Windows report above validates `6230d69`, not this later increment. Do not start a game client/server to perform that verification.
+
 Current gameplay code: **0.4.0 experimental**, Windows / Barotrauma **1.13.4.0** / matching LuaCs. Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=3822098302 (already published publicly; LuaCs prerequisite linked).
 
 ## Read first

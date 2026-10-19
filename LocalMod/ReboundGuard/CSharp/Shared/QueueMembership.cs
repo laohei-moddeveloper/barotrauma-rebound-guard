@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace ReboundGuard
 {
@@ -56,8 +57,13 @@ namespace ReboundGuard
             if (tracked)
             {
                 if (value is null) nullCount--;
-                else if (members[value] == 1) members.Remove(value);
-                else members[value]--;
+                else
+                {
+                    ref int count = ref CollectionsMarshal.GetValueRefOrNullRef(members, value);
+                    if (Unsafe.IsNullRef(ref count)) return value; // Leave invalid; rebuild on next lookup.
+                    if (count == 1) members.Remove(value);
+                    else count--;
+                }
                 version = readVersion(queue);
                 valid = true;
             }
@@ -68,8 +74,8 @@ namespace ReboundGuard
             // Dictionary rejects null keys, whereas Queue.Contains and HashSet
             // support null (including nullable value types with no value).
             if (value is null) { nullCount++; return; }
-            members.TryGetValue(value, out int count);
-            members[value] = count + 1;
+            ref int count = ref CollectionsMarshal.GetValueRefOrAddDefault(members, value, out _);
+            count++;
         }
     }
 

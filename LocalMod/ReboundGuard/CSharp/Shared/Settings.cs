@@ -11,6 +11,7 @@ namespace ReboundGuard
         public static bool SkipIrrelevantContainerSearches = true;
         public static bool UseNearbyItemIndex = true;
         public static bool BackgroundNearbyIndexBuild = true;
+        public static bool IncrementalNearbyListMaintenance = true;
         public static int MinimumItemsForNearbyIndex = 256;
         public static bool ParallelNearbyTagAudit = true;
         public static int MinimumItemsForParallelTagAudit = 8192;
