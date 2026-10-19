@@ -1,0 +1,42 @@
+[
+  {
+    "file": "Barotrauma.dll",
+    "sha256": "CC1CF44F23F82062AFC802E7CB1BFC713EFBC3DB5705F7EF4D4F69DE6B4ED19A",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "DedicatedServer.dll",
+    "sha256": "18278624996B543A2595A0EA9C0C4C14881D511AC307E1A69028D6579E67AD3C",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "BarotraumaCore.dll",
+    "sha256": "A67F221AEC691ADB3955C95A24489E0C575B79FA4E4434564792E4BC4589CEA9",
+    "file_version": "1.0.0.0"
+  },
+  {
+    "file": "Publicized\\Barotrauma.dll",
+    "sha256": "69D9D9D5C36F662C2132389590102F8B8529869A9AF20EB64AE2F20CADC2DC1B",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "Publicized\\DedicatedServer.dll",
+    "sha256": "CB0DA22D91F0AC191DC298692142CC5EDEFFCCF59BD0ED053947FC6FB7E2430A",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "Publicized\\BarotraumaCore.dll",
+    "sha256": "84BC723F4D5C88294C50115D76CE9242F3D1F011A97EC7314F0AFDEB33493636",
+    "file_version": "1.0.0.0"
+  },
+  {
+    "file": "0Harmony.dll",
+    "sha256": "F6447E8D528FDD946CCDF00D7BA758797160444D85AD66BB45FCBD2941A7C3B9",
+    "file_version": "2.16.0.0"
+  },
+  {
+    "file": "coreclr.dll",
+    "sha256": "871949A2EC19C183CCDACDEA54C7B3E43C590EAF445E1B58817EE1CB3CE366D5",
+    "file_version": "8,0,23,53103 @Commit: 5535e31a712343a63f5d7d796cd874e563e5ac14"
+  }
+]

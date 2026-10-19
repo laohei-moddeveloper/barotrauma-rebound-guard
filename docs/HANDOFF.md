@@ -1,5 +1,7 @@
 # Rebound Guard / 深潜稳帧 — development handoff
 
+PR #1 follow-up: [2026-10-19 Windows compile and isolated validation](validation/2026-10-19-windows-pr1.md). This report identifies the separate installed LuaCs server Binary directory and records new branch-specific evidence; the release-era results below remain historical.
+
 Current gameplay code: **0.4.0 experimental**, Windows / Barotrauma **1.13.4.0** / matching LuaCs. Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=3822098302 (already published publicly; LuaCs prerequisite linked).
 
 ## Read first

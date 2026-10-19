@@ -1,0 +1,27 @@
+[
+  {
+    "file": "DedicatedServer.dll",
+    "sha256": "E692D2E26A3013B2CE0FAFCF28284A493E9334451E5320194C54370B72E3388E",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "Publicized\\DedicatedServer.dll",
+    "sha256": "CB0DA22D91F0AC191DC298692142CC5EDEFFCCF59BD0ED053947FC6FB7E2430A",
+    "file_version": "1.13.4.0"
+  },
+  {
+    "file": "BarotraumaCore.dll",
+    "sha256": "A67F221AEC691ADB3955C95A24489E0C575B79FA4E4434564792E4BC4589CEA9",
+    "file_version": "1.0.0.0"
+  },
+  {
+    "file": "0Harmony.dll",
+    "sha256": "F6447E8D528FDD946CCDF00D7BA758797160444D85AD66BB45FCBD2941A7C3B9",
+    "file_version": "2.16.0.0"
+  },
+  {
+    "file": "coreclr.dll",
+    "sha256": "871949A2EC19C183CCDACDEA54C7B3E43C590EAF445E1B58817EE1CB3CE366D5",
+    "file_version": "8,0,23,53103 @Commit: 5535e31a712343a63f5d7d796cd874e563e5ac14"
+  }
+]
