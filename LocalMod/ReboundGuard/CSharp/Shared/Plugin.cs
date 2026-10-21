@@ -25,7 +25,7 @@ namespace ReboundGuard
     {
         internal const string HarmonyId = "barotrauma.reboundguard.experimental.v040";
         internal const string ModVersion = "0.4.0";
-        internal const string BuildLabel = "performance-maintenance-20261019";
+        internal const string BuildLabel = "engine-hotpaths-20261021";
         private Harmony harmony;
         private static long windowStart;
         private static int steps;
@@ -63,6 +63,7 @@ namespace ReboundGuard
                 ContainerEffectFastPath.Install(harmony);
                 ParallelConstraintPreparation.Install(harmony);
                 NearbyItemIndex.Install(harmony);
+                LiveStatusTagIndex.Install(harmony);
                 ConstraintSolverResearch.Install(harmony);
                 if (Settings.DetailedProfiling) { SubsystemProfiler.Install(harmony); }
                 Log("loaded; version=" + ModVersion + "; build=" + BuildLabel + "; simulation monitor=" + Settings.Diagnostics +
@@ -76,6 +77,7 @@ namespace ReboundGuard
                 ClientPatchInstalled = false;
                 Log("initialization failed; patches removed: " + exception.Message);
                 BodyMaintenance.Reset(); ContainerEffectFastPath.Reset(); NearbyItemIndex.Reset(); ParallelConstraintPreparation.Reset();
+                LiveStatusTagIndex.Reset();
                 ResetServerCaches();
                 SubsystemProfiler.Reset();
                 NativeModHotPaths.Stop(true); CrashEvidence.Stop();
@@ -98,6 +100,7 @@ namespace ReboundGuard
             BodyMaintenance.Reset();
             ContainerEffectFastPath.Reset();
             NearbyItemIndex.Reset();
+            LiveStatusTagIndex.Reset();
             ParallelConstraintPreparation.Reset();
             SubsystemProfiler.Reset();
             Log("unloaded; version=" + ModVersion);
@@ -147,6 +150,7 @@ namespace ReboundGuard
             Log(ContainerEffectFastPath.Report());
             Log(ParallelConstraintPreparation.Report());
             Log(NearbyItemIndex.Report());
+            Log(LiveStatusTagIndex.Report());
             Log(StepHealth.Report(now));
             ReportClientFrames();
             Log(CrashEvidence.MemoryReport());

@@ -1,0 +1,47 @@
+name: Verify engine hot paths (isolated, no game session)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/engine-hotpaths-20261021
+permissions:
+  contents: read
+concurrency:
+  group: engine-verification-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  isolated:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          dotnet-version: 8.0.x
+      - name: Portable state checks
+        run: dotnet run --project tests/Portable/ReboundGuard.Portable.csproj --configuration Release
+      - name: Report and offline tooling checks
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Fetch audited upstream dependencies (never uploaded)
+        run: python tools/Fetch-AuditedDependencies.py --destination build/audited-dependencies
+      - name: Managed client and server methods under SDK .NET 8
+        run: >-
+          python tools/Verify-Managed.py
+          --client-dir build/audited-dependencies/client
+          --server-dir build/audited-dependencies/server
+          --suite Bridge --suite StatusTags --suite Nearby --suite Loading --suite Native --suite Lifecycle
+      - name: Windows game-bundled runtime, both sides
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          foreach ($suite in @('Bridge','StatusTags','Nearby','Loading','Native','Lifecycle')) {
+            & ./tools/Verify-Offline.ps1 -GameDir "$PWD/build/audited-dependencies/client" -ServerGameDir "$PWD/build/audited-dependencies/server" -Suite $suite
+          }
+      # No artifact upload: build/ contains copyrighted upstream DLLs and local
+      # runtime caches. Public evidence is manually reduced to synthetic results.

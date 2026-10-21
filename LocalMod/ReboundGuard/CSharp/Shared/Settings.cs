@@ -10,6 +10,8 @@ namespace ReboundGuard
         public static bool OptimizePositionQueue = true;
         public static bool SkipIrrelevantContainerSearches = true;
         public static bool UseNearbyItemIndex = true;
+        public static bool UseLiveStatusTagIndex = true;
+        public static int MinimumEffectsForStatusTagIndex = 32;
         public static bool BackgroundNearbyIndexBuild = true;
         public static bool IncrementalNearbyListMaintenance = true;
         public static int MinimumItemsForNearbyIndex = 256;
@@ -22,6 +24,7 @@ namespace ReboundGuard
         public static bool NativeKnownModHotPaths = true;
         public static bool FixExitDisposalOrder = true;
         public static bool OptimizeLuaBridge = true;
+        public static bool DirectLuaPatchFactory = true;
         public static bool RecycleLuaPatchModules = true;
         public static bool FixReferenceEnumerationLifetime = true;
         // Research path: preserves per-body constraint order, but is NOT enabled

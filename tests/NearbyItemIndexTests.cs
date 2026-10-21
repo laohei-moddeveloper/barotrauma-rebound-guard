@@ -47,6 +47,32 @@ namespace ReboundGuardTests
             Check(native.SequenceEqual(indexed), "native target membership, order and duplicate property objects preserved");
         }
         private static long Counter(string name) => (long)AccessTools.Field(typeof(NearbyItemIndex), name).GetValue(null);
+        private static void FrozenBackgroundSnapshot()
+        {
+            Item item = MakeItem(97531);
+            var tags = (HashSet<Identifier>)item.GetTags();
+            tags.Add("captured_tag".ToIdentifier());
+            Type snapshot = typeof(NearbyItemIndex).GetNestedType("Snapshot", BindingFlags.NonPublic);
+            object source = Activator.CreateInstance(snapshot);
+            var fields = new Dictionary<string, object> {
+                ["Item"] = item, ["Prefab"] = item.Prefab, ["Identifier"] = item.Prefab.Identifier,
+                ["PrefabTags"] = item.Prefab.Tags, ["Tags"] = tags,
+                ["Version"] = (int)AccessTools.Field(typeof(HashSet<Identifier>), "_version").GetValue(tags), ["Count"] = tags.Count,
+                ["DynamicTags"] = tags.ToArray()
+            };
+            foreach (var pair in fields) AccessTools.Field(snapshot, pair.Key).SetValue(source, pair.Value);
+            Array sources = Array.CreateInstance(snapshot, 1); sources.SetValue(source, 0);
+            tags.Clear(); tags.Add("later_tag".ToIdentifier());
+            object built = System.Threading.Tasks.Task.Run(() => AccessTools.Method(typeof(NearbyItemIndex), "BuildSnapshot")
+                .Invoke(null, new object[] { sources, 0 })).GetAwaiter().GetResult();
+            var nodes = (System.Collections.IDictionary)AccessTools.Field(built.GetType(), "Nodes").GetValue(built);
+            object node = nodes[item];
+            var keys = (Identifier[])AccessTools.Field(node.GetType(), "Keys").GetValue(node);
+            Check(keys.Contains("captured_tag".ToIdentifier()) && !keys.Contains("later_tag".ToIdentifier()),
+                "background builder reads the frozen dynamic-tag array rather than the mutable game HashSet");
+            Check((bool)AccessTools.Method(typeof(NearbyItemIndex), "HasChanged").Invoke(null, new[] { node }),
+                "main-thread audit detects mutations since the frozen snapshot before indexed results are used");
+        }
         private static void TailMaintenanceChecks(int originalCount)
         {
             int count = Item.ItemList.Count;
@@ -102,6 +128,7 @@ namespace ReboundGuardTests
         }
         public static object Run()
         {
+            FrozenBackgroundSnapshot();
             Check((bool)AccessTools.Method(typeof(NearbyItemIndex), "SupportedCodeMatches").Invoke(null, null), "installed nearby loop and audited assembly fingerprints");
             bool enabled = Config.UseNearbyItemIndex; int minimum = Config.MinimumItemsForNearbyIndex;
             bool background = Config.BackgroundNearbyIndexBuild;

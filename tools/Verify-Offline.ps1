@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()][string]$GameDir,
     [string]$ServerGameDir,
     [ValidateNotNullOrEmpty()][ValidateSet('Client','Server')][string[]]$Side=@('Client','Server'),
-    [ValidateSet('All','Bridge','Native','Loading')][string]$Suite='All',
+    [ValidateSet('All','Bridge','Native','Loading','StatusTags','Nearby','Lifecycle')][string]$Suite='All',
     [switch]$CompileOnly,
     [switch]$PrepareOnly
 )
@@ -14,10 +14,10 @@ if(-not $PrepareOnly -and -not $IsWindows) {
 }
 $repoRoot=Split-Path $PSScriptRoot -Parent
 $commonDependencies=@(
-    'Barotrauma.exe','BarotraumaCore.dll','Publicized/BarotraumaCore.dll',
-    'Barotrauma.runtimeconfig.json','Barotrauma.deps.json','coreclr.dll','hostfxr.dll','hostpolicy.dll','System.Private.CoreLib.dll',
+    'BarotraumaCore.dll','Publicized/BarotraumaCore.dll',
+    'coreclr.dll','hostfxr.dll','hostpolicy.dll','System.Private.CoreLib.dll',
     'Microsoft.CodeAnalysis.dll','Microsoft.CodeAnalysis.CSharp.dll','Basic.Reference.Assemblies.Net80.dll',
-    '0Harmony.dll','Farseer.NetStandard.dll','MonoGame.Framework.Windows.NetStandard.dll','XNATypes.dll','MoonSharp.Interpreter.dll','FluentResults.dll'
+    '0Harmony.dll','Farseer.NetStandard.dll','XNATypes.dll','MoonSharp.Interpreter.dll','FluentResults.dll'
 )
 $targets=@()
 $requestedSides=@($Side | Select-Object -Unique)
@@ -32,6 +32,9 @@ foreach($targetSide in $requestedSides) {
     $directory=[IO.Path]::GetFullPath($directory)
     $assembly=if($targetSide -eq 'Client'){'Barotrauma.dll'}else{'DedicatedServer.dll'}
     $required=@($commonDependencies)+@($assembly,('Publicized/'+$assembly))
+    $hostName=[IO.Path]::GetFileNameWithoutExtension($assembly)
+    $required+=@(($hostName+'.exe'),($hostName+'.runtimeconfig.json'),($hostName+'.deps.json'))
+    if($targetSide -eq 'Client') { $required+='MonoGame.Framework.Windows.NetStandard.dll' }
     $missing=@($required | Where-Object { -not (Test-Path -LiteralPath (Join-Path $directory $_) -PathType Leaf) })
     if($missing.Count -ne 0) { throw ($targetSide+' missing installed game/LuaCs dependencies: '+($missing -join ', ')) }
     $targets+=@{side=$targetSide;game_dir=$directory;required=$required;hashes=@()}

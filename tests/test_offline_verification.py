@@ -11,14 +11,14 @@ import unittest
 REPO = pathlib.Path(__file__).resolve().parents[1]
 PWSH = os.environ.get("REBOUND_TEST_PWSH") or shutil.which("pwsh")
 COMMON = (
-    "Barotrauma.exe", "BarotraumaCore.dll", "Publicized/BarotraumaCore.dll",
-    "Barotrauma.runtimeconfig.json", "Barotrauma.deps.json", "coreclr.dll", "hostfxr.dll", "hostpolicy.dll",
+    "BarotraumaCore.dll", "Publicized/BarotraumaCore.dll",
+    "coreclr.dll", "hostfxr.dll", "hostpolicy.dll",
     "System.Private.CoreLib.dll", "Microsoft.CodeAnalysis.dll", "Microsoft.CodeAnalysis.CSharp.dll",
     "Basic.Reference.Assemblies.Net80.dll", "0Harmony.dll", "Farseer.NetStandard.dll",
-    "MonoGame.Framework.Windows.NetStandard.dll", "XNATypes.dll", "MoonSharp.Interpreter.dll", "FluentResults.dll",
+    "XNATypes.dll", "MoonSharp.Interpreter.dll", "FluentResults.dll",
 )
-CLIENT = COMMON + ("Barotrauma.dll", "Publicized/Barotrauma.dll")
-SERVER = COMMON + ("DedicatedServer.dll", "Publicized/DedicatedServer.dll")
+CLIENT = COMMON + ("Barotrauma.dll", "Publicized/Barotrauma.dll", "Barotrauma.exe", "Barotrauma.runtimeconfig.json", "Barotrauma.deps.json", "MonoGame.Framework.Windows.NetStandard.dll")
+SERVER = COMMON + ("DedicatedServer.dll", "Publicized/DedicatedServer.dll", "DedicatedServer.exe", "DedicatedServer.runtimeconfig.json", "DedicatedServer.deps.json")
 
 
 @unittest.skipUnless(PWSH, "PowerShell 7 required (or set REBOUND_TEST_PWSH)")

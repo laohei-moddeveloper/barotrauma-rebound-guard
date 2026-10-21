@@ -33,6 +33,7 @@ namespace ReboundGuard
         {
             internal Item Item; internal ItemPrefab Prefab; internal Identifier Identifier;
             internal ImmutableHashSet<Identifier> PrefabTags; internal HashSet<Identifier> Tags;
+            internal Identifier[] DynamicTags;
             internal int Version, Count;
         }
         private sealed class Bucket
@@ -185,7 +186,8 @@ namespace ReboundGuard
                     { listVersion = version; valid = false; reason = "original fallback: unsupported initial snapshot"; return false; }
                     HashSet<Identifier> tags = Tags(item);
                     snapshot[i] = new Snapshot { Item = item, Prefab = item.Prefab, Identifier = item.Prefab.Identifier, PrefabTags = item.Prefab.Tags,
-                        Tags = tags, Version = TagsVersion(tags), Count = tags.Count };
+                        Tags = tags, Version = TagsVersion(tags), Count = tags.Count,
+                        DynamicTags = tags.Count == 0 ? Array.Empty<Identifier>() : tags.ToArray() };
                 }
                 initialBuild = Task.Run(() => BuildSnapshot(snapshot, version));
                 backgroundBuilds++; reason = "building in background; native queries active";
@@ -214,16 +216,13 @@ namespace ReboundGuard
                     TagsVersion = source.Version, TagsCount = source.Count, Order = i };
                 if (!state.Nodes.TryAdd(source.Item, node)) { state.Valid = false; break; }
                 keys.Clear();
-                try
-                {
-                    keys.Add(source.Identifier);
-                    foreach (Identifier key in source.PrefabTags) keys.Add(key);
-                    foreach (Identifier key in source.Tags) keys.Add(key);
-                    node.ForceRefresh = TagsVersion(source.Tags) != source.Version || source.Tags.Count != source.Count;
-                }
-                catch (InvalidOperationException) { node.ForceRefresh = true; }
-                catch (IndexOutOfRangeException) { node.ForceRefresh = true; }
-                if (node.ForceRefresh) keys.Clear();
+                // A HashSet cannot be safely enumerated concurrently with game
+                // writes, even if exceptions/version changes are checked later.
+                // Only immutable prefab tags and the main-thread array snapshot
+                // are read here. The published nodes are re-audited on the caller.
+                keys.Add(source.Identifier);
+                foreach (Identifier key in source.PrefabTags) keys.Add(key);
+                foreach (Identifier key in source.DynamicTags) keys.Add(key);
                 node.Keys = keys.ToArray(); state.Ordered.Add(node);
                 foreach (Identifier key in node.Keys)
                 {
