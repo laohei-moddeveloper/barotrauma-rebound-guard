@@ -74,7 +74,10 @@ class OfflineVerificationTests(unittest.TestCase):
         self.assertEqual(data["checks"], [])
         self.assertTrue(data["inputs_unchanged"])
         self.assertEqual({entry["side"] for entry in data["dependency_sets"]}, {"Client", "Server"})
-        self.assertEqual({entry["game_dir"] for entry in data["dependency_sets"]}, {str(self.game), str(self.server)})
+        # Windows can expand RUNNER~1 into runneradmin. Compare filesystem
+        # identity instead of spelling; still require the distinct input roots.
+        for directory in (self.game, self.server):
+            self.assertEqual(sum(os.path.samefile(entry["game_dir"], directory) for entry in data["dependency_sets"]), 1)
         self.assertEqual(sum(len(entry["hashes"]) for entry in data["dependency_sets"]), len(CLIENT) + len(SERVER))
         self.assertEqual(before, {path: path.read_bytes() for directory in (self.game, self.server) for path in directory.rglob("*") if path.is_file()})
         self.assertFalse(list(manifest_path.parent.rglob("TestRunner*")))

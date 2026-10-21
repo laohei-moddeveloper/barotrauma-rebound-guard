@@ -50,6 +50,11 @@ namespace ReboundGuardTests
         [MethodImpl(MethodImplOptions.NoInlining)] public static int OrderingTarget(int value){return value*2;}
         [MethodImpl(MethodImplOptions.NoInlining)] public static int InvalidResultTarget(){return 3;}
         [MethodImpl(MethodImplOptions.NoInlining)] public static int LuaTarget(int value){return value;}
+        private static int foreignEnumerations;
+        private static void ForeignEnumeration(LuaPatcherService.PatchedMethod __instance, ref IEnumerator<LuaPatcherService.LuaCsPatch> __result)
+        {
+            foreignEnumerations++;__result.Dispose();__result=__instance.Postfixes.Values.Reverse().GetEnumerator();
+        }
         public sealed class InstanceFixture
         {
             public int Value;
@@ -148,6 +153,20 @@ namespace ReboundGuardTests
                 Check(BoolTarget(),"new callback immediately observed after empty phase");
                 if(optimized)
                 {
+                    if(direct)
+                    {
+                        var foreign=new Harmony("reboundguard.direct.late-enumerator");
+                        try
+                        {
+                            // Warm direct dispatch first, then attach the competing
+                            // hook. It must be observed on the very next call.
+                            foreignEnumerations=0;
+                            foreign.Patch(AccessTools.Method(typeof(LuaPatcherService.PatchedMethod),"GetPostfixEnumerator"),
+                                postfix:new HarmonyMethod(typeof(LuaBridgeTests),nameof(ForeignEnumeration)));
+                            Check(BoolTarget() && foreignEnumerations==1,"late foreign enumeration hook is immediately honored after direct JIT warm-up");
+                        }
+                        finally{foreign.UnpatchSelf();}
+                    }
                     CheckAccessGrants(entry.HarmonyPrefixMethod);
                     Check(entry.HarmonyPrefixMethod.GetParameters().All(parameter=>parameter.Name!="__originalMethod"),"generic wrapper no longer requests per-call MethodBase");
                     Check(entry.HarmonyPostfixMethod.GetParameters().Single(parameter=>parameter.Name=="__result").ParameterType==typeof(bool).MakeByRefType(),"bool result forwarded without outer object reference");

@@ -139,7 +139,7 @@ namespace ReboundGuard
             // were built. Observe it immediately; do not bypass its enumeration.
             if (PatchSafety.HasForeignPatch(prefix ? PrefixEnumerator : PostfixEnumerator))
             {
-                using (var enumerator = prefix ? patches.GetPrefixEnumerator() : patches.GetPostfixEnumerator())
+                using (var enumerator = NativeEnumerator(patches, prefix))
                     while (enumerator.MoveNext())
                         if (!InvokeCallback(enumerator.Current, instance, table, ref result, resultType)) return false;
                 return true;
@@ -150,6 +150,16 @@ namespace ReboundGuard
             foreach (var callback in callbacks.Values)
                 if (!InvokeCallback(callback, instance, table, ref result, resultType)) return false;
             return true;
+        }
+        private static IEnumerator<LuaPatcherService.LuaCsPatch> NativeEnumerator(LuaPatcherService.PatchedMethod patches, bool prefix)
+        {
+            // Reflection here is deliberately confined to the competing-hook
+            // fallback. A previously JIT-inlined getter must not bypass a hook
+            // that arrived later. Preserve its original exception, not reflection's
+            // TargetInvocationException wrapper.
+            try { return (IEnumerator<LuaPatcherService.LuaCsPatch>)(prefix ? PrefixEnumerator : PostfixEnumerator).Invoke(patches, null); }
+            catch (TargetInvocationException error) when (error.InnerException != null)
+            { System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw(); throw; }
         }
         private static bool InvokeCallback(LuaPatcherService.LuaCsPatch callback, object instance, LuaPatcherService.ParameterTable table,
             ref object result, Type resultType)
