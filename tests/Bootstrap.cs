@@ -17,7 +17,10 @@ public static class Bootstrap
         {
             if(arguments.Length>2 && arguments[2]!="All")
             {
-                string suite=arguments[2]=="Bridge"?"ReboundGuardTests.LuaBridgeTests":arguments[2]=="Loading"?"ReboundGuardTests.LoadingLifecycleTests":"ReboundGuardTests.NativeModHotPathTests";
+                string name = arguments[2] switch { "Bridge" => "LuaBridgeTests", "Loading" => "LoadingLifecycleTests", "Native" => "NativeModHotPathTests",
+                    "StatusTags" => "LiveStatusTagTests", "Nearby" => "NearbyItemIndexTests", "Lifecycle" => "PluginLifecycleTests",
+                    _ => throw new ArgumentException("Unknown isolated suite: " + arguments[2]) };
+                string suite="ReboundGuardTests."+name;
                 object report=Assembly.GetExecutingAssembly().GetType(suite).GetMethod("Run").Invoke(null,null);
                 File.WriteAllText(arguments[1],System.Text.Json.JsonSerializer.Serialize(report,new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                 Console.WriteLine("PASS: "+suite+"; "+arguments[1]);return 0;

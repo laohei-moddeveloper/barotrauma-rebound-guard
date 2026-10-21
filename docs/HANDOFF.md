@@ -1,5 +1,11 @@
 # Rebound Guard / 深潜稳帧 — development handoff
 
+Latest source increment: **engine-hotpaths-20261021**, based on the published maintenance build. See [implementation, comparisons and validation](ENGINE-HOTPATHS-20261021.zh-CN.md) and [release notes](RELEASE-20261021.zh-CN.md). Adds direct single-generation LuaCs wrappers, live status-tag indexing and frozen dynamic-tag background snapshots. The user requested stopping further research, publishing GitHub first and preparing Steam credentials afterwards; preserve Workshop titles. Older validation/pending notes below are historical and do not describe this increment's status.
+
+PR #1 follow-up: [2026-10-19 Windows compile and isolated validation](validation/2026-10-19-windows-pr1.md). This report identifies the separate installed LuaCs server Binary directory and records new branch-specific evidence; the release-era results below remain historical.
+
+Next source increment: [post-Windows maintenance work](PERFORMANCE-MAINTENANCE.zh-CN.md), build `performance-maintenance-20261019`: prefix-validated nearby tail maintenance, single-probe queue counts and a fresh-snapshot offline runner accepting separate Client/LuaCs Server dependency roots. Its portable/runner tests passed in cloud; the added native paths still require another Windows isolated run. The Windows report above validates `6230d69`, not this later increment. Do not start a game client/server to perform that verification.
+
 Current gameplay code: **0.4.0 experimental**, Windows / Barotrauma **1.13.4.0** / matching LuaCs. Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=3822098302 (already published publicly; LuaCs prerequisite linked).
 
 ## Read first
@@ -43,6 +49,14 @@ Quick suites: `-Suite Bridge`, `-Suite Loading`, `-Suite Native`. The harness us
 
 ## Next investigation
 
+### Multiplayer performance foundations (2026-10-19 research branch)
+
+See [the Chinese performance roadmap](PERFORMANCE-ROADMAP.zh-CN.md). User scope is multiplayer clients and the actual server; single-player work is deferred. Startup/environment logs identify this branch as `performance-foundations-20261019` while keeping the existing experimental mod version.
+
+Implemented counted queue membership with weak per-queue reuse across sends, external-version invalidation, send-boundary hot-reference release and round/plugin cleanup. Nearby queries now distinguish structural invalidation from dependent bucket revisions, preserve live per-query tag audits and update only changed buckets. Added independent client update/draw/game-draw wall-time and draw-interval measurements, catch-up step counts, assembly-level Lua bridge access-grant deduplication, and window-aligned field-report analysis. Call durations include waits and do not measure GPU time.
+
+Portable .NET 8 checks and synthetic report tests are runnable without game binaries; the same queue/frame suites are included in the native deep harness. The existing `validation-*.json` and evidence manifest describe the earlier 0.4.0 validation, **not these changes**. Native full builds, Harmony execution, the new Lua bridge checks, real packet comparisons and multiplayer A/B remain pending because audited Windows game dependencies are not in the cloud. Do not package this branch using the old release evidence.
+
 Obtain same-session **actual server** input/position-queue diagnostics and the latest host crash report/Windows error. Supplied field reports so far are clients; correction counts are not visible rubberband counts. Compare real workloads before expanding optimization scope.
 
 Investigate per-loader full compacting GC during unload, but do not simply remove it: the plugin is disposed before the batch of assembly loaders, collectible ALC/native-library lifetimes matter, and existing manager GC runs too. Generic initial patch creation currently runs the original factory and an additional bridge factory; no initial-loading speed claim is justified.
@@ -51,8 +65,12 @@ Test optional native ports against later-arriving foreign hooks and real reload/
 
 ## Publishing
 
-`workshop/` contains prepared localized titles/descriptions, final cover, existing item state, and SDK publication scripts. Steam SDK comes from an installed game and is not distributed publicly. `Publish` updates content; localization updates should change only the requested language metadata. Always read back both languages and preserve the Chinese entry.
+Latest outcome: [2026-10-19 publication record](PUBLICATION-20261019.zh-CN.md). GitHub prerelease and three assets are published; the exact source release archive was subsequently uploaded to existing Workshop item 3822098302 from Windows. Public content (559234 bytes), new artwork, both localized titles/descriptions and the existing LuaCs dependency were read back. Current Workshop verification JSONs record this upload; no game entry point or additional game tests were run.
+
+`workshop/` contains prepared localized titles/descriptions, final cover, existing item state, and SDK publication scripts. The 2026-10-19 publication snapshot is documented in [bilingual release notes](RELEASE-20261019.zh-CN.md). The user requested direct packaging without further optimization/tests; native-validation status remains explicit.
+
+`tools/Build-Release.ps1 -ResearchSnapshot` creates fresh allowlisted source and Workshop ZIPs, including a hashed `PUBLIC-PACKAGE.json`. It excludes private research, old runtime caches and installed game binaries. The GitHub tag workflow publishes these as a prerelease without executing game/tests. After extracting the source ZIP on Windows, `pwsh -NoProfile -File workshop/Publish-Prepared.ps1 -GameDir YOUR_GAME_DIR` uploads existing item **3822098302** from its prepared content, checks ownership, then updates and independently reads back Simplified Chinese and English metadata. It does not start the game. Do not use the historical checked-in `workshop/publish` directory: it lacks the new package manifest and publishing refuses it. Steam SDK comes from an installed game and is not distributed publicly. `Publish` updates content; localization updates should change only the requested language metadata. Always read back both languages and preserve the Chinese entry.
 
 The release ZIP is a source mod package, not a game installer. The private migration ZIP is a full development handoff and must not be uploaded wholesale to the Workshop or public GitHub.
 
-Chinese and English Workshop metadata were submitted and independently read back successfully. The bundled SDK's Query.InLanguage stores a field without applying it; `Update-Localizations.ps1` uses its native query interface to set the query language before sending. Content is unchanged at 466467 bytes. English title: **Rebound Guard | Performance**; Simplified Chinese: **深潜稳帧 | Rebound Guard**.
+Historical 0.4.0 publication: Chinese and English Workshop metadata were submitted and independently read back successfully. The bundled SDK's Query.InLanguage stores a field without applying it; `Update-Localizations.ps1` uses its native query interface to set the query language before sending. Content is unchanged at 466467 bytes. English title: **Rebound Guard | Performance**; Simplified Chinese: **深潜稳帧 | Rebound Guard**.

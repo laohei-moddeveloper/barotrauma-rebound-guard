@@ -1,1 +1,2 @@
-0.4.0 首次工坊发布：通用 LuaCs 调用包装减负、引用枚举计数修复、动态模块重置与已知客户端退出顺序修复。保留查询/队列及独立阶段并行，增加分配与崩溃诊断。客户端、服务端隔离回归通过；真实联机收益待持续验证。
+2026-10-21 experimental / 实验版：LuaCs 单次包装生成、实时状态标签索引、冻结后台标签快照。两端隔离检查通过，实战收益待验证。
+Single-generation LuaCs wrappers, live status-tag queries and frozen background snapshots. Isolated checks passed; gameplay gains pending.

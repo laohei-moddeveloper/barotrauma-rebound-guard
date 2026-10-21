@@ -1,47 +1,88 @@
-$ErrorActionPreference = 'Stop'
-$root = Split-Path $PSScriptRoot -Parent
-$release = Join-Path $root 'release'
-New-Item -ItemType Directory -Path $release -Force | Out-Null
-$destination = Join-Path $release 'ReboundGuard_Experimental_0.4.0.zip'
-$manifest=Get-Content -Raw -LiteralPath (Join-Path $root 'research\deep\environment.json') | ConvertFrom-Json
-if($manifest.mod_version -ne '0.4.0'){throw 'Evidence manifest version mismatch'}
-foreach($group in @(@{Entries=$manifest.mod_files;Base='LocalMod\ReboundGuard'},@{Entries=$manifest.test_files;Base='tests'},@{Entries=$manifest.compat_files;Base='compat'},@{Entries=$manifest.script_files;Base=''},@{Entries=$manifest.validation_files;Base='research\deep'})) {
-    foreach($entry in $group.Entries) {
-        $file=Join-Path (Join-Path $root $group.Base) $entry.path
-        if((Get-FileHash -LiteralPath $file).Hash -ne $entry.sha256){throw ('Evidence manifest mismatch: '+$file)}
+[CmdletBinding()]
+param([switch]$ResearchSnapshot,
+    [ValidateSet('research_snapshot_native_validation_pending','isolated_methods_verified_gameplay_pending')]
+    [string]$ValidationStatus='research_snapshot_native_validation_pending')
+$ErrorActionPreference='Stop'
+$root=Split-Path $PSScriptRoot -Parent
+# Experimental builds retain their explicit validation scope; never substitute
+# historical 0.4.0 evidence for the current snapshot.
+if(-not $ResearchSnapshot) {
+    throw 'This experimental branch requires -ResearchSnapshot and an explicit validation scope. Isolated checks do not establish gameplay gains.'
+}
+$labelMatch=[regex]::Match([IO.File]::ReadAllText((Join-Path $root 'LocalMod/ReboundGuard/CSharp/Shared/Plugin.cs')), 'BuildLabel = "([a-zA-Z0-9_-]+)"')
+if(-not $labelMatch.Success) { throw 'Missing safe build label' }
+$label=$labelMatch.Groups[1].Value
+$release=Join-Path $root 'release'
+$stage=Join-Path $root ('build/public-release-'+[Guid]::NewGuid().ToString('N'))
+$source=Join-Path $stage 'source'
+$package=Join-Path $source 'workshop/publish/ReboundGuard'
+foreach($dir in @($release,$source,$package)){New-Item -ItemType Directory -Path $dir -Force | Out-Null}
+function Copy-PublicFile([string]$relative,[string]$destination) {
+    $inputFile=Join-Path $root $relative
+    if(-not(Test-Path -LiteralPath $inputFile -PathType Leaf)){throw "Missing public input: $relative"}
+    # No symlinks/reparse points, including ancestors inside the checkout.
+    $check=Get-Item -LiteralPath $inputFile
+    while($check.FullName -ne $root){
+        if($check.Attributes -band [IO.FileAttributes]::ReparsePoint){throw "Linked public input rejected: $relative"}
+        $check=Get-Item -LiteralPath (Split-Path $check.FullName -Parent)
+        if(-not $check){throw 'Public input escaped the checkout'}
+    }
+    New-Item -ItemType Directory -Path (Split-Path $destination -Parent) -Force | Out-Null
+    Copy-Item -LiteralPath $inputFile -Destination $destination
+}
+# Explicit public extensions and locations, never recursive directory copies.
+foreach($side in @('Shared','Client','Server')) {
+    foreach($file in Get-ChildItem -LiteralPath (Join-Path $root "LocalMod/ReboundGuard/CSharp/$side") -File -Filter '*.cs') {
+        $relative="LocalMod/ReboundGuard/CSharp/$side/"+$file.Name
+        Copy-PublicFile $relative (Join-Path $source $relative)
+        Copy-PublicFile $relative (Join-Path $package "CSharp/$side/$($file.Name)")
     }
 }
-$staging = Join-Path $root ('build\release-stage-' + [Guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Path $staging -Force | Out-Null
-# Explicit allowlist: do not redistribute game DLLs, decompiler packages,
-# external source downloads, saves or private mod configuration.
-foreach ($name in @('LocalMod','tests','tools','compat','Install.ps1','Install-All.ps1','Install-KnownModFixes.ps1','Collect-Reports.ps1','README.zh-CN.md','README-0.4.zh-CN.md','README-0.3.1.zh-CN.md','第二轮分析与通用优化-20261018.md','实战日志分析-20261018.md','底层分析与工坊对照.md','研究测试摘要.md')) {
-    Copy-Item -LiteralPath (Join-Path $root $name) -Destination $staging -Recurse
+$publicRoot=@('Install.ps1','Install-All.ps1','Install-KnownModFixes.ps1','Collect-Reports.ps1','README.md','README.zh-CN.md','README-0.4.zh-CN.md','研究测试摘要.md','LocalMod/ReboundGuard/filelist.xml')
+$publicDocs=@('docs/HANDOFF.md','docs/PERFORMANCE-ROADMAP.zh-CN.md','docs/PERFORMANCE-MAINTENANCE.zh-CN.md','docs/RELEASE-20261019.zh-CN.md','docs/validation/2026-10-19-windows-pr1.md',
+    'docs/ENGINE-HOTPATHS-20261021.zh-CN.md','docs/RELEASE-20261021.zh-CN.md','docs/validation/2026-10-21-engine-hotpaths.json')
+$publicTools=@('tools/Verify.ps1','tools/Verify-Deep.ps1','tools/Verify-Offline.ps1','tools/Verify-Managed.py','tools/Fetch-AuditedDependencies.py','tools/Build-Release.ps1','tools/Analyze-FieldReports.py')
+$publicWorkshop=@('workshop/Publish-Workshop.ps1','workshop/Update-Localizations.ps1','workshop/Publish-Prepared.ps1','workshop/title.txt','workshop/title.en.txt','workshop/description.bbcode.txt','workshop/description.en.bbcode.txt','workshop/changenote.txt','workshop/publish-state.json','workshop/Workshop-README.md','workshop/Optional-README.md','workshop/assets/preview-multiplayer.jpg')
+foreach($relative in ($publicRoot+$publicDocs+$publicTools+$publicWorkshop)){Copy-PublicFile $relative (Join-Path $source $relative)}
+foreach($file in Get-ChildItem -LiteralPath (Join-Path $root 'tests') -File -Filter '*.cs') {Copy-PublicFile ('tests/'+$file.Name) (Join-Path $source ('tests/'+$file.Name))}
+foreach($relative in @('tests/Portable/Program.cs','tests/Portable/ReboundGuard.Portable.csproj','compat/Mudraptor-IsHuman.lua','compat/TSM-accessoriesbuff.lua')) {Copy-PublicFile $relative (Join-Path $source $relative)}
+Copy-PublicFile 'LocalMod/ReboundGuard/filelist.xml' (Join-Path $package 'filelist.xml')
+$xml=[xml][IO.File]::ReadAllText((Join-Path $package 'filelist.xml'))
+$xml.contentpackage.SetAttribute('steamworkshopid','3822098302')
+$xml.Save((Join-Path $package 'filelist.xml'))
+foreach($pair in @(
+    @('Collect-Reports.ps1','Collect-Reports.ps1'),
+    @('workshop/Workshop-README.md','README.zh-CN.md'),
+    @('workshop/assets/preview-multiplayer.jpg','preview.jpg'),
+    @('Install-KnownModFixes.ps1','Optional/Install-KnownModFixes.ps1'),
+    @('workshop/Optional-README.md','Optional/README.zh-CN.md'),
+    @('compat/Mudraptor-IsHuman.lua','Optional/compat/Mudraptor-IsHuman.lua'),
+    @('compat/TSM-accessoriesbuff.lua','Optional/compat/TSM-accessoriesbuff.lua')
+)){Copy-PublicFile $pair[0] (Join-Path $package $pair[1])}
+$manifest=[ordered]@{
+    format=1;project='reboundguard-experimental-040';app_id=602960;file_id='3822098302';mod_version='0.4.0';build=$label
+    validation_status=$ValidationStatus
+    note='Experimental source snapshot. Validation status describes isolated methods only; no submarine, real multiplayer, rendering or end-to-end loading A/B. No whole-game FPS or rubberbanding guarantee.'
+    files=@()
 }
-$evidence = Join-Path $staging 'research\deep'
-New-Item -ItemType Directory -Path $evidence -Force | Out-Null
-foreach ($name in @('validation-client.json','validation-server.json','download-manifest.json','environment.json')) {
-    Copy-Item -LiteralPath (Join-Path $root ('research\deep\' + $name)) -Destination $evidence
+foreach($file in Get-ChildItem -LiteralPath $package -Recurse -File | Sort-Object FullName){
+    $relative=[IO.Path]::GetRelativePath($package,$file.FullName).Replace('\','/')
+    if($relative -notmatch '^(CSharp/(Shared|Client|Server)/[^/]+\.cs|filelist\.xml|preview\.jpg|README\.zh-CN\.md|Collect-Reports\.ps1|Optional/(Install-KnownModFixes\.ps1|README\.zh-CN\.md|compat/(Mudraptor-IsHuman|TSM-accessoriesbuff)\.lua))$'){throw "Unexpected workshop file: $relative"}
+    $manifest.files+=@{path=$relative;sha256=(Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash}
 }
-$fieldEvidence = Join-Path $staging 'research\field-test-20261018'
-New-Item -ItemType Directory -Path $fieldEvidence -Force | Out-Null
-Copy-Item -LiteralPath (Join-Path $root 'research\field-test-20261018\analysis.json') -Destination $fieldEvidence
-$round2 = Join-Path $staging 'research\field-test-round2'
-New-Item -ItemType Directory -Path $round2 -Force | Out-Null
-foreach ($name in @('analysis.json','health.json','allocation-summary.json')) {
-    Copy-Item -LiteralPath (Join-Path $root ('research\field-test-round2\'+$name)) -Destination $round2
+$manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $package 'PUBLIC-PACKAGE.json') -Encoding utf8
+Copy-Item -LiteralPath (Join-Path $package 'PUBLIC-PACKAGE.json') -Destination (Join-Path $source 'PUBLIC-PACKAGE.json')
+$sourceZip=Join-Path $release "ReboundGuard_0.4.0_${label}_experimental.zip"
+$workshopZip=Join-Path $release "ReboundGuard_0.4.0_${label}_workshop.zip"
+Compress-Archive -Path (Join-Path $source '*') -DestinationPath $sourceZip -Force
+Compress-Archive -LiteralPath $package -DestinationPath $workshopZip -Force
+$hashLines=@()
+foreach($zip in @($sourceZip,$workshopZip)){
+    $hash=(Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash
+    $hashLines+="$hash  $([IO.Path]::GetFileName($zip))"
 }
-Compress-Archive -Path (Join-Path $staging '*') -DestinationPath $destination -Force
-$archive = [IO.Compression.ZipFile]::OpenRead($destination)
-try {
-    if ($archive.Entries | Where-Object { $_.FullName -match '\.(dll|exe|sub|save|log|nettrace|etlx)$' }) { throw 'Unexpected binary/save/raw report in archive' }
-    foreach ($required in @('NearbyItemIndex.cs','PatchSafety.cs','StepHealth.cs','ParallelConstraintPreparation.cs','DiagnosticLog.cs','LuaBridgeOptimizer.cs','LoadingLifecyclePatch.cs','ExitLifetimePatch.cs','NativeModHotPaths.cs','CrashEvidence.cs','LuaBridgeTests.cs','LoadingLifecycleTests.cs','NativeModHotPathTests.cs','Collect-Reports.ps1','Install-All.ps1','Mudraptor-IsHuman.lua','第二轮分析与通用优化-20261018.md','validation-server.json','allocation-summary.json')) {
-        if (-not ($archive.Entries | Where-Object { $_.Name -eq $required })) { throw "Missing archive entry: $required" }
-    }
-    $entries = $archive.Entries.Count
-} finally { $archive.Dispose() }
-$hash = (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash
-[IO.File]::WriteAllText((Join-Path $release 'SHA256-0.4.0.txt'), "$hash  ReboundGuard_Experimental_0.4.0.zip`r`n")
-Write-Output "PASS: release contains $entries allowlisted entries; no game binaries or saves."
-Write-Output $destination
-Write-Output "SHA256: $hash"
+$hashLines | Set-Content -LiteralPath (Join-Path $release "SHA256-${label}.txt") -Encoding utf8
+Write-Output "Public experimental source package: $sourceZip"
+Write-Output "Workshop package: $workshopZip"
+Write-Output "Prepared Workshop directory: $package"
+Write-Output ('Validation status: '+$ValidationStatus+'; no additional tests were run by this packaging script.')

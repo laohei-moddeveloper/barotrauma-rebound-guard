@@ -20,8 +20,24 @@ namespace ReboundGuardTests
                 plugin.Initialize(); plugin.OnLoadCompleted();
                 var loop = Harmony.GetPatchInfo(AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) }));
                 if (loop == null || !loop.Owners.Contains(owner)) throw new Exception("Plugin initialization failed or removed all patches");
-                foreach (var method in new[] { AccessTools.Method(typeof(StatusEffect), "AddNearbyTargets"), AccessTools.Method(typeof(ContactSolver), "InitializeVelocityConstraints") })
-                    if (Harmony.GetPatchInfo(method)?.Owners.Contains(owner) != true) throw new Exception("Default feature missing after full plugin initialization: " + method.Name);
+                foreach (var feature in new[] {
+                    Tuple.Create(typeof(NearbyItemIndex), AccessTools.Method(typeof(StatusEffect), "AddNearbyTargets")),
+                    Tuple.Create(typeof(ParallelConstraintPreparation), AccessTools.Method(typeof(ContactSolver), "InitializeVelocityConstraints")),
+                    Tuple.Create(typeof(LiveStatusTagIndex), AccessTools.Method(typeof(PropertyConditional), "MatchesDirect")) })
+                {
+                    bool supported = (bool)AccessTools.Method(feature.Item1, "SupportedCodeMatches").Invoke(null, null);
+                    bool present = Harmony.GetPatchInfo(feature.Item2)?.Owners.Contains(owner) == true;
+                    if (present != supported) throw new Exception("Feature installation must match audited binary support: " + feature.Item2.Name);
+                }
+                if (typeof(Item).Assembly.GetName().Name == "Barotrauma")
+                {
+                    foreach (var method in new[] {
+                        AccessTools.DeclaredMethod(typeof(GameMain), "Update", new[] { AccessTools.TypeByName("Microsoft.Xna.Framework.GameTime") }),
+                        AccessTools.DeclaredMethod(typeof(GameMain), "Draw", new[] { AccessTools.TypeByName("Microsoft.Xna.Framework.GameTime") }),
+                        AccessTools.DeclaredMethod(typeof(GameScreen), "Draw") })
+                        if (method == null || Harmony.GetPatchInfo(method)?.Owners.Contains(owner) != true)
+                            throw new Exception("Client frame measurement hook missing");
+                }
                 AccessTools.Method(typeof(Plugin), "Log").Invoke(null, new object[] { "isolated lifecycle diagnostic marker" });
                 path = (string)AccessTools.PropertyGetter(logger, "CurrentPath").Invoke(null, null);
             }

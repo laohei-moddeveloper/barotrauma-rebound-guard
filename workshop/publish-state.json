@@ -1,12 +1,16 @@
 {
   "project": "reboundguard-experimental-040",
   "file_id": "3822098302",
-  "title": "深潜稳帧 | Rebound Guard",
+  "title": "深潜稳帧 Rebound Guard | 联机性能优化",
   "app_id": 602960,
   "status": "uploaded_public",
   "needs_workshop_agreement": false,
   "created_utc": "2026-10-18T08:13:19.4439782Z",
   "last_submit_result": "OK",
-  "submitted_utc": "2026-10-18T08:14:13.7974228Z",
-  "luacs_dependency_added": true
+  "submitted_utc": "2026-10-19T02:33:08.1190378Z",
+  "luacs_dependency_added": false,
+  "build": "performance-maintenance-20261019",
+  "validation_status": "research_snapshot_native_validation_pending",
+  "luacs_dependency_verified_present": true,
+  "dependency_verified_utc": "2026-10-19T02:33:43.8490471Z"
 }

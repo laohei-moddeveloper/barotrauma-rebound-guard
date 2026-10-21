@@ -24,7 +24,9 @@ foreach ($dll in @('Microsoft.CodeAnalysis.dll','Microsoft.CodeAnalysis.CSharp.d
 $gameAssembly = if ($Side -eq 'Client') { 'Barotrauma.dll' } else { 'DedicatedServer.dll' }
 $refs = [Collections.Generic.List[Microsoft.CodeAnalysis.MetadataReference]]::new()
 foreach ($ref in [Basic.Reference.Assemblies.Net80+References]::All) { $refs.Add($ref) }
-foreach ($dll in @("Publicized\$gameAssembly",'Publicized\BarotraumaCore.dll','0Harmony.dll','Farseer.NetStandard.dll','MonoGame.Framework.Windows.NetStandard.dll','XNATypes.dll','MoonSharp.Interpreter.dll','FluentResults.dll','Microsoft.CodeAnalysis.dll')) {
+$referenceFiles=@("Publicized\$gameAssembly",'Publicized\BarotraumaCore.dll','0Harmony.dll','Farseer.NetStandard.dll','XNATypes.dll','MoonSharp.Interpreter.dll','FluentResults.dll','Microsoft.CodeAnalysis.dll')
+if($Side -eq 'Client') { $referenceFiles+= 'MonoGame.Framework.Windows.NetStandard.dll' }
+foreach ($dll in $referenceFiles) {
     $refs.Add([Microsoft.CodeAnalysis.MetadataReference]::CreateFromFile((Join-Path $GameDir $dll)))
 }
 $trees = [Collections.Generic.List[Microsoft.CodeAnalysis.SyntaxTree]]::new()

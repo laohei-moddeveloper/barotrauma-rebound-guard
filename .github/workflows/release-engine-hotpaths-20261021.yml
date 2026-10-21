@@ -1,0 +1,65 @@
+name: Publish 2026-10-21 experimental source
+on:
+  push:
+    branches: [codex/release-engine-hotpaths-20261021]
+permissions:
+  contents: write
+concurrency:
+  group: release-engine-hotpaths-20261021
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require the verified code and unchanged Workshop names
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/laohei-moddeveloper/barotrauma-rebound-guard/actions/runs/39546286195 > "$RUNNER_TEMP/verified-run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'verified-run.json').read_text())
+          assert r['head_sha']=='88efaa7d16305e47067ecf751684fadeeb97e09f'
+          assert r['status']=='completed' and r['conclusion']=='success', 'Both OS/runtime checks must pass before release'
+          PY
+          git diff --exit-code 88efaa7d16305e47067ecf751684fadeeb97e09f HEAD -- LocalMod compat tests workshop/title.txt workshop/title.en.txt
+      - name: Build allowlisted experimental source and Workshop packages
+        shell: pwsh
+        run: ./tools/Build-Release.ps1 -ResearchSnapshot -ValidationStatus isolated_methods_verified_gameplay_pending
+      - name: Validate package contents and matching source
+        run: |
+          python - <<'PY'
+          import hashlib,json,zipfile
+          from pathlib import Path
+          root=Path.cwd()
+          source=root/'release/ReboundGuard_0.4.0_engine-hotpaths-20261021_experimental.zip'
+          with zipfile.ZipFile(source) as z:
+              assert not any(Path(n).suffix.lower() in {'.dll','.exe','.pdb','.save','.sub','.key','.pem'} for n in z.namelist())
+              m=json.loads(z.read('PUBLIC-PACKAGE.json').decode('utf-8-sig'))
+              assert m['build']=='engine-hotpaths-20261021'
+              assert m['validation_status']=='isolated_methods_verified_gameplay_pending'
+              for f in root.glob('LocalMod/ReboundGuard/CSharp/*/*.cs'):
+                  assert z.read(f.relative_to(root).as_posix())==f.read_bytes()
+              for f in m['files']:
+                  b=z.read('workshop/publish/ReboundGuard/'+f['path'])
+                  assert hashlib.sha256(b).hexdigest().upper()==f['sha256'].upper()
+          print('Package source, allowlist and Workshop manifest hashes verified')
+          PY
+      - name: Publish the GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release create v0.4.0-engine-hotpaths-20261021 \
+            release/ReboundGuard_0.4.0_engine-hotpaths-20261021_experimental.zip \
+            release/ReboundGuard_0.4.0_engine-hotpaths-20261021_workshop.zip \
+            release/SHA256-engine-hotpaths-20261021.txt \
+            --target "$GITHUB_SHA" --prerelease \
+            --title 'Rebound Guard · LuaCs / 状态查询优化实验版' \
+            --notes-file docs/RELEASE-20261021.zh-CN.md

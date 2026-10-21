@@ -1,30 +1,16 @@
-[h1]Less repeated work. More room for the simulation.[/h1]
-A performance utility for multiplayer and heavily modded Barotrauma. It targets LuaCs call overhead, repeated searches, and specific loading/shutdown lifetime defects while preserving simulation rules. [b]Version 0.4.0 — experimental.[/b]
+[b]Rebound Guard[/b]
+Multiplayer performance work for Barotrauma: reduce CPU and LuaCs overhead while investigating FPS drops, stutter, rubberbanding and slow loading.
 
-[h2]How it works[/h2]
-[list]
-[*][b]Lean LuaCs calls:[/b] bypasses a prefix/postfix phase only while its callback list is empty, caches immutable method metadata, and forwards results using their real types. Active callbacks, argument changes, execution order, and original dispatch remain intact.
-[*][b]Indexed work:[/b] adds membership support to the server position queue and an index for eligible nearby-item queries. FIFO ordering, current positions, and tag validation are retained.
-[*][b]Independent parallel work:[/b] uses multiple cores for audited body-local maintenance, contact initialization, and tag audits when enough work is available. Shared constraint solving is not forced into parallel execution.
-[*][b]Loading and shutdown fixes:[/b] releases a stranded reference-enumerator operation count that otherwise causes a two-second unload wait; releases old dynamic-module builder references on reset; fixes early LuaCs disposal in a verified client shutdown build.
-[/list]
-Defaults do not reduce AI, physics, effect update rates, or solver iterations. Network tick rates, authoritative position rules, and input trimming are unchanged.
+[b]Game systems + LuaCs[/b]
+• Reduce repeated scans in server send queues and nearby-item queries.
+• Skip empty LuaCs callback phases and reduce wrapper allocations.
+• Parallelize audited independent work; fix confirmed reference-enumerator and exit-order issues.
+Default physics, AI and effect update rates, and server position authority, are preserved.
 
-[h2]Requirements and installation[/h2]
-[list]
-[*][b]Verified:[/b] Windows, Barotrauma 1.13.4.0, and matching LuaCs method builds. Other platforms/builds are unverified. Unsupported code or competing patches make the affected optimization fall back and log a reason.
-[*]Install [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234]LuaCsForBarotrauma[/url] following its official instructions, then enable C# scripting. A Workshop subscription alone does not install the runtime.
-[*]Subscribe, disable older Rebound Guard builds, enable this mod, and fully restart.
-[*][b]Load it on the actual server process, the host client, and each player wanting local benefits.[/b] Enabling it on the host client does not prove it loaded on the server. Dedicated servers also need LuaCs/C#.
-[/list]
-Compatibility is checked per feature. Combining performance mods may cause some paths to fall back. Other mods are not automatically rewritten. Optional contains manually selected, source-hash-audited Lua rule ports; normal use does not require them.
+[b]Setup[/b]
+Requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234]LuaCs[/url] with C# scripting enabled. Supports audited Windows / Barotrauma 1.13.4.0 builds. Load it on each player, the host client and the actual server. Disable older versions and fully restart.
 
-[h2]Measured results and limits[/h2]
-In an isolated test using actual LuaCs-generated wrappers, 20,000 calls allocated 16.48 MB before and 7.04 MB after, approximately [b]57% less[/b]. A reproduced early-ended-enumeration unload wait fell from about two seconds to milliseconds, retaining the original GC. Isolated client and server regressions passed.
+[b]Experimental[/b]
+Results depend on the scene and mod combination; eliminating every stutter or correction has not been demonstrated. Unsupported builds or competing patches trigger feature fallbacks. Diagnostics stay local. Source included.
 
-[b]These are local measurements, not a whole-game FPS or loading-time promise.[/b] This experimental version has not established a universal cure for rubberbanding, desync, stutter, or crashes. It is not a complete multicore engine rewrite. Benefits depend on workload and the optimization paths actually reached.
-
-[h2]Diagnostics, feedback, removal[/h2]
-Check F3 for “loaded; version=0.4.0”. Each process writes ReboundGuardReports under its own runtime directory; reports stay local and are not uploaded automatically. Include game/LuaCs versions, comparable before/after workloads, client and actual server reports. Crashes also need a matching crashreport or Windows error. Review local paths before sharing reports publicly.
-
-Disable the mod and restart to remove the common patches. If Optional ports were applied manually, restore their original Lua files first. Source and instructions are included; game DLLs are not distributed. Cover artwork is AI-generated.
+[url=https://github.com/laohei-moddeveloper/barotrauma-rebound-guard]GitHub · source, setup and test progress[/url]

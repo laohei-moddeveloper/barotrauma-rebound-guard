@@ -1,0 +1,33 @@
+name: Publish experimental source and Workshop packages
+on:
+  push:
+    tags:
+      - 'v0.4.0-performance-maintenance-*'
+permissions:
+  contents: write
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Package public experimental snapshot (no game or test execution)
+        shell: pwsh
+        run: ./tools/Build-Release.ps1 -ResearchSnapshot
+      - name: Publish GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: >-
+          gh release create "$RELEASE_TAG"
+          release/ReboundGuard_0.4.0_performance-maintenance-20261019_experimental.zip
+          release/ReboundGuard_0.4.0_performance-maintenance-20261019_workshop.zip
+          release/SHA256-performance-maintenance-20261019.txt
+          --verify-tag --prerelease
+          --title 'Rebound Guard · Multiplayer performance / 联机性能实验版'
+          --notes-file docs/RELEASE-20261019.zh-CN.md

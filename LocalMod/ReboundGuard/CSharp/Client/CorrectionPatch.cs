@@ -14,6 +14,7 @@ namespace ReboundGuard
     {
         static partial void InstallClientPatch(Harmony patcher)
         {
+            ClientFrameProfiler.Install(patcher);
             ExitLifetimePatch.Install(patcher);
             Version version = typeof(Ragdoll).Assembly.GetName().Version;
             if (version != new Version(1, 13, 4, 0))
