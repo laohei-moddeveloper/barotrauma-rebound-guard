@@ -6,7 +6,7 @@
 
 原理：跳过空 LuaCs 回调阶段、缓存不变元数据、类型化转交返回值；使用辅助索引减少队列与附近查询的重复扫描；仅把已分析的独立工作并行化；修复引用枚举计数与已知退出顺序。默认不降低物理/AI/效果频率或碰撞迭代，不改变网络权威位置规则。
 
-当前构建 `performance-maintenance-20261019` 的新增尾部维护路径尚待 Windows 隔离验证。当前测试版不能保证根治全部回弹、不同步、掉帧或崩溃。局部调用包装的分配下降约 57%，不等于整局 FPS 提升 57%。源码随包提供，未包含游戏 DLL。
+当前构建 `engine-hotpaths-20261021` 新增 LuaCs 单次包装生成与实时状态标签索引，并修正附近索引后台读取可变标签的问题。隔离检查不等于实战；当前测试版不能保证根治全部回弹、不同步、掉帧或崩溃。局部分配与耗时结果不能换算整局 FPS。源码随包提供，未包含游戏 DLL。
 
 F3 查看 `loaded; version=0.4.0` 及各功能安装/回退原因。报告位于对应进程目录 `ReboundGuardReports`，只在本地记录，不自动上传。`Collect-Reports.ps1 -GameDir '你的游戏目录'` 可复制近期报告及崩溃错误到脚本旁的 ZIP；公开前检查本地路径等个人信息。
 
@@ -19,4 +19,4 @@ LuaCs 前置：https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234
 
 GitHub / 源码与进展：https://github.com/laohei-moddeveloper/barotrauma-rebound-guard
 
-Experimental multiplayer performance snapshot. Requires compatible Windows Barotrauma 1.13.4.0 + LuaCs with C# scripting on clients and the actual server. Later tail-maintenance paths await Windows isolated validation. Disable older versions and restart. No universal FPS or rubberbanding guarantee.
+Experimental build engine-hotpaths-20261021. Adds single-generation LuaCs wrappers, live status-tag indexing and frozen background tag snapshots. Requires compatible Windows Barotrauma 1.13.4.0 + LuaCs with C# scripting on clients and the actual server. Isolated checks do not establish gameplay gains. Disable older versions and restart. No universal FPS or rubberbanding guarantee.

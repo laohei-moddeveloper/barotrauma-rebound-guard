@@ -1,5 +1,7 @@
 # Rebound Guard / 深潜稳帧 — development handoff
 
+Latest source increment: **engine-hotpaths-20261021**, based on the published maintenance build. See [implementation, comparisons and validation](ENGINE-HOTPATHS-20261021.zh-CN.md) and [release notes](RELEASE-20261021.zh-CN.md). Adds direct single-generation LuaCs wrappers, live status-tag indexing and frozen dynamic-tag background snapshots. The user requested stopping further research, publishing GitHub first and preparing Steam credentials afterwards; preserve Workshop titles. Older validation/pending notes below are historical and do not describe this increment's status.
+
 PR #1 follow-up: [2026-10-19 Windows compile and isolated validation](validation/2026-10-19-windows-pr1.md). This report identifies the separate installed LuaCs server Binary directory and records new branch-specific evidence; the release-era results below remain historical.
 
 Next source increment: [post-Windows maintenance work](PERFORMANCE-MAINTENANCE.zh-CN.md), build `performance-maintenance-20261019`: prefix-validated nearby tail maintenance, single-probe queue counts and a fresh-snapshot offline runner accepting separate Client/LuaCs Server dependency roots. Its portable/runner tests passed in cloud; the added native paths still require another Windows isolated run. The Windows report above validates `6230d69`, not this later increment. Do not start a game client/server to perform that verification.

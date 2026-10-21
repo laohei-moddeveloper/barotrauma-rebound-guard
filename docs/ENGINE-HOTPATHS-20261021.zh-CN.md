@@ -57,4 +57,47 @@ python tools/Verify-Managed.py --client-dir CLIENT --server-dir SERVER
 ./tools/Verify-Offline.ps1 -GameDir CLIENT -ServerGameDir SERVER -Suite StatusTags
 ```
 
-实测数据、外部项目对照、完整验收范围及本地接续要求在本轮结束前补齐。未取得的实战证据不会用局部基准代替。
+## 验收结果
+
+受测源码 `88efaa7`，完整树 `e3796bc`。后续发布整理只改说明、打包与发布流程，不改受测游戏代码、兼容 Lua 或测试。
+[GitHub Actions](https://github.com/laohei-moddeveloper/barotrauma-rebound-guard/actions/runs/39546286195) 的 Linux、Windows 两个任务通过。
+两端各执行 Bridge、StatusTags、Nearby、Loading、Native、Lifecycle 六组；Windows 除 SDK 宿主外，另用游戏包内 CLR/apphost 执行两端全部六组。
+本机云端另运行同样两端六组、14 项 Python 检查和可移植队列/帧/桶检查。
+对应的[精简合成证据](validation/2026-10-21-engine-hotpaths.json)包含受测源文件 SHA256，不含游戏 DLL、原始实战记录或私人资料。
+
+Lua 桥接每端 99 项语义检查，包含真实 MoonSharp 调用、保留参数表、重入、错误结果类型、后来挂接的外部枚举 hook、Reset 和恢复原包装。
+状态索引每端 40,142 项状态比较，包含同一模拟步内的增删、同数量替换、清空、标签变化、重复项、空标签和竞争 hook。
+附近查询包含已发布尾部维护与新增冻结快照检查。大量断言是合成状态比较，不是独立实战局数。
+
+Linux SDK .NET 8 的 20,000 次回调包装 fixture：
+
+| 实现 | 调用线程分配 |
+| --- | ---: |
+| 原 LuaCs | 16,480,000 字节 |
+| 已发布两阶段桥接 | 7,040,000 字节 |
+| 本轮直接生成 | 6,240,000 字节 |
+
+相对已发布桥接减少约 **11.4%**；参数表仍每次独立分配。生成 fixture 也减少重复类型和 Sigil 工作，但不代表资源加载、编译和卸载总耗时。
+状态查询的完整扫描 fixture 约缩短一半；早命中 fixture 有约数十纳秒/调用的额外检查，频繁修改也会重建缓存。具体值见 JSON。
+跨系统运行 Windows 托管程序集的耗时受宿主/JIT/调度影响，不能据此给 Windows 游戏承诺倍数或整局收益。
+
+原完整 All 套件在官方发布包的 Farseer 文件上被既有物理指纹拒绝；未扩大白名单来使其通过。上述六组通过不等于完整物理重放或实战通过。
+
+## 借鉴与取舍
+
+| 项目与固定来源 | 值得借鉴 | 本轮选择及限制 |
+| --- | --- | --- |
+| [ItemOptimizer](https://github.com/yosu-ovo/ItemOptimizer/tree/892e00ae0b79a52824209d2c86d3c28ba8296e78) | 减少高频重复调用、状态标签查询、网络 membership；功能可单独控制 | 采用实时状态核验；不照搬仅每帧清空的状态缓存。冻结远区、降低 AI/实体频率另有玩法取舍；梯子/平台补偿不能直接套用到所有回弹 |
+| [Shadow Culling](https://github.com/zhu-rengong/barotrauma-mod-shadowculling/tree/797d42272592472fe1ffade57b6f17564ff67a6f) | 可见性筛选、绘制工作与包围盒成本分开处理 | 我们尚无绘制/GPU 实测；没有照搬归零 DrawSize 或视觉剔除规则。这是当前覆盖缺口 |
+| [Lithium 变动追踪](https://github.com/CaffeineMC/lithium-fabric/blob/6cb5f0f06acb924fda3523ec661625a480ef0057/common/src/main/java/net/caffeinemc/mods/lithium/common/tracking/entity/SectionedEntityMovementTracker.java) | 按真实依赖失效，完整处理进入/离开和监听生命周期 | 潜渊症模组可直接改集合，写入契约不同；因此保留逐次版本核验，不能假称缓存命中后所有工作都是 O(1) |
+| [Factorio 优化与并行](https://www.factorio.com/blog/post/fff-421) | 先剔除重复工作，再处理有共享关系的更新组；看完整阶段耗时 | 不以更高 CPU 占用充当收益，不直接把水体、电力、Lua VM 放进 Parallel.For |
+| [Box2D 确定性](https://box2d.org/posts/2024/08/determinism/) | 多线程必须维护稳定顺序和可重现状态 | Box2D 3 的数据与 API 不能直接替换本项目 Farseer DLL；共享求解、碰撞回调、关节和连续碰撞仍需完整验证，保持研究开关关闭 |
+
+本项目的优势是源码/运行时指纹、保留原生回退、客户端/服务器分离和真实方法对照；不足是实际热点覆盖有限、部分索引仍需要线性审计、没有网络包逐位对照、绘制优化或同局实战 A/B。
+本轮没有复制其他项目实现，也没有拿其他游戏/模组的性能数字当作自己的收益。
+
+## 发布与后续
+
+用户已要求停止继续深挖，先发布 GitHub，再配置 Steam 凭据。工坊中文名保持不变；当前不上传 Steam。
+后续拿到实战后再按服务器模拟时间、排队/确认延迟、可见回弹、真实帧间隔和加载分阶段数据决定下一步。
+云端已完成本次必要 Windows 隔离检查，无须启动用户本机游戏；当前工具只有本地对话读取接口，未声称已向本地对话发送指令。

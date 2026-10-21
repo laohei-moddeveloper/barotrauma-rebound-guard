@@ -1,0 +1,363 @@
+{
+  "schema": 1,
+  "date": "2026-10-21",
+  "build": "engine-hotpaths-20261021",
+  "verified_source_commit": "88efaa7d16305e47067ecf751684fadeeb97e09f",
+  "verified_tree": "e3796bc80bc624461801a1cbd55c9651840ece83",
+  "workflow": "https://github.com/laohei-moddeveloper/barotrauma-rebound-guard/actions/runs/39546286195",
+  "checks": {
+    "linux_sdk_both_sides": "passed",
+    "windows_sdk_both_sides": "passed",
+    "windows_bundled_runtime_both_sides": "passed",
+    "suites": [
+      "Bridge",
+      "StatusTags",
+      "Nearby",
+      "Loading",
+      "Native",
+      "Lifecycle"
+    ],
+    "full_original_All_suite": "not_passed: official Farseer binary is outside the existing audited physics allowlist; guard retained",
+    "gameplay_network_render_loading_AB": "not_run"
+  },
+  "source_sha256": {
+    "LocalMod/ReboundGuard/CSharp/Shared/BinaryEvidence.cs": "b75de508bb491d04bc644043df99bcd52d1c7bf916cde988eb90b92329171847",
+    "LocalMod/ReboundGuard/CSharp/Shared/BodyMaintenance.cs": "b1e0a42f5d4aa4aa2ffa207e4ad79182c32d48645eeed28f3bd5549e631075f2",
+    "LocalMod/ReboundGuard/CSharp/Shared/ConstraintSolverResearch.cs": "63e2e272ba3a0101ec7ea13837bc1501b64bc33a4372b449a8725825b2e1b75e",
+    "LocalMod/ReboundGuard/CSharp/Shared/ContainerEffectFastPath.cs": "bbbcfd17b5308e009db34e64d73efce8cd21c7c1b6ccb2324607cc9656789ae0",
+    "LocalMod/ReboundGuard/CSharp/Shared/CorrectionTelemetry.cs": "3130988e9dd284b50d96e85554bd3c50bfa15b1cb74bac1db00709fe83d8354e",
+    "LocalMod/ReboundGuard/CSharp/Shared/CrashEvidence.cs": "19d88690883253abe53a06767a05236a7042311fa2ae922c8780845e96a32102",
+    "LocalMod/ReboundGuard/CSharp/Shared/DiagnosticLog.cs": "0d7c606f088b5b53f1d4c27f2788f93ddd6aa9867eebf928dcab3121a05614f8",
+    "LocalMod/ReboundGuard/CSharp/Shared/LoadingLifecyclePatch.cs": "2a2f90833ca2e07c245f65b7ee393a8da124f8edb9f0bb71bc230e5f6ceec10d",
+    "LocalMod/ReboundGuard/CSharp/Shared/LuaBridgeOptimizer.cs": "c1b7f69bfaa4707c4880bf4c954d92cf7229f5b3f69e292417acbb44b275a052",
+    "LocalMod/ReboundGuard/CSharp/Shared/NativeLoopRange.cs": "27c1ca0732f212a4bdab87bd4a976f4e233ca21406b75889a6a9a353a36de1fb",
+    "LocalMod/ReboundGuard/CSharp/Shared/NativeModHotPaths.cs": "c0d7b7807f7e331d88260226b12f7d98d67c8a7e7ea602be9367402b78e7ae50",
+    "LocalMod/ReboundGuard/CSharp/Shared/NearbyItemIndex.cs": "f4e519be7f7656243a3a9c3330d49587dc881d5c23e3ab46b713c39d76dc2f2b",
+    "LocalMod/ReboundGuard/CSharp/Shared/OrderedConstraintSchedule.cs": "5993ac68d9be3de290c39ff59d5a2c78289cb4b093ca59f49af835d9307349ea",
+    "LocalMod/ReboundGuard/CSharp/Shared/ParallelConstraintPreparation.cs": "2481ab3d86fdac447e0ced3e84bc8ed39704242d7512d6bcb44ac45d2bd1fbcd",
+    "LocalMod/ReboundGuard/CSharp/Shared/PatchSafety.cs": "21a199c40305e756407c5fcefe7c15452089f254b317c0eb79cd0d88b8736f88",
+    "LocalMod/ReboundGuard/CSharp/Shared/Plugin.cs": "784c2f1354b3dcabcce1313f21b60ccaee318f4be3b0661f88b7f223448890ac",
+    "LocalMod/ReboundGuard/CSharp/Shared/QueueMembership.cs": "f7e7877dec3a46cb2218972227a1eebf98a8365e8697e2728744ee468ae05495",
+    "LocalMod/ReboundGuard/CSharp/Shared/Settings.cs": "f73f637317e903576d5453e6551af80758b0a88e65c00ce28a66bfaec1b1a60c",
+    "LocalMod/ReboundGuard/CSharp/Shared/StepHealth.cs": "601f5c286000a2abcec345b5882e50cfbd3a067bf92d796140ac772d404b8198",
+    "LocalMod/ReboundGuard/CSharp/Shared/SubsystemProfiler.cs": "18c307daac17b88ddcbe2dd4354f24cca0e05f14d0c91b821aa066b48d147b48",
+    "LocalMod/ReboundGuard/CSharp/Shared/LuaDirectBridge.cs": "79346bf52578402fe808a6be45270058a862d9d87b85d03fde1662fd6e11ed65",
+    "LocalMod/ReboundGuard/CSharp/Shared/LiveStatusTagIndex.cs": "c3303a1fe1a0c7efb0905db88c5cd3eec103635031e68b0a71052ca2d70a9905",
+    "LocalMod/ReboundGuard/CSharp/Shared/FrameHealth.cs": "bd5c226e5508545c15538451ba742874416d880c5eef920c906e47fccd2c719a",
+    "LocalMod/ReboundGuard/CSharp/Shared/BucketStamp.cs": "e644cb482f9eac957505f79abf4f8db10f96070c62d8295883e16d2a459cebbe",
+    "LocalMod/ReboundGuard/CSharp/Client/CorrectionMath.cs": "6be05ba7b867d77d81be624c55a626015c6a49a9b54142ea0ee55056b981db6d",
+    "LocalMod/ReboundGuard/CSharp/Client/CorrectionPatch.cs": "f200842df44729d87e9b6c3318aa7168cb2be1d32bb1c64cca7ea4024593dd87",
+    "LocalMod/ReboundGuard/CSharp/Client/ExitLifetimePatch.cs": "d10380f4d2848ce98e4e307cffe6fea313767287ffd3335f629770ff97bff1c7",
+    "LocalMod/ReboundGuard/CSharp/Client/ClientFrameProfiler.cs": "8ef127e7bb9e27b4440ed029f59248a047ce9266ec0e9e896dfbf9ebac139c06",
+    "LocalMod/ReboundGuard/CSharp/Server/InputBacklogMonitor.cs": "782e6dfd4d8c76151721f7ffac71d841e1671d94f60e7b4365fdd4621ab9beeb",
+    "LocalMod/ReboundGuard/CSharp/Server/NetworkQueuePatch.cs": "3ee61fb27e2fc9952ff37aa88e947a2eb42fce30ce986a3ac38386570ba4c65e",
+    "tests/Bootstrap.cs": "2a03624c4eb1954ddedf1fe7881c13f6ce98b559754cd78ae3b221a5c120590c",
+    "tests/DeepRegression.cs": "fab28a10595643ea0a28806e2ec3db2dead93d8b7eaac2597ab8349fa1a44ad1",
+    "tests/QueueMembershipTests.cs": "e2a2e9c360774c138776a6efcea380987ab65ef8565b783810452e0c4eefe054",
+    "tests/FrameHealthTests.cs": "1382c329a9d485c4a3df451ff56a10618e5b455dd6037e22a14aeed78cf8d2c7",
+    "tests/BucketStampTests.cs": "90119055208eb7a4d79afc2c89fb1b58254bf88ecd7e4578067e7058f5358eb1",
+    "tests/PhysicsBenchmark.cs": "1989ba83a18b68aaa6eaa6314ba5676661a04b9d5d699778956e4aa85be29259",
+    "tests/ConstraintSolverTests.cs": "8ceb22a271b6e17f4984463246aa78566329bc36dfcb18ffc9abb38d9d69052d",
+    "tests/ConstraintPreparationTests.cs": "21ada7e39bd3171e8c5b7e82e314b81daf0d4458a914b6334d4c582438851d6a",
+    "tests/NearbyItemIndexTests.cs": "cfed0ffbce143a6b7a1a3403b96e305cdbe05ea2f0b9c6e4492064c0641fbfb8",
+    "tests/ContainerEffectTests.cs": "944a87965bc9eba7addd13ddbb8cdfea389499488f9adfb255d0c1a690058266",
+    "tests/WorldReplayTests.cs": "f73c028de94f8c900d2e9b21523ed4b04c6be4dc97299d06090fe11d225efc2d",
+    "tests/WorldPerformanceTests.cs": "b9dff0836780388ad64a281414eb1d043659a20fe70a0fafea841f33c9e70dde",
+    "tests/PluginLifecycleTests.cs": "a81c27401b970a0d1cc173fad9834d041e515b6c0d0ecfd9744b40b29189b338",
+    "tests/FieldIterationTests.cs": "b3aa35d3704b1d23ab066343b4c0a04a4a46093f185d342df670bb6f64120b96",
+    "tests/NativeModHotPathTests.cs": "d7fb1e95e83407b3f83764c111cab3f224e16e88c59ed5756c29410817732ad4",
+    "tests/LuaBridgeTests.cs": "916a12de076af5d77ab230cc4fb5710bca553766a1058c33d39b4a5df170797b",
+    "tests/LoadingLifecycleTests.cs": "f5e4bda6ed3456645111a23ad40dc6b56b7f616acee73bec630a218e2a67879a",
+    "tests/LiveStatusTagTests.cs": "388619640ad1128c990b861535c2631fce11e31b12d7b135cf42720f29594eb2",
+    "compat/Mudraptor-IsHuman.lua": "f526efc550c174d6c215644dd60eea99f5c2c7141bac2ce0892fac8a4baac4f8",
+    "compat/TSM-accessoriesbuff.lua": "05c23f8e276589b16408eda789cf3010dff46e33abe969ae9c89d6b764a88c25"
+  },
+  "linux_fixture_results": {
+    "Client": {
+      "lua_bridge": {
+        "checks": 99,
+        "calls_per_batch": 20000,
+        "native_luacs_ms": 85.303171,
+        "optimized_bridge_ms": 4.550428,
+        "native_luacs_bytes": 16480000,
+        "optimized_bridge_bytes": 6240000,
+        "speedup": 18.746186292805863,
+        "previous_bridge_ms": 76.933734,
+        "previous_bridge_bytes": 7040000,
+        "factory_generation": {
+          "wrappers": 32,
+          "native_ms": 74.912043,
+          "previous_bridge_ms": 82.31718,
+          "direct_ms": 4.809689,
+          "native_bytes": 74514456,
+          "previous_bridge_bytes": 74960144,
+          "direct_bytes": 614352
+        },
+        "reset_recycles_module": true,
+        "clear_all_sha256": "1A598A5252DA28324FDAD98DA2FF72DC33FF2CD373A90C7D1282471DA024B057",
+        "reference_getter_sha256": "1E32B9D8EAFC563B3CFC28B66492E50EFF2C85B1E38CFBAFBA00365958933095",
+        "reference_iterator_sha256": "56513853E098403628ACF56B223D7D60F6AA166713D866D2EDD470AA2098CC5A",
+        "reference_dispose_sha256": "FB38E821D118062141EBF7B486D125A1499972F4196FBBEF7276987032236EF6",
+        "note": "Actual LuaPatcherService wrappers; C# callback overhead benchmark plus an actual MoonSharp semantic fixture. Callback order, retained tables, reentrancy, arguments, PreventExecution, result types, reset and detach verified. Factory fixture excludes compilation, loading assets and Harmony target installation. Not whole-game FPS or loading-time proof."
+      },
+      "status_tags": {
+        "checks": 40142,
+        "benchmarks": [
+          {
+            "effects": 32,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 1.844594,
+            "indexed_ms": 0.889975,
+            "native_after_ms": 1.720431,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 32,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.113129,
+            "indexed_ms": 0.14236,
+            "native_after_ms": 0.113366,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 32,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 1.879415,
+            "indexed_ms": 0.979996,
+            "native_after_ms": 1.778426,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 6.616464,
+            "indexed_ms": 3.099047,
+            "native_after_ms": 6.554272,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.115639,
+            "indexed_ms": 0.14436,
+            "native_after_ms": 0.11541,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 6.581774,
+            "indexed_ms": 3.126233,
+            "native_after_ms": 6.63774,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 25.484968,
+            "indexed_ms": 11.048965,
+            "native_after_ms": 26.645447,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.11243,
+            "indexed_ms": 0.155338,
+            "native_after_ms": 0.113752,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 26.492183,
+            "indexed_ms": 11.612393,
+            "native_after_ms": 26.82226,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          }
+        ],
+        "limits": "Actual native conditional methods and synthetic effects; no loaded submarine or multiplayer session."
+      },
+      "nearby_checks": 1023
+    },
+    "Server": {
+      "lua_bridge": {
+        "checks": 99,
+        "calls_per_batch": 20000,
+        "native_luacs_ms": 86.257776,
+        "optimized_bridge_ms": 4.835689,
+        "native_luacs_bytes": 16480000,
+        "optimized_bridge_bytes": 6240000,
+        "speedup": 17.83774266707392,
+        "previous_bridge_ms": 76.793263,
+        "previous_bridge_bytes": 7040000,
+        "factory_generation": {
+          "wrappers": 32,
+          "native_ms": 75.016448,
+          "previous_bridge_ms": 86.949487,
+          "direct_ms": 4.132917,
+          "native_bytes": 74514456,
+          "previous_bridge_bytes": 74960680,
+          "direct_bytes": 614880
+        },
+        "reset_recycles_module": true,
+        "clear_all_sha256": "A9CEFCABE087A9FCDE7CBCF3A4F3CED4907590FD9545766D1243AB5F83C4D41F",
+        "reference_getter_sha256": "7F911CC19640736421A1C8AB1E2ACC93C73EE536497CC475489C81D07648DB50",
+        "reference_iterator_sha256": "3C9BF56EFDC0505877864F43E3D31955DE3AF886E5A40B882847C55B0F472D6F",
+        "reference_dispose_sha256": "CEF37D46058E50D6A2B248D1794E3C56CC35F1328A902C90F2BA50A03EFCF8B8",
+        "note": "Actual LuaPatcherService wrappers; C# callback overhead benchmark plus an actual MoonSharp semantic fixture. Callback order, retained tables, reentrancy, arguments, PreventExecution, result types, reset and detach verified. Factory fixture excludes compilation, loading assets and Harmony target installation. Not whole-game FPS or loading-time proof."
+      },
+      "status_tags": {
+        "checks": 40142,
+        "benchmarks": [
+          {
+            "effects": 32,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 1.863537,
+            "indexed_ms": 0.914015,
+            "native_after_ms": 1.705656,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 32,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.111935,
+            "indexed_ms": 0.144583,
+            "native_after_ms": 0.113617,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 32,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 1.731727,
+            "indexed_ms": 1.011411,
+            "native_after_ms": 1.871066,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 6.688327,
+            "indexed_ms": 2.918054,
+            "native_after_ms": 6.380367,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.11619,
+            "indexed_ms": 0.155124,
+            "native_after_ms": 0.116693,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 128,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 6.62305,
+            "indexed_ms": 3.106821,
+            "native_after_ms": 6.764053,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "absent"
+            ],
+            "native_before_ms": 26.644056,
+            "indexed_ms": 11.69931,
+            "native_after_ms": 25.865936,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "a"
+            ],
+            "native_before_ms": 0.156079,
+            "indexed_ms": 0.144058,
+            "native_after_ms": 0.113893,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          },
+          {
+            "effects": 512,
+            "tags": [
+              "a",
+              "b",
+              "absent"
+            ],
+            "native_before_ms": 25.942339,
+            "indexed_ms": 11.639649,
+            "native_after_ms": 26.128987,
+            "native_bytes": 0,
+            "indexed_bytes": 0
+          }
+        ],
+        "limits": "Actual native conditional methods and synthetic effects; no loaded submarine or multiplayer session."
+      },
+      "nearby_checks": 1023
+    }
+  },
+  "limits": [
+    "Synthetic fixtures with actual managed game methods; no submarine/combat/network/GPU workload.",
+    "Linux timing of Windows managed assemblies is host-specific and cannot predict Windows game timings.",
+    "Allocation figures describe the callback scaffolding fixture, not full Lua VM or game allocation.",
+    "No game DLL, raw field log, save or private handoff included."
+  ]
+}

@@ -21,6 +21,7 @@ __pycache__/
 !/research/deep/download-manifest.json
 /release/*.zip
 /release/SHA256-performance-*.txt
+/release/SHA256-engine-*.txt
 /workshop/assets/cover-original.png
 /workshop/assets/preview.jpg
 /workshop/public-files-prepublish.json
