@@ -33,7 +33,7 @@ jobs:
           else: raise RuntimeError('Validation did not finish within the publication deadline')
           PY
           git diff --exit-code 48d449f3d3ad8eefe8ca5e83013bf16a045b39f9 HEAD -- LocalMod tests compat
-      - name: Build the hash-inventoried public source archive
+      - name: Build public source archive excluding all ignored test caches
         shell: pwsh
         run: ./tools/Build-Release.ps1
       - name: Build Workshop source package and upload draft assets
