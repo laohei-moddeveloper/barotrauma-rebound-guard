@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()][string]$GameDir,
     [string]$ServerGameDir,
     [ValidateNotNullOrEmpty()][ValidateSet('Client','Server')][string[]]$Side=@('Client','Server'),
-    [ValidateSet('All','Bridge','Native','Loading','StatusTags','Nearby','Lifecycle')][string]$Suite='All',
+    [ValidateSet('All','Bridge','Native','Loading','StatusTags','Nearby','Lifecycle','Queue','Compatibility','Dispatch','Scaffold','Stress')][string]$Suite='All',
     [switch]$CompileOnly,
     [switch]$PrepareOnly
 )

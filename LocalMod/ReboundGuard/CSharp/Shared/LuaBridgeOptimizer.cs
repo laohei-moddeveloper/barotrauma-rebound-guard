@@ -73,6 +73,7 @@ namespace ReboundGuard
             string clearHash = Convert.ToHexString(SHA256.HashData(ClearAll.GetMethodBody().GetILAsByteArray()));
             supported &= clearHash == "1A598A5252DA28324FDAD98DA2FF72DC33FF2CD373A90C7D1282471DA024B057" ||
                 clearHash == "A9CEFCABE087A9FCDE7CBCF3A4F3CED4907590FD9545766D1243AB5F83C4D41F";
+            supported |= AuditedBuild.CurrentGame;
             if (!supported || PatchSafety.HasForeignPatch(Factory) || PatchSafety.HasForeignPatch(ClearAll))
             { Plugin.Log("Lua bridge optimization not installed: unsupported factory or competing patch; factory_sha256=" + hash); return; }
             harmony.Patch(Factory, prefix: new HarmonyMethod(typeof(LuaBridgeOptimizer), nameof(BeforeFactory)),
@@ -130,7 +131,8 @@ namespace ReboundGuard
         }
         private static void AfterFactory(LuaPatcherService __instance, MethodBase original, ILuaCsHook.HookMethodType hookType, ref MethodInfo __result)
         {
-            if (restoringNative || Settings.DirectLuaPatchFactory || !Settings.OptimizeLuaBridge || __result == null) return;
+            if (restoringNative || Settings.DirectLuaPatchFactory || !Settings.OptimizeLuaBridge || __result == null ||
+                PatchSafety.HasForeignPatch(Factory) || PatchSafety.HasForeignPatch(ClearAll)) return;
             MethodInfo generated = __result;
             try { __result = Build(__instance, original, generated, hookType == ILuaCsHook.HookMethodType.Before); }
             catch (Exception error) { __result = generated; Plugin.Log("Lua bridge factory fallback: " + error.GetType().Name + "; " + original.Name); }
@@ -201,8 +203,9 @@ namespace ReboundGuard
             state.Bridge = built.GetMethod(method.Name);
             return state.Bridge;
         }
-        private static void AfterClear(LuaPatcherService __instance)
+        private static void AfterClear(LuaPatcherService __instance, bool __runOriginal)
         {
+            if (!__runOriginal || PatchSafety.HasForeignPatch(ClearAll)) return;
             if (Contexts.TryGetValue(__instance, out Context context))
             {
                 foreach (State state in context.States) state.Generated?.DeclaringType.GetField("LuaCs")?.SetValue(null, null);

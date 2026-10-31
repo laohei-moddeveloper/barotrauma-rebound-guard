@@ -40,6 +40,7 @@ namespace ReboundGuard
 
         internal static bool SupportedCodeMatches()
         {
+            if (AuditedBuild.CurrentPhysics) return true;
             if (Convert.ToHexString(SHA256.HashData(Original.GetMethodBody().GetILAsByteArray())) !=
                 "BE4F1BF0B8D0C6A16EEA85A92CFBD124874D732DAC4FD96868DB8A006E4FA87D") return false;
             using (var file = File.OpenRead(typeof(ContactSolver).Assembly.Location))

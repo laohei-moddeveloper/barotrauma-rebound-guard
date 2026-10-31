@@ -1,0 +1,436 @@
+{
+  "mod_version": "0.4.1",
+  "game_version": "1.13.5.0",
+  "date_utc": "2026-10-31T04:58:40.0962049Z",
+  "files": [
+    {
+      "sha256": "7899F61D0262FBD3E70D19CD22AF7441FF3F2F2B15AF8F564ED74FB441D04789",
+      "path": "Collect-Reports.ps1"
+    },
+    {
+      "sha256": "F526EFC550C174D6C215644DD60EEA99F5C2C7141BAC2CE0892FAC8A4BAAC4F8",
+      "path": "compat/Mudraptor-IsHuman.lua"
+    },
+    {
+      "sha256": "05C23F8E276589B16408EDA789CF3010DFF46E33ABE969AE9C89D6B764A88C25",
+      "path": "compat/TSM-accessoriesbuff.lua"
+    },
+    {
+      "sha256": "7E0742F549227259D967C199273FA1336AE90C65ABDE0215D59A6319D9DA0113",
+      "path": "docs/HANDOFF.md"
+    },
+    {
+      "sha256": "4D9E5F5904D30396E767DD4379E067629AA98FA49650672FCF862A031FE40E91",
+      "path": "docs/OPTIMIZATION-0.4.1.zh-CN.md"
+    },
+    {
+      "sha256": "7F11059E67B5FD2FD9C0BFD57B4E70FB03B2CB3F4404E64909B54D13E72AB9AA",
+      "path": "docs/validation/0.4.1/client-all.json"
+    },
+    {
+      "sha256": "1E2DE6BB0450774631B4BD2E8AFAAA9DC8D216761FBD84EB26A801F62A1BA112",
+      "path": "docs/validation/0.4.1/client-compatibility.json"
+    },
+    {
+      "sha256": "645B04446DB3C6D92F841DE16377DF847F0ED4C923F2A2BB25BE7595BFBD900B",
+      "path": "docs/validation/0.4.1/client-dispatch.json"
+    },
+    {
+      "sha256": "F17E36263E6DAE3E53E42EE2C400CA58AB93373A12E1F8CE39DFD61B4E909CA8",
+      "path": "docs/validation/0.4.1/client-queue.json"
+    },
+    {
+      "sha256": "1080AADF665C9778AB18D62390B0829BBB4148696C6428709F356AD80CDD7FD5",
+      "path": "docs/validation/0.4.1/client-scaffold.json"
+    },
+    {
+      "sha256": "4BE54866E2282CAB3321052FB05E934AA50704038716F29983BC24A8F47741DE",
+      "path": "docs/validation/0.4.1/client-stress.json"
+    },
+    {
+      "sha256": "14CDDAF75B69E2F031CA1334DD053166873D6AD54B21D2AE622E2B7A9D9B5EFF",
+      "path": "docs/validation/0.4.1/compatibility-audit.json"
+    },
+    {
+      "sha256": "FE2922F688FA1621DA9376B3F82DAC4564BCCCF18973E5DC7BC0D7BFB1079635",
+      "path": "docs/validation/0.4.1/interrupted-endurance.json"
+    },
+    {
+      "sha256": "735EC6DDBA583674EFBAC6C48338229799B2F1D22406A266C6205DCF8EC6839A",
+      "path": "docs/validation/0.4.1/server-all.json"
+    },
+    {
+      "sha256": "F859C25FCAE205F9355041D1777F92F548C44E67ADF1B2300A7C09295C55E8CB",
+      "path": "docs/validation/0.4.1/server-compatibility.json"
+    },
+    {
+      "sha256": "45A95E8DE2BF00139B04A158C0E53147933A55CCCD3988CCECE4D56121528716",
+      "path": "docs/validation/0.4.1/server-dispatch.json"
+    },
+    {
+      "sha256": "E7B5B2131510D4032EC1516DE0E016E2246CD1E5FDE3016366DF35703FAFAC44",
+      "path": "docs/validation/0.4.1/server-queue.json"
+    },
+    {
+      "sha256": "78485AF6771522DB290F0BF68D16489609ABFFE863E836695338C17EBBA05A16",
+      "path": "docs/validation/0.4.1/server-scaffold.json"
+    },
+    {
+      "sha256": "ED3B3283D547A6FD64FE87A4E43885E860EC286159A55FF035FD2869A984F720",
+      "path": "docs/validation/0.4.1/server-stress.json"
+    },
+    {
+      "sha256": "230CEAF2774D19A42FC2E24B8D525D8F4EB1002FAC4FDA373F92620961248D35",
+      "path": "Install-All.ps1"
+    },
+    {
+      "sha256": "111DC87706F134AB5F831CE3AB5C96B66135DC3DA59B4CE9A80074AFEF076A2F",
+      "path": "Install-KnownModFixes.ps1"
+    },
+    {
+      "sha256": "26DA25C58E7FE0F202C7B346DA19AFCFC4C7010CDCA43752F914CC33D6075958",
+      "path": "Install.ps1"
+    },
+    {
+      "sha256": "8EF127E7BB9E27B4440ED029F59248A047CE9266EC0E9E896DFBF9EBAC139C06",
+      "path": "LocalMod/ReboundGuard/CSharp/Client/ClientFrameProfiler.cs"
+    },
+    {
+      "sha256": "6BE05BA7B867D77D81BE624C55A626015C6A49A9B54142EA0EE55056B981DB6D",
+      "path": "LocalMod/ReboundGuard/CSharp/Client/CorrectionMath.cs"
+    },
+    {
+      "sha256": "30DA6B7D2EFEB17C46D0D8C4DF0426702E80B2EAB7C2BE62855868778FD3E4C6",
+      "path": "LocalMod/ReboundGuard/CSharp/Client/CorrectionPatch.cs"
+    },
+    {
+      "sha256": "2B19222E5F7902FFC17258604CED5B7B6DDAAA38A18AE5F0BCE642F520B421D2",
+      "path": "LocalMod/ReboundGuard/CSharp/Client/ExitLifetimePatch.cs"
+    },
+    {
+      "sha256": "86756B174AAA8A82EAD0E15D14A309E46CAC5012295FF7DACB3A3E1BE18B235C",
+      "path": "LocalMod/ReboundGuard/CSharp/Server/InputBacklogMonitor.cs"
+    },
+    {
+      "sha256": "688F564B27401CDD904E050F405E59C2C6FB8E869BA9B72DFB765FA17FE2E7D4",
+      "path": "LocalMod/ReboundGuard/CSharp/Server/NetworkQueuePatch.cs"
+    },
+    {
+      "sha256": "C2DBD92C813EE6855C25D4FF8938669FDB4B924DD48D3EA379058EA0F759B1E3",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/AuditedBuild.cs"
+    },
+    {
+      "sha256": "B75DE508BB491D04BC644043DF99BCD52D1C7BF916CDE988EB90B92329171847",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/BinaryEvidence.cs"
+    },
+    {
+      "sha256": "5959BAC9F04296717076050D6B1EBB1564537C4299545E2F79DBE482CBF2E302",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/BodyMaintenance.cs"
+    },
+    {
+      "sha256": "E644CB482F9EAC957505F79ABF4F8DB10F96070C62D8295883E16D2A459CEBBE",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/BucketStamp.cs"
+    },
+    {
+      "sha256": "63E2E272BA3A0101EC7EA13837BC1501B64BC33A4372B449A8725825B2E1B75E",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/ConstraintSolverResearch.cs"
+    },
+    {
+      "sha256": "AAB92DF53E0502FD9B9004E51D1B46FCF29F3FC5D05055ACD5F3E9598EDFD56A",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/ContainerEffectFastPath.cs"
+    },
+    {
+      "sha256": "3130988E9DD284B50D96E85554BD3C50BFA15B1CB74BAC1DB00709FE83D8354E",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/CorrectionTelemetry.cs"
+    },
+    {
+      "sha256": "19D88690883253ABE53A06767A05236A7042311FA2AE922C8780845E96A32102",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/CrashEvidence.cs"
+    },
+    {
+      "sha256": "0D7C606F088B5B53F1D4C27F2788F93DDD6AA9867EEBF928DCAB3121A05614F8",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/DiagnosticLog.cs"
+    },
+    {
+      "sha256": "D44C10A8E19B6DEF1F3A83E04DD4DAC0F431B8CD129C6C68BD0715618DE98BF5",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/FeatureInstaller.cs"
+    },
+    {
+      "sha256": "BD5C226E5508545C15538451BA742874416D880C5EEF920C906E47FCCD2C719A",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/FrameHealth.cs"
+    },
+    {
+      "sha256": "C484F30F03FF667CC0701EAF9F0BDDDC040BA5747313BA2441B0F11E4F7A8AE6",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/LiveStatusTagIndex.cs"
+    },
+    {
+      "sha256": "E5306ED5B0305F46EA0E4FBCADB8EC6D2F6CBDDBAAC1C6F02B76680526C33C08",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/LoadingLifecyclePatch.cs"
+    },
+    {
+      "sha256": "885440D15D1D7B1F36B211BE99FC1E7F540AFA46D8A9D8770996CA8BF970C95D",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/LuaArgumentConversion.cs"
+    },
+    {
+      "sha256": "14E203210675515535F7DDF84E12CEC9C5290A5E444BF973AC825A732E65F216",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/LuaBridgeOptimizer.cs"
+    },
+    {
+      "sha256": "726D8B274410183DCA4B802CD02AEC9B4AF555200B14470AF2F5AF2332787AEE",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/LuaDirectBridge.cs"
+    },
+    {
+      "sha256": "27C1CA0732F212A4BDAB87BD4A976F4E233CA21406B75889A6A9A353A36DE1FB",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/NativeLoopRange.cs"
+    },
+    {
+      "sha256": "C0D7B7807F7E331D88260226B12F7D98D67C8A7E7EA602BE9367402B78E7AE50",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/NativeModHotPaths.cs"
+    },
+    {
+      "sha256": "D74D7494079D225E2EF83C5C138008C158ACF55A0FBAF8517195A6D55C9EC9D3",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/NearbyItemIndex.cs"
+    },
+    {
+      "sha256": "5993AC68D9BE3DE290C39FF59D5A2C78289CB4B093CA59F49AF835D9307349EA",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/OrderedConstraintSchedule.cs"
+    },
+    {
+      "sha256": "2F20EF79FB961A95EE94E887A54C32C7A128241E53159BEDC043B00A1461234B",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/ParallelConstraintPreparation.cs"
+    },
+    {
+      "sha256": "21A199C40305E756407C5FCEFE7C15452089F254B317C0EB79CD0D88B8736F88",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/PatchSafety.cs"
+    },
+    {
+      "sha256": "A6C4548C8FEEC654B3A8285D6D2CEF3C0289F649E1A5C9B7229B649347AE9013",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/Plugin.cs"
+    },
+    {
+      "sha256": "F7E7877DEC3A46CB2218972227A1EEBF98A8365E8697E2728744EE468AE05495",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/QueueMembership.cs"
+    },
+    {
+      "sha256": "F73F637317E903576D5453E6551AF80758B0A88E65C00CE28A66BFAEC1B1A60C",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/Settings.cs"
+    },
+    {
+      "sha256": "601F5C286000A2ABCEC345B5882E50CFBD3A067BF92D796140AC772D404B8198",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/StepHealth.cs"
+    },
+    {
+      "sha256": "FA8E0DFA42F46C63F08A94F066872FC6C7BBFBFC5A180910A83F6CCB5B037463",
+      "path": "LocalMod/ReboundGuard/CSharp/Shared/SubsystemProfiler.cs"
+    },
+    {
+      "sha256": "027A9B6EE19983B8827F1C88FA8C445C500A5702081B7D7E65BF1E3B6FAB098B",
+      "path": "LocalMod/ReboundGuard/filelist.xml"
+    },
+    {
+      "sha256": "498DF38D75E66295FF29B3164CB7C8B98B4DA50A2ACBAC239A25B59DCBD337CD",
+      "path": "README-0.4.1.zh-CN.md"
+    },
+    {
+      "sha256": "1BF04D5FA3CD0B7010879627BBEA95744E6A973B4F27F6FBBB49EFD52AFFC9C1",
+      "path": "README-0.4.zh-CN.md"
+    },
+    {
+      "sha256": "7EC4379E57D346C7CABB6F9FA995FC27B209008829B8F74B0527DB088EFAD831",
+      "path": "README.md"
+    },
+    {
+      "sha256": "A211C39C4AB44902009A189F2DBA5722063098F4C29DA5BEC1A66B49ABD211C6",
+      "path": "README.zh-CN.md"
+    },
+    {
+      "sha256": "48DC40CA34F7810856C27B6C5600D652934911E8EB70814748E19D332E82FC53",
+      "path": "tests/Bootstrap.cs"
+    },
+    {
+      "sha256": "90119055208EB7A4D79AFC2C89FB1B58254BF88ECD7E4578067E7058F5358EB1",
+      "path": "tests/BucketStampTests.cs"
+    },
+    {
+      "sha256": "3832B04E3F2306710358FEAD5E2C2E3A921E481937486E5F6DB9FFD37E7D3E72",
+      "path": "tests/CompatibilityTests.cs"
+    },
+    {
+      "sha256": "21ADA7E39BD3171E8C5B7E82E314B81DAF0D4458A914B6334D4C582438851D6A",
+      "path": "tests/ConstraintPreparationTests.cs"
+    },
+    {
+      "sha256": "8CEB22A271B6E17F4984463246AA78566329BC36DFCB18FFC9ABB38D9D69052D",
+      "path": "tests/ConstraintSolverTests.cs"
+    },
+    {
+      "sha256": "944A87965BC9EBA7ADDD13DDBB8CDFEA389499488F9ADFB255D0C1A690058266",
+      "path": "tests/ContainerEffectTests.cs"
+    },
+    {
+      "sha256": "FAB28A10595643EA0A28806E2EC3DB2DEAD93D8B7EAAC2597AB8349FA1A44AD1",
+      "path": "tests/DeepRegression.cs"
+    },
+    {
+      "sha256": "B3AA35D3704B1D23AB066343B4C0A04A4A46093F185D342DF670BB6F64120B96",
+      "path": "tests/FieldIterationTests.cs"
+    },
+    {
+      "sha256": "1382C329A9D485C4A3DF451FF56A10618E5B455DD6037E22A14AEED78CF8D2C7",
+      "path": "tests/FrameHealthTests.cs"
+    },
+    {
+      "sha256": "388619640AD1128C990B861535C2631FCE11E31B12D7B135CF42720F29594EB2",
+      "path": "tests/LiveStatusTagTests.cs"
+    },
+    {
+      "sha256": "F5E4BDA6ED3456645111A23AD40DC6B56B7F616ACEE73BEC630A218E2A67879A",
+      "path": "tests/LoadingLifecycleTests.cs"
+    },
+    {
+      "sha256": "916A12DE076AF5D77AB230CC4FB5710BCA553766A1058C33D39B4A5DF170797B",
+      "path": "tests/LuaBridgeTests.cs"
+    },
+    {
+      "sha256": "6320147A530CA897DBAE473F8B1A8E1320DFF6B6D2AA910EF0EB1E3F3C0FF7BC",
+      "path": "tests/LuaDispatchSemanticsTests.cs"
+    },
+    {
+      "sha256": "35C8B84899F74C09B41CCA2C475D48F6C9F84A2F3C90D158357C50F1A7D51916",
+      "path": "tests/LuaDispatchStressTests.cs"
+    },
+    {
+      "sha256": "A7612FB1E10003D127115958877BD354F9387543F6DA91FE4CB01404944CA6AF",
+      "path": "tests/LuaScaffoldBenchmarkTests.cs"
+    },
+    {
+      "sha256": "D7FB1E95E83407B3F83764C111CAB3F224E16E88C59ED5756C29410817732AD4",
+      "path": "tests/NativeModHotPathTests.cs"
+    },
+    {
+      "sha256": "CFED0FFBCE143A6B7A1A3403B96E305CDBE05EA2F0B9C6E4492064C0641FBFB8",
+      "path": "tests/NearbyItemIndexTests.cs"
+    },
+    {
+      "sha256": "1989BA83A18B68AAA6EAA6314BA5676661A04B9D5D699778956E4AA85BE29259",
+      "path": "tests/PhysicsBenchmark.cs"
+    },
+    {
+      "sha256": "A81C27401B970A0D1CC173FAD9834D041E515B6C0D0ECFD9744B40B29189B338",
+      "path": "tests/PluginLifecycleTests.cs"
+    },
+    {
+      "sha256": "E3FF58AE974C576FA9DB0103C62B81930661623DE9DF12AB0B92171F7A4D1E23",
+      "path": "tests/Portable/obj/Release/net8.0/ReboundGuard.Portable.AssemblyInfo.cs"
+    },
+    {
+      "sha256": "DBB989E010924F4316D97BE6A808C74A3A34E98A9F24706199655150E40C6C99",
+      "path": "tests/Portable/Program.cs"
+    },
+    {
+      "sha256": "FFD599C03F7437D6963E02213548D2A5556CCE917508348A98DA82A85A8243F7",
+      "path": "tests/QueueChurnTests.cs"
+    },
+    {
+      "sha256": "E2A2E9C360774C138776A6EFCEA380987AB65EF8565B783810452E0C4EEFE054",
+      "path": "tests/QueueMembershipTests.cs"
+    },
+    {
+      "sha256": "DE568BE8ED689190408CDCD7E0927814BBD9FFCBED5CBDC790B1F7E9C05F13E1",
+      "path": "tests/Regression.cs"
+    },
+    {
+      "sha256": "5355EB7088511748746FBE64239EB6DA7D5FAE76D50C0666EB4CA13F07D09C3D",
+      "path": "tests/test_field_reports.py"
+    },
+    {
+      "sha256": "7F5FA1B120F65A5BFDA11F5C6D50079DB7D8A10F131243A51BBF9378C9FD209E",
+      "path": "tests/test_offline_verification.py"
+    },
+    {
+      "sha256": "B9DFF0836780388AD64A281414EB1D043659A20FE70A0FAFEA841F33C9E70DDE",
+      "path": "tests/WorldPerformanceTests.cs"
+    },
+    {
+      "sha256": "F73C028DE94F8C900D2E9B21523ED4B04C6BE4DC97299D06090FE11D225EFC2D",
+      "path": "tests/WorldReplayTests.cs"
+    },
+    {
+      "sha256": "A425EDC8BC1C160EEAEED4F4E90ED51EB0C5F21013162BB9954A2840868C25AF",
+      "path": "tools/Analyze-FieldReports.py"
+    },
+    {
+      "sha256": "29D346D63F6E081CDE8AD3E20F66DD1C6D7271D3509FF9CC6720BC996D4B0AE7",
+      "path": "tools/Assert-LuaCsInstallation.ps1"
+    },
+    {
+      "sha256": "2DAA512187BA1890B63C39D8F70135BB67137580663CDACA3BB0763DB6546BD5",
+      "path": "tools/Build-Release.ps1"
+    },
+    {
+      "sha256": "3D02034B9440A2540D0850969B3BC173B9E824FBF65FE1051EA2D415CB9C4C36",
+      "path": "tools/Compare-ManagedBuilds.cs"
+    },
+    {
+      "sha256": "02A7D38EAEBE927192B9967C368FDE6C74AF8E0D533503C8AD84D1DE885B076C",
+      "path": "tools/Decompile-Installed.ps1"
+    },
+    {
+      "sha256": "7D7378FA691F66A7F398FDA794025073071FB7BF2B79B16B520D7E062DA3D621",
+      "path": "tools/Fetch-AuditedDependencies.py"
+    },
+    {
+      "sha256": "6574308C54C08F7571406E2AEAED7C00E521AEC11E65E10AFBAEFE11E94DBD65",
+      "path": "tools/Fetch-Research.py"
+    },
+    {
+      "sha256": "E7BD172394A70D913E10F57D1F596FC5FF416292EDA56E8C49566B07B421AD20",
+      "path": "tools/Publish-Workshop-Cloud.py"
+    },
+    {
+      "sha256": "F052BD319298A9BB599ADF2AF8300B45B72BFBAD46DF40B44CD3EAD35FE71122",
+      "path": "tools/Run-AllocationTrace.ps1"
+    },
+    {
+      "sha256": "6F394CB1EC469F5CD567B589194A0828429D3983F39B1C3807E9C8775430857C",
+      "path": "tools/Test-Installer.ps1"
+    },
+    {
+      "sha256": "CB8B5C67C284CE9D1CFF59D4F8149B389DBC52D7BFCA7AFE670D6FB2A437E056",
+      "path": "tools/Test-KnownModInstaller.ps1"
+    },
+    {
+      "sha256": "05E70B7675ACCD94D5B96167B6A5E6D665CA0B3945CD7E7D6F3822F801295897",
+      "path": "tools/Trace-Allocations.cs"
+    },
+    {
+      "sha256": "A85B8E7A10975324668CF4D54BA6EAAA581298445177770C1F4C857503B0FE45",
+      "path": "tools/Verify-Deep.ps1"
+    },
+    {
+      "sha256": "24C0A2420ACAA0E775BDC19368C8AA067EE4C9960AF25FDDA6275A8AC421E9F6",
+      "path": "tools/Verify-Managed.py"
+    },
+    {
+      "sha256": "A936367527105A245574FDAC7510B7B04BA92B86E17054D2B55DA2BAF9F03C10",
+      "path": "tools/Verify-Offline.ps1"
+    },
+    {
+      "sha256": "029C4E76CED24CDD75A65EFACDCE75AEC2CA2A5EDD7A98FCDE44B3B3203CF1DB",
+      "path": "tools/Verify-Portable.py"
+    },
+    {
+      "sha256": "CE1B99B813C0738C7304FF6A597E0D338AEF437A612C9CE434D127489EA1870C",
+      "path": "tools/Verify.ps1"
+    },
+    {
+      "sha256": "0162A951750B371B9E9F3569C6B8E4DF8953D0DB0A1EEBA461FF8F8A53CB2DFA",
+      "path": "tools/Write-EvidenceManifest.ps1"
+    },
+    {
+      "sha256": "8A9ABC72BF445C64DBE09BA7E9559F03216E191FAB046EF3A908DFA92BF61734",
+      "path": "tools/Write-TestSummary.ps1"
+    }
+  ],
+  "note": "Public source/test/tooling and synthetic validation only. Native Windows gameplay, rendering and live multiplayer A/B are not established by these isolated Linux-host runs. Historical 0.4.0 evidence is unchanged."
+}

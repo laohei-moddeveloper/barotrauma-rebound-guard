@@ -4,9 +4,9 @@ Experimental Barotrauma performance utilities and lifetime fixes. [中文说明]
 
 ![Workshop cover](workshop/assets/preview-multiplayer.jpg)
 
-Current snapshot: **0.4.0 experimental**, build `engine-hotpaths-20261021`, for audited Windows / Barotrauma **1.13.4.0** and matching LuaCs. Adds single-generation LuaCs wrappers, live status-tag indexing and frozen background tag snapshots. See the [bilingual release notes](docs/RELEASE-20261021.zh-CN.md) and [implementation/validation boundaries](docs/ENGINE-HOTPATHS-20261021.zh-CN.md). Gameplay, multiplayer/rendering and end-to-end loading A/B remain pending.
+Current source: **0.4.1 experimental**, build `compat-1.13.5-20261031`, targeting the exact audited Windows Barotrauma **1.13.5.0** / LuaCs 2026-10-27 builds. [Current guide](README-0.4.1.zh-CN.md) · [Detailed changes and measurements](docs/OPTIMIZATION-0.4.1.zh-CN.md).
 
-The common patch reduces empty LuaCs callback-phase work and repeated method metadata/result wrapping, adds conservative query/queue indexes and independent-stage parallel work, and fixes audited reference-enumerator and shutdown lifetime defects. Actual callbacks and simulation rules remain. Default physics, AI and effect frequencies are unchanged.
+Retains the published October 21 single-generation LuaCs bridge, live status-tag index, incremental nearby candidates, weak per-queue caches and frame diagnostics. Adds exact new-build recognition, native-compatible cached argument conversion, independent feature-install rollback and current LuaCs installer settings support. Default simulation, AI, effects and authoritative positions retain their original rules.
 
 Install compatible [LuaCsForBarotrauma](https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234), enable C# scripting, subscribe/enable this mod, disable older Rebound Guard builds, and fully restart. Load it on the actual server process and each client wanting local benefits. See the Chinese guide for manual installation, optional source-audited rule ports, diagnostics and rollback.
 

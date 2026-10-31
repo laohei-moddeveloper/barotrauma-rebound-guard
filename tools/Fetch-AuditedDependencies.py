@@ -10,12 +10,12 @@ import urllib.request
 import zipfile
 
 ASSETS = {
-    "client": ("luacsforbarotrauma_build_windows_client.zip", 497491268,
-               "94c3f499ddcfac884529722addbd3abbd4693c4840335567b3546bf5383e5529",
-               "Barotrauma.dll", "70d4f424a0db55b6a4ce4781ba840ef443d15ac7060caf16c2543cdaef5c6e40"),
-    "server": ("luacsforbarotrauma_build_windows_server.zip", 497491298,
-               "4df2316a1be468ab52af268796eb33d15ecc0a1119cf2318804f2f26ee129630",
-               "DedicatedServer.dll", "c29090d937cb9e54e38fd3acad6da3b1bc3e74adce4eb091a6d4f2e54dff22bd"),
+    "client": ("luacsforbarotrauma_build_windows_client.zip", 681357534,
+               "b089eaaea806cd0ea34447b1c36c9f1005c4c62ff13be18f0dfb84a0306de9be",
+               "Barotrauma.dll", "ef31a7236dde833382f53df71b76c102b0f2bb3bb2a035dedda85ed5c276822a"),
+    "server": ("luacsforbarotrauma_build_windows_server.zip", 681357663,
+               "00be1d59a61373686ca4587d7c77f426a43e8af10d42523984a2ae7ebd4d3d94",
+               "DedicatedServer.dll", "705a4f5511edb16ce59cc0f5b5a7f14bb3eb1ffda3ab4f3c5edcd49e834d4c16"),
 }
 
 

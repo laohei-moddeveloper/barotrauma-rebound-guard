@@ -104,7 +104,7 @@ namespace ReboundGuard
                 il.Emit(OpCodes.Brfalse, next);
                 il.Emit(OpCodes.Ldarg, i + offset); il.Emit(OpCodes.Ldloc, value);
                 Type parameterType = signature[i + offset].GetElementType();
-                il.Emit(parameterType.IsValueType ? OpCodes.Unbox_Any : OpCodes.Castclass, parameterType);
+                il.Emit(OpCodes.Call, AccessTools.Method(typeof(LuaArgumentConversion), "Convert").MakeGenericMethod(parameterType));
                 il.Emit(OpCodes.Stobj, parameterType); il.MarkLabel(next);
             }
             il.Emit(OpCodes.Leave, end);

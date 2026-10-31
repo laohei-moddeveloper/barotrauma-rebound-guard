@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - codex/engine-hotpaths-20261021
+      - codex/rebound-guard-041-1135
 permissions:
   contents: read
 concurrency:
@@ -35,12 +36,12 @@ jobs:
           python tools/Verify-Managed.py
           --client-dir build/audited-dependencies/client
           --server-dir build/audited-dependencies/server
-          --suite Bridge --suite StatusTags --suite Nearby --suite Loading --suite Native --suite Lifecycle
+          --suite Bridge --suite StatusTags --suite Nearby --suite Loading --suite Native --suite Lifecycle --suite Dispatch --suite Compatibility --suite Scaffold
       - name: Windows game-bundled runtime, both sides
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          foreach ($suite in @('Bridge','StatusTags','Nearby','Loading','Native','Lifecycle')) {
+          foreach ($suite in @('Bridge','StatusTags','Nearby','Loading','Native','Lifecycle','Dispatch','Compatibility','Scaffold')) {
             & ./tools/Verify-Offline.ps1 -GameDir "$PWD/build/audited-dependencies/client" -ServerGameDir "$PWD/build/audited-dependencies/server" -Suite $suite
           }
       # No artifact upload: build/ contains copyrighted upstream DLLs and local

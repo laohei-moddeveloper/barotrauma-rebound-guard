@@ -49,7 +49,7 @@ namespace ReboundGuard
 
         internal static void Install(Harmony harmony)
         {
-            if (typeof(PhysicsBody).Assembly.GetName().Version != new Version(1, 13, 4, 0)) { return; }
+            if (!Settings.ParallelBodyMaintenance) { safetyReason = "disabled"; return; }
             target = AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) });
             if (!SupportedCodeMatches())
             {
@@ -65,6 +65,8 @@ namespace ReboundGuard
 
         internal static bool SupportedCodeMatches()
         {
+            if (AuditedBuild.CurrentGame && AuditedBuild.CurrentPhysics) return true;
+            if (typeof(PhysicsBody).Assembly.GetName().Version != new Version(1, 13, 4, 0)) return false;
             bool client = typeof(PhysicsBody).Assembly.GetName().Name == "Barotrauma";
             string expectedBody = client ? "100E0C6293027DEAE42FD054BE1F882807EDBB5B1E9F4593C22C9AA90926F126" : "D36CBDCC45FA3AF88359BBEE5FA7A02E16222C15CDD80108D6F4F71171FDB4C0";
             string expectedLoop = client ? "DFE2B1F546335575171B9D16DE973CECFD0A2EE260C11643416FA2FAF07179B3" : "0D35B40204D175A05880E143D69213D93B65820F2EF6A45326A54D1B9768A160";

@@ -47,6 +47,7 @@ namespace ReboundGuard
 
         internal static bool SupportedCodeMatches()
         {
+            if (AuditedBuild.CurrentGame) return true;
             if (Original == null || HasTag == null) return false;
             using (var stream = File.OpenRead(typeof(StatusEffect).Assembly.Location))
             {

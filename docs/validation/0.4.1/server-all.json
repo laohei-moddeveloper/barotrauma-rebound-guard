@@ -1,0 +1,850 @@
+{
+  "date": "2026-10-31",
+  "runtime": "8.0.32",
+  "processors": 4,
+  "assembly": "DedicatedServer",
+  "version": "1.13.5.0",
+  "assertions": 1057374,
+  "body_benchmark": [
+    {
+      "bodies": 256,
+      "serial_median_ms": 0.0018614,
+      "parallel_median_ms": 0.0056964,
+      "serial_p95_ms": 0.005546933333333334,
+      "parallel_p95_ms": 0.0186042,
+      "speedup": 0.32676778316129484
+    },
+    {
+      "bodies": 2048,
+      "serial_median_ms": 0.015263933333333334,
+      "parallel_median_ms": 0.0208862,
+      "serial_p95_ms": 0.017780933333333335,
+      "parallel_p95_ms": 0.07668013333333333,
+      "speedup": 0.7308142856686871
+    },
+    {
+      "bodies": 8192,
+      "serial_median_ms": 0.06574666666666666,
+      "parallel_median_ms": 0.06093746666666667,
+      "serial_p95_ms": 0.07808753333333333,
+      "parallel_p95_ms": 0.12291926666666667,
+      "speedup": 1.0789202482982554
+    },
+    {
+      "bodies": 32768,
+      "serial_median_ms": 0.3062124666666667,
+      "parallel_median_ms": 0.30140673333333334,
+      "serial_p95_ms": 0.3899036666666667,
+      "parallel_p95_ms": 0.3735828666666666,
+      "speedup": 1.0159443462997177
+    }
+  ],
+  "queue_benchmark": [
+    {
+      "candidates": 256,
+      "vanilla_median_ms": 0.065877,
+      "indexed_median_ms": 0.011587,
+      "vanilla_p95_ms": 0.066107,
+      "indexed_p95_ms": 0.011818,
+      "speedup": 5.685423319237076
+    },
+    {
+      "candidates": 2048,
+      "vanilla_median_ms": 4.113187,
+      "indexed_median_ms": 0.076744,
+      "vanilla_p95_ms": 4.538315,
+      "indexed_p95_ms": 0.099157,
+      "speedup": 53.59620296049202
+    },
+    {
+      "candidates": 8192,
+      "vanilla_median_ms": 67.264108,
+      "indexed_median_ms": 0.342367,
+      "vanilla_p95_ms": 69.434811,
+      "indexed_p95_ms": 0.525568,
+      "speedup": 196.4678488288883
+    }
+  ],
+  "queue_incremental": {
+    "checks": 110756,
+    "drain_4096_hash_calls": 16383,
+    "counted_hash_work": {
+      "cold_4096_hash_calls": 4097,
+      "duplicate_1000_enqueue_hash_calls": 1000,
+      "duplicate_1000_dequeue_hash_calls": 1000
+    },
+    "benchmarks": [
+      {
+        "workload": "append",
+        "items": 256,
+        "legacy_first_ms": 0.003976,
+        "incremental_ms": 0.003586,
+        "legacy_second_ms": 0.003966
+      },
+      {
+        "workload": "drain",
+        "items": 256,
+        "legacy_first_ms": 0.253004,
+        "incremental_ms": 0.008994,
+        "legacy_second_ms": 0.265623
+      },
+      {
+        "workload": "rotate",
+        "items": 256,
+        "legacy_first_ms": 0.497827,
+        "incremental_ms": 0.011247,
+        "legacy_second_ms": 0.508212
+      },
+      {
+        "workload": "send_batches",
+        "items": 256,
+        "packets": 24,
+        "sent_per_packet": 16,
+        "legacy_first_ms": 0.093839,
+        "incremental_ms": 0.057125,
+        "legacy_second_ms": 0.09412
+      },
+      {
+        "workload": "append",
+        "items": 2048,
+        "legacy_first_ms": 0.031547,
+        "incremental_ms": 0.029123,
+        "legacy_second_ms": 0.031587
+      },
+      {
+        "workload": "drain",
+        "items": 2048,
+        "legacy_first_ms": 16.448642,
+        "incremental_ms": 0.072338,
+        "legacy_second_ms": 16.946669
+      },
+      {
+        "workload": "rotate",
+        "items": 2048,
+        "legacy_first_ms": 33.051721,
+        "incremental_ms": 0.089673,
+        "legacy_second_ms": 32.609476
+      },
+      {
+        "workload": "send_batches",
+        "items": 2048,
+        "packets": 24,
+        "sent_per_packet": 16,
+        "legacy_first_ms": 1.083934,
+        "incremental_ms": 0.497466,
+        "legacy_second_ms": 1.185104
+      },
+      {
+        "workload": "append",
+        "items": 8192,
+        "legacy_first_ms": 0.160438,
+        "incremental_ms": 0.116272,
+        "legacy_second_ms": 0.148019
+      },
+      {
+        "workload": "drain",
+        "items": 8192,
+        "legacy_first_ms": 472.175776,
+        "incremental_ms": 0.291381,
+        "legacy_second_ms": 476.650546
+      },
+      {
+        "workload": "rotate",
+        "items": 8192,
+        "legacy_first_ms": 909.969228,
+        "incremental_ms": 0.407683,
+        "legacy_second_ms": 873.010502
+      },
+      {
+        "workload": "send_batches",
+        "items": 8192,
+        "packets": 24,
+        "sent_per_packet": 16,
+        "legacy_first_ms": 3.144821,
+        "incremental_ms": 1.559787,
+        "legacy_second_ms": 3.175476
+      }
+    ],
+    "note": "Actual QueueMembership source; deterministic FIFO/membership checks and synthetic single-thread queues. Includes old-helper controls before and after each run. No game networking, packet replay, FPS or visible rubberband measurement."
+  },
+  "existing_physics_benchmark": [
+    {
+      "scene": "independent_pairs",
+      "requested_contact_threshold": 2147483647,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 512,
+      "contacts": 256,
+      "step_median_ms": 0.095652,
+      "step_p95_ms": 0.112126,
+      "contacts_median_ms": 0.0061,
+      "island_solve_median_ms": 0.0854
+    },
+    {
+      "scene": "independent_pairs",
+      "requested_contact_threshold": 64,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 512,
+      "contacts": 256,
+      "step_median_ms": 0.095662,
+      "step_p95_ms": 0.111144,
+      "contacts_median_ms": 0.0062,
+      "island_solve_median_ms": 0.0855
+    },
+    {
+      "scene": "shared_static_hub",
+      "requested_contact_threshold": 2147483647,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 256,
+      "contacts": 256,
+      "step_median_ms": 0.158825,
+      "step_p95_ms": 0.210151,
+      "contacts_median_ms": 0.0059,
+      "island_solve_median_ms": 0.0795
+    },
+    {
+      "scene": "shared_static_hub",
+      "requested_contact_threshold": 64,
+      "compiled_contact_multicore_available": false,
+      "engine_diagnostics_compiled": true,
+      "bodies": 256,
+      "contacts": 256,
+      "step_median_ms": 0.158314,
+      "step_p95_ms": 0.234237,
+      "contacts_median_ms": 0.0057,
+      "island_solve_median_ms": 0.0799
+    }
+  ],
+  "ordered_solver_research": {
+    "checks": 86,
+    "contact_points": 2,
+    "benchmarks": [
+      {
+        "graph": "disjoint",
+        "constraints": 4096,
+        "serial_ms": 0.17089769999999999,
+        "cached_schedule_ms": 0.133177,
+        "cold_schedule_median_ms": 0.232053,
+        "cold_schedule_p95_ms": 0.363517,
+        "speedup_cached": 1.2832373457879362
+      },
+      {
+        "graph": "grid",
+        "constraints": 4096,
+        "serial_ms": 0.18587689999999998,
+        "cached_schedule_ms": 0.19427529999999998,
+        "cold_schedule_median_ms": 0.273635,
+        "cold_schedule_p95_ms": 0.337278,
+        "speedup_cached": 0.9567706239547693
+      },
+      {
+        "graph": "hub",
+        "constraints": 4096,
+        "serial_ms": 0.18028660000000002,
+        "cached_schedule_ms": 0.1889344,
+        "cold_schedule_median_ms": 0.218914,
+        "cold_schedule_p95_ms": 0.34527,
+        "speedup_cached": 0.9542285576369365
+      }
+    ],
+    "default_enabled": false,
+    "note": "Calls installed native private range solver. Bitwise comparisons cover synthetic dependency graphs, not a complete live multiplayer round. Cold topology construction is included separately."
+  },
+  "constraint_preparation": {
+    "checks": 34,
+    "benchmarks": [
+      {
+        "contacts": 64,
+        "serial_median_ms": 0.0038995,
+        "complete_parallel_median_ms": 0.007735125,
+        "cloned_serial_ms": 0.003862,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.004477875
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.005842375
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.007424625
+          }
+        ],
+        "serial_p95_ms": 0.0113255,
+        "complete_parallel_p95_ms": 0.01814925,
+        "speedup": 0.5041288925518334
+      },
+      {
+        "contacts": 256,
+        "serial_median_ms": 0.015613125,
+        "complete_parallel_median_ms": 0.013816625,
+        "cloned_serial_ms": 0.0155455,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.01607625
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.014327375
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.0156995
+          }
+        ],
+        "serial_p95_ms": 0.018334625,
+        "complete_parallel_p95_ms": 0.02335075,
+        "speedup": 1.13002451756489
+      },
+      {
+        "contacts": 1024,
+        "serial_median_ms": 0.06336875,
+        "complete_parallel_median_ms": 0.060880125,
+        "cloned_serial_ms": 0.063327375,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.064604375
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.0599875
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.036277375
+          }
+        ],
+        "serial_p95_ms": 0.07692875,
+        "complete_parallel_p95_ms": 0.076220125,
+        "speedup": 1.0408774620617156
+      },
+      {
+        "contacts": 4096,
+        "serial_median_ms": 0.265892,
+        "complete_parallel_median_ms": 0.220369625,
+        "cloned_serial_ms": 0.2577925,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 0.260203625
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.216634125
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.13536525
+          }
+        ],
+        "serial_p95_ms": 0.326046,
+        "complete_parallel_p95_ms": 0.2482835,
+        "speedup": 1.2065728205509267
+      },
+      {
+        "contacts": 16384,
+        "serial_median_ms": 1.06625675,
+        "complete_parallel_median_ms": 0.601663625,
+        "cloned_serial_ms": 1.0611005,
+        "raw_parallel": [
+          {
+            "workers": 1,
+            "raw_median_ms": 1.130378
+          },
+          {
+            "workers": 2,
+            "raw_median_ms": 0.637926625
+          },
+          {
+            "workers": 4,
+            "raw_median_ms": 0.626156
+          }
+        ],
+        "serial_p95_ms": 1.16541975,
+        "complete_parallel_p95_ms": 0.670696875,
+        "speedup": 1.7721808427424874
+      }
+    ],
+    "actual_hook_benchmark": {
+      "contacts": 4096,
+      "unpatched_ms": 0.263839125,
+      "patched_serial_ms": 0.26934225,
+      "patched_parallel_ms": 0.162633125
+    },
+    "note": "Installed original method versus range-cloned native IL. Full TryRun cost includes conflict checks and scheduling. Synthetic repeated polygon manifold with independent constraint objects but shared read-only body states; not whole-game FPS."
+  },
+  "world_replay": {
+    "scenes": [
+      {
+        "mode": "ordered_velocity",
+        "scene": "stack",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3010,
+        "parallel_range_calls": 4240,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "mixed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 1636,
+        "parallel_range_calls": 5848,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "moving_platform",
+        "steps": 240,
+        "bodies_created": 165,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3196,
+        "parallel_range_calls": 4896,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "ordered_velocity",
+        "scene": "jointed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 60,
+        "collision_callbacks": 2796,
+        "parallel_range_calls": 2784,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "stack",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3010,
+        "parallel_range_calls": 530,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "mixed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 1636,
+        "parallel_range_calls": 731,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "moving_platform",
+        "steps": 240,
+        "bodies_created": 165,
+        "bodies_removed": 8,
+        "joints_created": 0,
+        "collision_callbacks": 3196,
+        "parallel_range_calls": 612,
+        "state_and_callback_order": "bit-exact each step"
+      },
+      {
+        "mode": "preparation",
+        "scene": "jointed",
+        "steps": 240,
+        "bodies_created": 164,
+        "bodies_removed": 8,
+        "joints_created": 60,
+        "collision_callbacks": 2796,
+        "parallel_range_calls": 348,
+        "state_and_callback_order": "bit-exact each step"
+      }
+    ],
+    "note": "Complete installed Farseer World.Step on synthetic scenes, including changing contacts, scripted impulses, generation/removal and a kinematic body. Thresholds deliberately lowered to exercise scheduling. No Barotrauma ragdolls, Lua hooks, loaded submarines or networking."
+  },
+  "world_performance": {
+    "rows": [
+      {
+        "scene": "dense_1024",
+        "bodies": 1024,
+        "contacts": 3906,
+        "unpatched_median_ms": 4.486866,
+        "unpatched_second_median_ms": 4.318928,
+        "parallel_median_ms": 4.495729,
+        "patched_serial_median_ms": 4.340529,
+        "unpatched_p95_ms": 4.932034,
+        "parallel_p95_ms": 4.872717,
+        "parallel_prepare_calls": 130,
+        "speedup": 0.9980285733414982,
+        "all_130_steps_bit_exact": true
+      },
+      {
+        "scene": "dense_4096",
+        "bodies": 4096,
+        "contacts": 15906,
+        "unpatched_median_ms": 19.5527,
+        "unpatched_second_median_ms": 19.457132,
+        "parallel_median_ms": 20.777251,
+        "patched_serial_median_ms": 19.865795,
+        "unpatched_p95_ms": 21.10913,
+        "parallel_p95_ms": 24.06336,
+        "parallel_prepare_calls": 130,
+        "speedup": 0.9410628961454045,
+        "all_130_steps_bit_exact": true
+      },
+      {
+        "scene": "shared_floor_1024",
+        "bodies": 1024,
+        "contacts": 1024,
+        "unpatched_median_ms": 1.740078,
+        "unpatched_second_median_ms": 1.59792,
+        "parallel_median_ms": 1.622266,
+        "patched_serial_median_ms": 1.640722,
+        "unpatched_p95_ms": 2.063194,
+        "parallel_p95_ms": 1.82941,
+        "parallel_prepare_calls": 0,
+        "speedup": 1.0726218758206114,
+        "all_130_steps_bit_exact": true
+      }
+    ],
+    "velocity_iterations": 8,
+    "position_iterations": 3,
+    "note": "Whole installed World.Step, original iteration counts. Synthetic stress: bodies reset before each step to maintain contacts; reset/state comparison excluded from timings. Two unpatched baselines bracket patched runs. Not a loaded submarine or multiplayer round."
+  },
+  "nearby_item_index": {
+    "checks": 1023,
+    "benchmarks": [
+      {
+        "items": 512,
+        "unpatched_median_ms": 0.0701575625,
+        "patched_fallback_median_ms": 0.071500125,
+        "indexed_median_ms": 0.008668375,
+        "cold_query_ms": 0.196248,
+        "far_native_ms": 0.007809625,
+        "far_indexed_ms": 0.008098125,
+        "dense_native_ms": 0.076238375,
+        "dense_fallback_ms": 0.0764780625,
+        "background_ready_delay_ms": 1.2622,
+        "indexed_serial_audit_ms": 0.0086283125,
+        "append_query_ms": 0.027871,
+        "remove_query_ms": 0.029674,
+        "append_remove_queries_full_before_ms": 0.046128,
+        "append_remove_queries_incremental_ms": 0.022313,
+        "append_remove_queries_full_after_ms": 0.044756,
+        "unpatched_100_queries_ms": 7.118578,
+        "patched_fallback_100_queries_ms": 7.199427,
+        "indexed_100_queries_ms": 0.915216,
+        "speedup_cached": 8.09350801044025
+      },
+      {
+        "items": 4096,
+        "unpatched_median_ms": 0.6934665625,
+        "patched_fallback_median_ms": 0.5977605625,
+        "indexed_median_ms": 0.0874486875,
+        "cold_query_ms": 1.439938,
+        "far_native_ms": 0.066969625,
+        "far_indexed_ms": 0.065099375,
+        "dense_native_ms": 0.665890625,
+        "dense_fallback_ms": 0.65033825,
+        "background_ready_delay_ms": 2.4578,
+        "indexed_serial_audit_ms": 0.0803731875,
+        "append_query_ms": 0.189269,
+        "remove_query_ms": 0.208799,
+        "append_remove_queries_full_before_ms": 0.497535,
+        "append_remove_queries_incremental_ms": 0.225373,
+        "append_remove_queries_full_after_ms": 0.501692,
+        "unpatched_100_queries_ms": 61.035896,
+        "patched_fallback_100_queries_ms": 60.979732,
+        "indexed_100_queries_ms": 8.379637,
+        "speedup_cached": 7.929982511172624
+      },
+      {
+        "items": 16384,
+        "unpatched_median_ms": 3.213249375,
+        "patched_fallback_median_ms": 2.9012618125,
+        "indexed_median_ms": 0.3128458125,
+        "cold_query_ms": 6.376357,
+        "far_native_ms": 0.261504375,
+        "far_indexed_ms": 0.2654489375,
+        "dense_native_ms": 2.9827698125,
+        "dense_fallback_ms": 2.9818328125,
+        "background_ready_delay_ms": 12.517,
+        "indexed_serial_audit_ms": 0.3714054375,
+        "append_query_ms": 1.225611,
+        "remove_query_ms": 1.040227,
+        "append_remove_queries_full_before_ms": 4.762133,
+        "append_remove_queries_incremental_ms": 1.049741,
+        "append_remove_queries_full_after_ms": 2.51874,
+        "unpatched_100_queries_ms": 290.898127,
+        "patched_fallback_100_queries_ms": 321.27357,
+        "indexed_100_queries_ms": 30.626875,
+        "speedup_cached": 10.271032075904804
+      }
+    ],
+    "note": "Complete installed AddNearbyTargets with live distance/validity checks and original target order. Actual tag set reference/version/count audited each query, including JIT-inlined mutations and direct HashSet Add/Remove/Clear. Synthetic item/prefab objects; list changes, movement, empty/all-target and conflict fallbacks tested."
+  },
+  "container_effect_guard": {
+    "checks": 71,
+    "benchmarks": [
+      {
+        "items": 0,
+        "original_ns": 38.41,
+        "guard_ns": 10.865
+      },
+      {
+        "items": 2048,
+        "original_ns": 31341.645,
+        "guard_ns": 10.915
+      },
+      {
+        "items": 8192,
+        "original_ns": 129715.585,
+        "guard_ns": 10.665
+      }
+    ],
+    "note": "Native target predicate on synthetic distant items. Does not measure an entire container Update or a live round. Per-step conflict scan measured separately.",
+    "safety_check_ns": 72.76
+  },
+  "plugin_lifecycle": {
+    "initialization": "all default features installed together",
+    "dispose": "all own patches removed",
+    "reload": "same plugin instance initializes/disposes twice; profiler reset",
+    "diagnostic_writer": "marker flushed under isolated host",
+    "note": "Plugin lifecycle only; no game entry point or live round started."
+  },
+  "field_iteration": {
+    "checks": 22,
+    "owner_inspection_legacy_ns": 977.5759,
+    "owner_inspection_direct_ns": 30.43045,
+    "owner_inspection_legacy_bytes_per_1000": 744000,
+    "owner_inspection_direct_bytes_per_1000": 0,
+    "empty_method_ns": 2.9774,
+    "empty_method_with_profiler_ns": 210.2701,
+    "legacy_idle_scope_ns": 6279.6574,
+    "lazy_idle_scope_ns": 10.78895,
+    "legacy_idle_scope_bytes_per_1000": 4448000,
+    "lazy_idle_scope_bytes_per_1000": 0,
+    "note": "Owner inspection excludes GetPatchInfo wrapper allocations. Profiler timer includes Harmony overhead on an empty method, not game FPS. No live multiplayer run."
+  },
+  "frame_health": {
+    "checks": 11,
+    "note": "Actual FrameHealth accumulator: synthetic draw intervals, separate call durations, catch-up steps, report/transition boundaries. No renderer, driver, VSync or game-loop hook execution."
+  },
+  "bucket_stamp": {
+    "checks": 143780,
+    "mutation_batches": 20000,
+    "dependency_sets": 5,
+    "note": "Production BucketStamp checked against full independent bucket-content snapshots, including deletion/recreation and unrelated mutations. Requires globally monotonic revisions; item-list ordering invalidation remains separate. Not an executed Barotrauma nearby query."
+  },
+  "live_status_tags": {
+    "checks": 40142,
+    "benchmarks": [
+      {
+        "effects": 32,
+        "tags": [
+          "absent"
+        ],
+        "native_before_ms": 1.897663,
+        "indexed_ms": 0.989341,
+        "native_after_ms": 2.074744,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 32,
+        "tags": [
+          "a"
+        ],
+        "native_before_ms": 0.120348,
+        "indexed_ms": 0.152405,
+        "native_after_ms": 0.120468,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 32,
+        "tags": [
+          "a",
+          "b",
+          "absent"
+        ],
+        "native_before_ms": 2.058681,
+        "indexed_ms": 1.081427,
+        "native_after_ms": 1.988807,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 128,
+        "tags": [
+          "absent"
+        ],
+        "native_before_ms": 8.225979,
+        "indexed_ms": 3.468302,
+        "native_after_ms": 7.586865,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 128,
+        "tags": [
+          "a"
+        ],
+        "native_before_ms": 0.120799,
+        "indexed_ms": 0.149561,
+        "native_after_ms": 0.120618,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 128,
+        "tags": [
+          "a",
+          "b",
+          "absent"
+        ],
+        "native_before_ms": 8.031432,
+        "indexed_ms": 3.484947,
+        "native_after_ms": 7.646824,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 512,
+        "tags": [
+          "absent"
+        ],
+        "native_before_ms": 31.942117,
+        "indexed_ms": 12.887274,
+        "native_after_ms": 32.657073,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 512,
+        "tags": [
+          "a"
+        ],
+        "native_before_ms": 0.121189,
+        "indexed_ms": 0.173897,
+        "native_after_ms": 0.120698,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      },
+      {
+        "effects": 512,
+        "tags": [
+          "a",
+          "b",
+          "absent"
+        ],
+        "native_before_ms": 33.272092,
+        "indexed_ms": 11.835541,
+        "native_after_ms": 29.971567,
+        "native_bytes": 0,
+        "indexed_bytes": 0
+      }
+    ],
+    "limits": "Actual native conditional methods and synthetic effects; no loaded submarine or multiplayer session."
+  },
+  "native_mod_hot_paths": {
+    "checks": 68,
+    "calls_per_batch": 10000,
+    "lua_rule_ms": 10.402404,
+    "native_getter_ms": 0.234727,
+    "lua_rule_bytes": 17280000,
+    "native_getter_bytes": 0,
+    "speedup": 44.317032126683344,
+    "note": "Original Lua rule via real MoonSharp and actual Character objects versus actual Harmony-patched getter. Lua fixture omits the complete LuaCs generated prefix/postfix wrapper overhead. Not whole-game FPS or a new live combat benchmark."
+  },
+  "generic_lua_bridge": {
+    "checks": 99,
+    "calls_per_batch": 20000,
+    "native_luacs_ms": 89.654316,
+    "optimized_bridge_ms": 6.396638,
+    "native_luacs_bytes": 16480000,
+    "optimized_bridge_bytes": 6240000,
+    "speedup": 14.015849575980381,
+    "previous_bridge_ms": 84.328034,
+    "previous_bridge_bytes": 7040000,
+    "factory_generation": {
+      "wrappers": 32,
+      "native_ms": 72.849174,
+      "previous_bridge_ms": 88.469025,
+      "direct_ms": 5.417747,
+      "native_bytes": 74627328,
+      "previous_bridge_bytes": 74990768,
+      "direct_bytes": 667360
+    },
+    "reset_recycles_module": true,
+    "clear_all_sha256": "25467615D04F3D329D0D2AA54143D78E9FBA579C52D8D39B11B5E644D95B18D5",
+    "reference_getter_sha256": "697CDAB91EAD268AF4CDC50DB1944559A2CF042CAC6918D539F7FDBEF9DDAD12",
+    "reference_iterator_sha256": "25ED2FCAD3D8FF26C5ACDEE28461B5F992D17EA8A43254065BBAD4F3DC896587",
+    "reference_dispose_sha256": "9C76D49DC8E869E1585E39330BBCF1E6AEEF036C24FDDE462E24E9F589A9B048",
+    "note": "Actual LuaPatcherService wrappers; C# callback overhead benchmark plus an actual MoonSharp semantic fixture. Callback order, retained tables, reentrancy, arguments, PreventExecution, result types, reset and detach verified. Factory fixture excludes compilation, loading assets and Harmony target installation. Not whole-game FPS or loading-time proof."
+  },
+  "loading_lifecycle": {
+    "checks": 22,
+    "native_dispose_ms": 2040.2196,
+    "optimized_dispose_ms": 13.9791,
+    "native_stranded_operations": 1,
+    "optimized_stranded_operations": 0,
+    "note": "Actual AssemblyLoader with one metadata reference; disposing an early-ended iterator reproduces the native two-second unload wait. Native full GC is retained. Does not establish a complete game loading-time improvement."
+  },
+  "limitations": "Isolated real game methods and synthetic queues/bodies. No loaded submarine, live combat, networking session, GPU or gameplay benchmark.",
+  "harness_context": {
+    "platform": "Linux",
+    "side": "Server",
+    "suite": "All",
+    "logical_processor_override": "4",
+    "affinity_cpus": 3,
+    "game_binaries": {
+      "DedicatedServer.dll": "705a4f5511edb16ce59cc0f5b5a7f14bb3eb1ffda3ab4f3c5edcd49e834d4c16",
+      "BarotraumaCore.dll": "3df40ecb5ed3b7eef7c4e7959d9a802fdb6cca20e04ffe302a0208ea167ab0f2",
+      "Farseer.NetStandard.dll": "227b945b9f57a592864ce4a17d85725961612b600ec45d7de0e6ff9514900403"
+    },
+    "source_sha256": {
+      "LocalMod/ReboundGuard/CSharp/Shared/AuditedBuild.cs": "c2dbd92c813ee6855c25d4ff8938669fdb4b924dd48d3ea379058ea0f759b1e3",
+      "LocalMod/ReboundGuard/CSharp/Shared/BinaryEvidence.cs": "b75de508bb491d04bc644043df99bcd52d1c7bf916cde988eb90b92329171847",
+      "LocalMod/ReboundGuard/CSharp/Shared/BodyMaintenance.cs": "5959bac9f04296717076050d6b1ebb1564537c4299545e2f79dbe482cbf2e302",
+      "LocalMod/ReboundGuard/CSharp/Shared/BucketStamp.cs": "e644cb482f9eac957505f79abf4f8db10f96070c62d8295883e16d2a459cebbe",
+      "LocalMod/ReboundGuard/CSharp/Shared/ConstraintSolverResearch.cs": "63e2e272ba3a0101ec7ea13837bc1501b64bc33a4372b449a8725825b2e1b75e",
+      "LocalMod/ReboundGuard/CSharp/Shared/ContainerEffectFastPath.cs": "aab92df53e0502fd9b9004e51d1b46fcf29f3fc5d05055acd5f3e9598edfd56a",
+      "LocalMod/ReboundGuard/CSharp/Shared/CorrectionTelemetry.cs": "3130988e9dd284b50d96e85554bd3c50bfa15b1cb74bac1db00709fe83d8354e",
+      "LocalMod/ReboundGuard/CSharp/Shared/CrashEvidence.cs": "19d88690883253abe53a06767a05236a7042311fa2ae922c8780845e96a32102",
+      "LocalMod/ReboundGuard/CSharp/Shared/DiagnosticLog.cs": "0d7c606f088b5b53f1d4c27f2788f93ddd6aa9867eebf928dcab3121a05614f8",
+      "LocalMod/ReboundGuard/CSharp/Shared/FeatureInstaller.cs": "d44c10a8e19b6def1f3a83e04dd4dac0f431b8cd129c6c68bd0715618de98bf5",
+      "LocalMod/ReboundGuard/CSharp/Shared/FrameHealth.cs": "bd5c226e5508545c15538451ba742874416d880c5eef920c906e47fccd2c719a",
+      "LocalMod/ReboundGuard/CSharp/Shared/LiveStatusTagIndex.cs": "c484f30f03ff667cc0701eaf9f0bdddc040ba5747313ba2441b0f11e4f7a8ae6",
+      "LocalMod/ReboundGuard/CSharp/Shared/LoadingLifecyclePatch.cs": "e5306ed5b0305f46ea0e4fbcadb8ec6d2f6cbddbaac1c6f02b76680526c33c08",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaArgumentConversion.cs": "885440d15d1d7b1f36b211be99fc1e7f540afa46d8a9d8770996ca8bf970c95d",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaBridgeOptimizer.cs": "14e203210675515535f7ddf84e12cec9c5290a5e444bf973ac825a732e65f216",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaDirectBridge.cs": "726d8b274410183dca4b802cd02aec9b4af555200b14470af2f5af2332787aee",
+      "LocalMod/ReboundGuard/CSharp/Shared/NativeLoopRange.cs": "27c1ca0732f212a4bdab87bd4a976f4e233ca21406b75889a6a9a353a36de1fb",
+      "LocalMod/ReboundGuard/CSharp/Shared/NativeModHotPaths.cs": "c0d7b7807f7e331d88260226b12f7d98d67c8a7e7ea602be9367402b78e7ae50",
+      "LocalMod/ReboundGuard/CSharp/Shared/NearbyItemIndex.cs": "d74d7494079d225e2ef83c5c138008c158acf55a0fbaf8517195a6d55c9ec9d3",
+      "LocalMod/ReboundGuard/CSharp/Shared/OrderedConstraintSchedule.cs": "5993ac68d9be3de290c39ff59d5a2c78289cb4b093ca59f49af835d9307349ea",
+      "LocalMod/ReboundGuard/CSharp/Shared/ParallelConstraintPreparation.cs": "2f20ef79fb961a95ee94e887a54c32c7a128241e53159bedc043b00a1461234b",
+      "LocalMod/ReboundGuard/CSharp/Shared/PatchSafety.cs": "21a199c40305e756407c5fcefe7c15452089f254b317c0eb79cd0d88b8736f88",
+      "LocalMod/ReboundGuard/CSharp/Shared/Plugin.cs": "a6c4548c8feec654b3a8285d6d2cef3c0289f649e1a5c9b7229b649347ae9013",
+      "LocalMod/ReboundGuard/CSharp/Shared/QueueMembership.cs": "f7e7877dec3a46cb2218972227a1eebf98a8365e8697e2728744ee468ae05495",
+      "LocalMod/ReboundGuard/CSharp/Shared/Settings.cs": "f73f637317e903576d5453e6551af80758b0a88e65c00ce28a66bfaec1b1a60c",
+      "LocalMod/ReboundGuard/CSharp/Shared/StepHealth.cs": "601f5c286000a2abcec345b5882e50cfbd3a067bf92d796140ac772d404b8198",
+      "LocalMod/ReboundGuard/CSharp/Shared/SubsystemProfiler.cs": "fa8e0dfa42f46c63f08a94f066872fc6c7bbfbfc5a180910a83f6ccb5b037463",
+      "LocalMod/ReboundGuard/CSharp/Server/InputBacklogMonitor.cs": "86756b174aaa8a82ead0e15d14a309e46cac5012295ff7dacb3a3e1be18b235c",
+      "LocalMod/ReboundGuard/CSharp/Server/NetworkQueuePatch.cs": "688f564b27401cdd904e050f405e59c2c6fb8e869ba9b72dfb765fa17fe2e7d4"
+    },
+    "source_changed_during_run": false,
+    "limitation": "Managed isolated methods only. Processor override, when set, exercises scheduling despite CI CPU limits; it does not add CPU resources or validate Windows rendering, live networking or whole-game speedup."
+  }
+}

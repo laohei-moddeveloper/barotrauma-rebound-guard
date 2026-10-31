@@ -13,7 +13,7 @@ namespace ReboundGuard
         private static int trimEvents,discardedInputs,maxQueued;
         internal static void Install(Harmony harmony)
         {
-            if(typeof(Character).Assembly.GetName().Version!=new Version(1,13,4,0))return;
+            if (!Settings.Diagnostics || (typeof(Character).Assembly.GetName().Version != new Version(1,13,4,0) && !AuditedBuild.CurrentGame)) return;
             harmony.Patch(AccessTools.Method(typeof(Character),"ServerReadInput"),
                 transpiler:new HarmonyMethod(typeof(InputBacklogMonitor),nameof(Transpiler)),
                 postfix:new HarmonyMethod(typeof(InputBacklogMonitor),nameof(AfterRead)));

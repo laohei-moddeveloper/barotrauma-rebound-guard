@@ -49,7 +49,7 @@ namespace ReboundGuard
 
         internal static void Install(Harmony harmony)
         {
-            if (typeof(PhysicsBody).Assembly.GetName().Version != new Version(1, 13, 4, 0)) { return; }
+            if (!Settings.ParallelBodyMaintenance) { safetyReason = "disabled"; return; }
             target = AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) });
             if (!SupportedCodeMatches())
             {
@@ -65,11 +65,19 @@ namespace ReboundGuard
 
         internal static bool SupportedCodeMatches()
         {
+            if (AuditedBuild.CurrentGame && AuditedBuild.CurrentPhysics) return true;
+            if (typeof(PhysicsBody).Assembly.GetName().Version != new Version(1, 13, 4, 0)) return false;
             bool client = typeof(PhysicsBody).Assembly.GetName().Name == "Barotrauma";
             string expectedBody = client ? "100E0C6293027DEAE42FD054BE1F882807EDBB5B1E9F4593C22C9AA90926F126" : "D36CBDCC45FA3AF88359BBEE5FA7A02E16222C15CDD80108D6F4F71171FDB4C0";
             string expectedLoop = client ? "DFE2B1F546335575171B9D16DE973CECFD0A2EE260C11643416FA2FAF07179B3" : "0D35B40204D175A05880E143D69213D93B65820F2EF6A45326A54D1B9768A160";
             MethodInfo loop = AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) });
-            return Fingerprint(AccessTools.Method(typeof(PhysicsBody), "Update")) == expectedBody && Fingerprint(loop) == expectedLoop;
+            string loopHash = Fingerprint(loop);
+            // Installed LuaCs builds use different metadata tokens in this method.
+            // Cecil-resolved instructions match the audited loop on both sides.
+            bool knownLoop = loopHash == expectedLoop ||
+                (client && loopHash == "12348DE39AC4F5AB15B3217BC724B121E6C6E77396DEFF389F9DBE7D56058CAD") ||
+                (!client && loopHash == "9E2BE7E5A3E6BB41F74452A4F3F7593A1A3E200D83964849786A772DD939CFCD");
+            return Fingerprint(AccessTools.Method(typeof(PhysicsBody), "Update")) == expectedBody && knownLoop;
         }
         private static string Fingerprint(MethodBase method)
         {

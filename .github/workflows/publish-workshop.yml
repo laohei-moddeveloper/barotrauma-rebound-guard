@@ -1,0 +1,59 @@
+name: Update existing Steam Workshop item
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published GitHub release containing the verified Workshop package
+        required: true
+        default: v0.4.1
+permissions:
+  contents: read
+concurrency:
+  group: workshop-3822098302
+  cancel-in-progress: false
+jobs:
+  upload:
+    if: github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'v0.4.1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Fetch the public release package
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+        run: |
+          mkdir -p build/cloud-release
+          for attempt in 1 2 3 4 5; do
+            if gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern '*_workshop.zip' --dir build/cloud-release --clobber; then break; fi
+            if [ "$attempt" = 5 ]; then exit 1; fi
+            sleep 10
+          done
+          python - <<'PY'
+          import pathlib,zipfile
+          folder=pathlib.Path('build/cloud-release')
+          packages=list(folder.glob('*_workshop.zip'))
+          assert len(packages)==1
+          with zipfile.ZipFile(packages[0]) as z:
+              assert not any(pathlib.PurePosixPath(n).is_absolute() or '..' in pathlib.PurePosixPath(n).parts for n in z.namelist())
+              z.extractall(folder/'workshop')
+          PY
+      - name: Install Valve SteamCMD (no desktop or game launch)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lib32gcc-s1 lib32stdc++6
+          mkdir -p build/steamcmd
+          curl --fail --location --silent --show-error https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz -o build/steamcmd/bootstrap.tar.gz
+          tar -xzf build/steamcmd/bootstrap.tar.gz -C build/steamcmd
+      - name: Upload only to existing item and verify downloaded content
+        env:
+          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME || secrets.STEAM_USER || secrets.STEAM_ACCOUNT_NAME }}
+          STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD || secrets.STEAM_PASS }}
+          STEAM_CONFIG_VDF: ${{ secrets.STEAM_CONFIG_VDF || secrets.STEAM_CONFIG_VDF_BASE64 }}
+          STEAM_SHARED_SECRET: ${{ secrets.STEAM_SHARED_SECRET || secrets.STEAM_TOTP_SECRET }}
+          STEAM_GUARD_CODE: ${{ secrets.STEAM_GUARD_CODE }}
+        run: python tools/Publish-Workshop-Cloud.py --steamcmd build/steamcmd/steamcmd.sh --package build/cloud-release/workshop/ReboundGuard

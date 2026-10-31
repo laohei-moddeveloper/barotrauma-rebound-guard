@@ -1,0 +1,175 @@
+{
+  "format": 1,
+  "project": "reboundguard-experimental-040",
+  "file_id": "3822098302",
+  "app_id": 602960,
+  "mod_version": "0.4.1",
+  "build": "compat-1.13.5-20261031",
+  "validation_status": "isolated_methods_verified_gameplay_pending",
+  "files": [
+    {
+      "path": "CSharp/Client/ClientFrameProfiler.cs",
+      "sha256": "8EF127E7BB9E27B4440ED029F59248A047CE9266EC0E9E896DFBF9EBAC139C06"
+    },
+    {
+      "path": "CSharp/Client/CorrectionMath.cs",
+      "sha256": "6BE05BA7B867D77D81BE624C55A626015C6A49A9B54142EA0EE55056B981DB6D"
+    },
+    {
+      "path": "CSharp/Client/CorrectionPatch.cs",
+      "sha256": "30DA6B7D2EFEB17C46D0D8C4DF0426702E80B2EAB7C2BE62855868778FD3E4C6"
+    },
+    {
+      "path": "CSharp/Client/ExitLifetimePatch.cs",
+      "sha256": "2B19222E5F7902FFC17258604CED5B7B6DDAAA38A18AE5F0BCE642F520B421D2"
+    },
+    {
+      "path": "CSharp/Server/InputBacklogMonitor.cs",
+      "sha256": "86756B174AAA8A82EAD0E15D14A309E46CAC5012295FF7DACB3A3E1BE18B235C"
+    },
+    {
+      "path": "CSharp/Server/NetworkQueuePatch.cs",
+      "sha256": "688F564B27401CDD904E050F405E59C2C6FB8E869BA9B72DFB765FA17FE2E7D4"
+    },
+    {
+      "path": "CSharp/Shared/AuditedBuild.cs",
+      "sha256": "C2DBD92C813EE6855C25D4FF8938669FDB4B924DD48D3EA379058EA0F759B1E3"
+    },
+    {
+      "path": "CSharp/Shared/BinaryEvidence.cs",
+      "sha256": "B75DE508BB491D04BC644043DF99BCD52D1C7BF916CDE988EB90B92329171847"
+    },
+    {
+      "path": "CSharp/Shared/BodyMaintenance.cs",
+      "sha256": "5959BAC9F04296717076050D6B1EBB1564537C4299545E2F79DBE482CBF2E302"
+    },
+    {
+      "path": "CSharp/Shared/BucketStamp.cs",
+      "sha256": "E644CB482F9EAC957505F79ABF4F8DB10F96070C62D8295883E16D2A459CEBBE"
+    },
+    {
+      "path": "CSharp/Shared/ConstraintSolverResearch.cs",
+      "sha256": "63E2E272BA3A0101EC7EA13837BC1501B64BC33A4372B449A8725825B2E1B75E"
+    },
+    {
+      "path": "CSharp/Shared/ContainerEffectFastPath.cs",
+      "sha256": "AAB92DF53E0502FD9B9004E51D1B46FCF29F3FC5D05055ACD5F3E9598EDFD56A"
+    },
+    {
+      "path": "CSharp/Shared/CorrectionTelemetry.cs",
+      "sha256": "3130988E9DD284B50D96E85554BD3C50BFA15B1CB74BAC1DB00709FE83D8354E"
+    },
+    {
+      "path": "CSharp/Shared/CrashEvidence.cs",
+      "sha256": "19D88690883253ABE53A06767A05236A7042311FA2AE922C8780845E96A32102"
+    },
+    {
+      "path": "CSharp/Shared/DiagnosticLog.cs",
+      "sha256": "0D7C606F088B5B53F1D4C27F2788F93DDD6AA9867EEBF928DCAB3121A05614F8"
+    },
+    {
+      "path": "CSharp/Shared/FeatureInstaller.cs",
+      "sha256": "D44C10A8E19B6DEF1F3A83E04DD4DAC0F431B8CD129C6C68BD0715618DE98BF5"
+    },
+    {
+      "path": "CSharp/Shared/FrameHealth.cs",
+      "sha256": "BD5C226E5508545C15538451BA742874416D880C5EEF920C906E47FCCD2C719A"
+    },
+    {
+      "path": "CSharp/Shared/LiveStatusTagIndex.cs",
+      "sha256": "C484F30F03FF667CC0701EAF9F0BDDDC040BA5747313BA2441B0F11E4F7A8AE6"
+    },
+    {
+      "path": "CSharp/Shared/LoadingLifecyclePatch.cs",
+      "sha256": "E5306ED5B0305F46EA0E4FBCADB8EC6D2F6CBDDBAAC1C6F02B76680526C33C08"
+    },
+    {
+      "path": "CSharp/Shared/LuaArgumentConversion.cs",
+      "sha256": "885440D15D1D7B1F36B211BE99FC1E7F540AFA46D8A9D8770996CA8BF970C95D"
+    },
+    {
+      "path": "CSharp/Shared/LuaBridgeOptimizer.cs",
+      "sha256": "14E203210675515535F7DDF84E12CEC9C5290A5E444BF973AC825A732E65F216"
+    },
+    {
+      "path": "CSharp/Shared/LuaDirectBridge.cs",
+      "sha256": "726D8B274410183DCA4B802CD02AEC9B4AF555200B14470AF2F5AF2332787AEE"
+    },
+    {
+      "path": "CSharp/Shared/NativeLoopRange.cs",
+      "sha256": "27C1CA0732F212A4BDAB87BD4A976F4E233CA21406B75889A6A9A353A36DE1FB"
+    },
+    {
+      "path": "CSharp/Shared/NativeModHotPaths.cs",
+      "sha256": "C0D7B7807F7E331D88260226B12F7D98D67C8A7E7EA602BE9367402B78E7AE50"
+    },
+    {
+      "path": "CSharp/Shared/NearbyItemIndex.cs",
+      "sha256": "D74D7494079D225E2EF83C5C138008C158ACF55A0FBAF8517195A6D55C9EC9D3"
+    },
+    {
+      "path": "CSharp/Shared/OrderedConstraintSchedule.cs",
+      "sha256": "5993AC68D9BE3DE290C39FF59D5A2C78289CB4B093CA59F49AF835D9307349EA"
+    },
+    {
+      "path": "CSharp/Shared/ParallelConstraintPreparation.cs",
+      "sha256": "2F20EF79FB961A95EE94E887A54C32C7A128241E53159BEDC043B00A1461234B"
+    },
+    {
+      "path": "CSharp/Shared/PatchSafety.cs",
+      "sha256": "21A199C40305E756407C5FCEFE7C15452089F254B317C0EB79CD0D88B8736F88"
+    },
+    {
+      "path": "CSharp/Shared/Plugin.cs",
+      "sha256": "A6C4548C8FEEC654B3A8285D6D2CEF3C0289F649E1A5C9B7229B649347AE9013"
+    },
+    {
+      "path": "CSharp/Shared/QueueMembership.cs",
+      "sha256": "F7E7877DEC3A46CB2218972227A1EEBF98A8365E8697E2728744EE468AE05495"
+    },
+    {
+      "path": "CSharp/Shared/Settings.cs",
+      "sha256": "F73F637317E903576D5453E6551AF80758B0A88E65C00CE28A66BFAEC1B1A60C"
+    },
+    {
+      "path": "CSharp/Shared/StepHealth.cs",
+      "sha256": "601F5C286000A2ABCEC345B5882E50CFBD3A067BF92D796140AC772D404B8198"
+    },
+    {
+      "path": "CSharp/Shared/SubsystemProfiler.cs",
+      "sha256": "FA8E0DFA42F46C63F08A94F066872FC6C7BBFBFC5A180910A83F6CCB5B037463"
+    },
+    {
+      "path": "Collect-Reports.ps1",
+      "sha256": "7899F61D0262FBD3E70D19CD22AF7441FF3F2F2B15AF8F564ED74FB441D04789"
+    },
+    {
+      "path": "Optional/Install-KnownModFixes.ps1",
+      "sha256": "111DC87706F134AB5F831CE3AB5C96B66135DC3DA59B4CE9A80074AFEF076A2F"
+    },
+    {
+      "path": "Optional/README.zh-CN.md",
+      "sha256": "10CC01D4FBDD7A7BEBCEED21B4F3B11DB1AC28ADCDCF5173E2824770553DF749"
+    },
+    {
+      "path": "Optional/compat/Mudraptor-IsHuman.lua",
+      "sha256": "F526EFC550C174D6C215644DD60EEA99F5C2C7141BAC2CE0892FAC8A4BAAC4F8"
+    },
+    {
+      "path": "Optional/compat/TSM-accessoriesbuff.lua",
+      "sha256": "05C23F8E276589B16408EDA789CF3010DFF46E33ABE969AE9C89D6B764A88C25"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "4218A8DF385CC3928EF67CB8933CEF5613188DDD456B938438D11E6AD504E5E3"
+    },
+    {
+      "path": "filelist.xml",
+      "sha256": "54AF5CB39B02C8229E4610999D63E4EC0EE05D0E716EC5D6E36B44A75E2778F5"
+    },
+    {
+      "path": "preview.jpg",
+      "sha256": "06C017526AAAF3D86D04F160548B528C43BAF1BB96DF40599BED24A51C545EBD"
+    }
+  ]
+}
