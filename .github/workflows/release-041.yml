@@ -1,0 +1,58 @@
+name: Attach verified 0.4.1 release packages
+on:
+  push:
+    branches: [codex/rebound-guard-041-1135]
+    paths: [.github/workflows/release-041.yml]
+permissions:
+  contents: write
+concurrency:
+  group: release-041-assets
+  cancel-in-progress: false
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require successful Windows and Linux verification of this gameplay source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,subprocess,time
+          for attempt in range(90):
+              r=json.loads(subprocess.check_output(['gh','api','repos/laohei-moddeveloper/barotrauma-rebound-guard/actions/runs/41170768575']))
+              assert r['head_sha']=='48d449f3d3ad8eefe8ca5e83013bf16a045b39f9'
+              if r['status']=='completed':
+                  assert r['conclusion']=='success', 'Release blocked by validation failure'
+                  break
+              time.sleep(10)
+          else: raise RuntimeError('Validation did not finish within the publication deadline')
+          PY
+          git diff --exit-code 48d449f3d3ad8eefe8ca5e83013bf16a045b39f9 HEAD -- LocalMod tests compat
+      - name: Build the hash-inventoried public source archive
+        shell: pwsh
+        run: ./tools/Build-Release.ps1
+      - name: Build Workshop source package and upload draft assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib,zipfile
+          root=pathlib.Path.cwd();folder=root/'workshop/publish/ReboundGuard'
+          m=json.loads((folder/'PUBLIC-PACKAGE.json').read_text())
+          for f in m['files']:
+              assert hashlib.sha256((folder/f['path']).read_bytes()).hexdigest().upper()==f['sha256']
+          target=root/'release/ReboundGuard_0.4.1_workshop.zip'
+          with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(folder.rglob('*')):
+                  if p.is_file():
+                      assert p.suffix.lower() not in {'.dll','.exe','.pdb','.save','.sub','.log','.nettrace','.key','.pem'}
+                      z.write(p,'ReboundGuard/'+p.relative_to(folder).as_posix())
+          files=[root/'release/ReboundGuard_Experimental_0.4.1.zip',target]
+          (root/'release/SHA256-0.4.1.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest().upper()+'  '+p.name+'\n' for p in files))
+          PY
+          gh release upload v0.4.1 release/ReboundGuard_Experimental_0.4.1.zip release/ReboundGuard_0.4.1_workshop.zip release/SHA256-0.4.1.txt --repo "$GITHUB_REPOSITORY" --clobber

@@ -87,6 +87,14 @@ def main():
         if hashlib.sha256((package / relative).read_bytes()).hexdigest().lower() != entry["sha256"].lower():
             raise RuntimeError("Workshop package manifest mismatch: " + str(relative))
     before, localized = details(), titles()
+    # Complete bootstrap updates before generating a short-lived Steam Guard code.
+    try:
+        bootstrap = subprocess.run([str(steamcmd), "+quit"], cwd=steamcmd.parent,
+                                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=240)
+    except subprocess.TimeoutExpired:
+        raise RuntimeError("SteamCMD bootstrap timed out before authentication") from None
+    if bootstrap.returncode:
+        raise RuntimeError("Valve SteamCMD bootstrap failed before authentication")
     cached = os.environ.get("STEAM_CONFIG_VDF")
     if cached:
         configuration = cached if cached.lstrip('\ufeff \t\r\n').startswith('"') else base64.b64decode(cached).decode("utf-8")
