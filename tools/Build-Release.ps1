@@ -13,7 +13,7 @@ New-Item -ItemType Directory -Path $staging -Force | Out-Null
 $expected=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
 foreach($entry in $manifest.files) {
     $relative=[string]$entry.path
-    if([IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])(\.|\.\.|build|migration-private|handoff|\.git|\.env[^\\/]*)([\\/]|$)' -or
+    if([IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])(\.|\.\.|build|bin|obj|__pycache__|migration-private|handoff|\.git|\.env[^\\/]*)([\\/]|$)' -or
         $relative -match '\.(dll|exe|pdb|log|save|sub|nettrace|etlx|pem|key|pfx)$'){throw "Private/binary or invalid release entry: $relative"}
     if(-not $expected.Add($relative.Replace('\','/'))){throw "Duplicate release entry: $relative"}
     $source=Join-Path $root $relative

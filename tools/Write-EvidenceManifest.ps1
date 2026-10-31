@@ -16,16 +16,19 @@ foreach($name in $required) {
 $stress=Get-Content -Raw -LiteralPath (Join-Path $ValidationDir 'client-stress.json') | ConvertFrom-Json
 if(-not $stress.complete -or $stress.elapsed_seconds -lt $stress.requested_seconds){throw 'The requested stress verification has not completed'}
 $files=[Collections.Generic.List[object]]::new()
+$publicPaths=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach($name in (& git -C $root ls-files --cached --others --exclude-standard)){[void]$publicPaths.Add($name.Replace('\','/'))}
 function AddFile([string]$relative) {
     $relative=$relative.Replace('\','/')
     if($relative -eq [IO.Path]::GetRelativePath($root,$path).Replace('\','/')){return}
+    if(-not $publicPaths.Contains($relative) -or $relative -match '(^|/)(bin|obj|__pycache__)(/|$)'){return}
     $full=Join-Path $root $relative
     if((Get-Item -LiteralPath $full).LinkType){throw "Symlink not allowed in release inventory: $relative"}
     $files.Add(@{path=$relative;sha256=(Get-FileHash -LiteralPath $full -Algorithm SHA256).Hash})
 }
 foreach($folder in @('LocalMod\ReboundGuard','tests','tools','compat')) {
     foreach($file in Get-ChildItem -LiteralPath (Join-Path $root $folder) -File -Recurse | Sort-Object FullName) {
-        if($file.Extension -notin @('.cs','.ps1','.py','.xml','.lua')){continue}
+        if($file.Extension -notin @('.cs','.csproj','.ps1','.py','.xml','.lua')){continue}
         AddFile ([IO.Path]::GetRelativePath($root,$file.FullName))
     }
 }
