@@ -1,0 +1,5 @@
+{
+  "status": "canceled_by_user",
+  "final_package_evidence": false,
+  "note": "One-hour prototype endurance run was canceled before integrating newer published main. Its partial counters are not evidence for this final package. See completed short client/server stress reports."
+}

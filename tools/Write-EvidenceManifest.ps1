@@ -1,32 +1,36 @@
-param([string]$GameDir='E:\steam\steamapps\common\Barotrauma')
+param([string]$ValidationDir='')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
-$path=Join-Path $root 'research\deep\environment.json'
-$manifest=Get-Content -Raw -LiteralPath $path | ConvertFrom-Json -AsHashtable
-foreach($entry in $manifest.files) {
-    $actual=(Get-FileHash -LiteralPath (Join-Path $GameDir $entry.file) -Algorithm SHA256).Hash
-    if($actual -ne $entry.sha256){throw ('Installed dependency changed after the audited baseline: '+$entry.file)}
+$xml=[xml][IO.File]::ReadAllText((Join-Path $root 'LocalMod\ReboundGuard\filelist.xml'))
+$version=$xml.contentpackage.modversion
+if(-not $ValidationDir){$ValidationDir=Join-Path $root ('docs\validation\'+$version)}
+$path=Join-Path $ValidationDir 'manifest.json'
+$required=@('client-all.json','server-all.json','client-dispatch.json','server-dispatch.json','client-queue.json','server-queue.json','client-compatibility.json','server-compatibility.json','client-stress.json')
+foreach($name in $required) {
+    $report=Get-Content -Raw -LiteralPath (Join-Path $ValidationDir $name) | ConvertFrom-Json
+    if(-not $report.harness_context -or $report.harness_context.source_changed_during_run){throw "Missing or stale harness provenance: $name"}
+    foreach($entry in $report.harness_context.source_sha256.PSObject.Properties) {
+        if((Get-FileHash -LiteralPath (Join-Path $root $entry.Name)).Hash -ne $entry.Value){throw "Source no longer matches $name : $($entry.Name)"}
+    }
 }
-function FileList([string]$directory) {
-    @(Get-ChildItem -LiteralPath $directory -Recurse -File | Sort-Object FullName | ForEach-Object {
-        @{path=[IO.Path]::GetRelativePath($directory,$_.FullName);sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}
-    })
+$stress=Get-Content -Raw -LiteralPath (Join-Path $ValidationDir 'client-stress.json') | ConvertFrom-Json
+if(-not $stress.complete -or $stress.elapsed_seconds -lt $stress.requested_seconds){throw 'The requested stress verification has not completed'}
+$files=[Collections.Generic.List[object]]::new()
+function AddFile([string]$relative) {
+    $relative=$relative.Replace('\','/')
+    if($relative -eq [IO.Path]::GetRelativePath($root,$path).Replace('\','/')){return}
+    $full=Join-Path $root $relative
+    if((Get-Item -LiteralPath $full).LinkType){throw "Symlink not allowed in release inventory: $relative"}
+    $files.Add(@{path=$relative;sha256=(Get-FileHash -LiteralPath $full -Algorithm SHA256).Hash})
 }
-$manifest.mod_version='0.4.0'
-$manifest.date_utc=[DateTime]::UtcNow.ToString('o')
-$manifest.mod_files=FileList (Join-Path $root 'LocalMod\ReboundGuard')
-$manifest.test_files=FileList (Join-Path $root 'tests')
-$manifest.compat_files=FileList (Join-Path $root 'compat')
-$manifest.script_files=@(@('Install.ps1','Install-All.ps1','Install-KnownModFixes.ps1','Collect-Reports.ps1') | ForEach-Object {
-    @{path=$_;sha256=(Get-FileHash -LiteralPath (Join-Path $root $_)).Hash}
-})
-$manifest.validation_files=@(@('validation-client.json','validation-server.json') | ForEach-Object {
-    @{path=$_;sha256=(Get-FileHash -LiteralPath (Join-Path $root ('research\deep\'+$_))).Hash}
-})
-$manifest.known_mod_original_source_sha256=@{
-    mudraptor_shared_lua='631DCB17A38167AFEFDD6A0D64678F1D90314DB8AB6554CCF7CFA4E612C973B0'
-    tsm_accessoriesbuff_lua='DDA5991659E6B1FE0398E612FC3D92317427E004AE79ED6B3CCAF24847AF77BE'
+foreach($folder in @('LocalMod\ReboundGuard','tests','tools','compat')) {
+    foreach($file in Get-ChildItem -LiteralPath (Join-Path $root $folder) -File -Recurse | Sort-Object FullName) {
+        if($file.Extension -notin @('.cs','.ps1','.py','.xml','.lua')){continue}
+        AddFile ([IO.Path]::GetRelativePath($root,$file.FullName))
+    }
 }
-$manifest.note='Installed audited game dependencies rechecked unchanged. Isolated method tests, no new live combat or host crash reproduction. No game binaries in release.'
-$manifest | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $path -Encoding utf8
-Write-Output 'PASS: unchanged native dependency hashes and 0.4.0 code/test/compat/script/report manifest written.'
+foreach($file in @('Install.ps1','Install-All.ps1','Install-KnownModFixes.ps1','Collect-Reports.ps1','README.md','README.zh-CN.md','README-0.4.1.zh-CN.md','README-0.4.zh-CN.md','docs/HANDOFF.md','docs/OPTIMIZATION-0.4.1.zh-CN.md')){AddFile $file}
+foreach($file in $required + @('client-scaffold.json','server-scaffold.json','server-stress.json','compatibility-audit.json','interrupted-endurance.json')){AddFile ([IO.Path]::GetRelativePath($root,(Join-Path $ValidationDir $file)))}
+$manifest=[ordered]@{mod_version=$version;game_version=$xml.contentpackage.gameversion;date_utc=[DateTime]::UtcNow.ToString('o');files=@($files | Sort-Object path);note='Public source/test/tooling and synthetic validation only. Native Windows gameplay, rendering and live multiplayer A/B are not established by these isolated Linux-host runs. Historical 0.4.0 evidence is unchanged.'}
+$manifest | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $path -Encoding utf8
+Write-Output "PASS: $($files.Count) public release files tied to current source and the actual completed stress duration."

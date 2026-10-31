@@ -1,2 +1,1 @@
-2026-10-21 experimental / 实验版：LuaCs 单次包装生成、实时状态标签索引、冻结后台标签快照。两端隔离检查通过，实战收益待验证。
-Single-generation LuaCs wrappers, live status-tag queries and frozen background snapshots. Isolated checks passed; gameplay gains pending.
+0.4.1：适配精确审计的 Barotrauma 1.13.5.0 / LuaCs 2026-10-27 Windows 双端构建；修复 LuaCs 参数回写的隐式转换与空值语义并缓存转换元数据；单项补丁安装失败独立回退；支持新版 LuaCs 安装设置。保留已发布主线的队列、实时状态标签和单次包装等优化。局部基准不是整局十倍承诺；实际联机、渲染与完整加载 A/B 待验证。

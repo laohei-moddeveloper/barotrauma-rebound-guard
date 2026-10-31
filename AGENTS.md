@@ -1,6 +1,6 @@
 # Rebound Guard project instructions
 
-- Canonical source: `LocalMod/ReboundGuard`. Current gameplay code is 0.4.0, tested against Windows Barotrauma 1.13.4.0 and matching LuaCs/C# methods.
+- Canonical source: `LocalMod/ReboundGuard`. Current source is 0.4.1 for audited Windows Barotrauma 1.13.5.0 / LuaCs 2026-10-27 binaries; see validation for runtime/live-game limits. Preserve the published 2026-10-21 mainline improvements.
 - Read `docs/HANDOFF.md` and the Chinese README before changing code. A private migration bundle may additionally contain `handoff/PROJECT_HANDOFF.zh-CN.md` with field evidence.
 - User priorities: substantial general improvements to stutter, FPS, rubberbanding, desync and loading, plus useful multicore work. Preserve observable gameplay. Imperceptible reductions may be considered with evidence.
 - Do not equate local benchmark speedups, CPU usage, correction-branch counts or reported allocation with whole-game improvement, visible rubberbanding, or leaks.

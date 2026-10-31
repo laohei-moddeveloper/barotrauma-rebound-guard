@@ -45,5 +45,5 @@ for($i=0;$i -lt 2;$i++) {
 }
 [IO.File]::WriteAllText((Join-Path $game 'config_player.xml'),('<config><contentpackages><regularpackages>'+$entries+'</regularpackages></contentpackages></config>'))
 & (Join-Path $root 'Install-All.ps1') -GameDir $game
-if(-not(Test-Path -LiteralPath (Join-Path $game 'LocalMods\ReboundGuard_Experimental_040\filelist.xml'))){throw 'Combined installer omitted Rebound Guard'}
+if(-not(Test-Path -LiteralPath (Join-Path $game 'LocalMods\ReboundGuard_Experimental_041\filelist.xml'))){throw 'Combined installer omitted Rebound Guard'}
 Write-Output ('PASS: bridge source replacement, exact originals, idempotency, exact restore/reapply and refusal of edited files; real mods untouched. '+$testRoot)

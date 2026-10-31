@@ -20,6 +20,8 @@ namespace ReboundGuard
         [ThreadStatic] private static bool inStep;
         internal static void Install(Harmony harmony)
         {
+            if (typeof(Item).Assembly.GetName().Name == "DedicatedServer")
+                Add(harmony, AccessTools.Method(AccessTools.TypeByName("Barotrauma.Networking.GameServer"), "Update", new[] { typeof(float) }));
             foreach (var pair in new[] { Tuple.Create(typeof(Character),"UpdateAll"), Tuple.Create(typeof(Character),"UpdateAnimAll"),
                 Tuple.Create(typeof(StatusEffect),"UpdateAll"),Tuple.Create(typeof(MapEntity),"UpdateAll"),Tuple.Create(typeof(Ragdoll),"UpdateAll"),
                 Tuple.Create(typeof(Powered),"UpdatePower") })

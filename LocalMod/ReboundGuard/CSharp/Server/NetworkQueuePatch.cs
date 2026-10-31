@@ -15,7 +15,6 @@ namespace ReboundGuard
         {
             NetworkQueuePatch.Install(patcher);
             InputBacklogMonitor.Install(patcher);
-            if (Settings.DetailedProfiling) SubsystemProfiler.Add(patcher,AccessTools.Method(typeof(GameServer),"Update",new[]{typeof(float)}));
         }
         static partial void ReportServer() { Log(NetworkQueuePatch.Report()); Log(InputBacklogMonitor.Report()); }
         static partial void ResetServerCaches() { NetworkQueuePatch.Reset(); }
@@ -30,7 +29,7 @@ namespace ReboundGuard
         internal static void Install(Harmony harmony)
         {
             indexes = null;
-            if (!Settings.OptimizePositionQueue || typeof(GameServer).Assembly.GetName().Version != new Version(1,13,4,0)) { return; }
+            if (!Settings.OptimizePositionQueue || (typeof(GameServer).Assembly.GetName().Version != new Version(1,13,4,0) && !AuditedBuild.CurrentGame)) { return; }
             harmony.Patch(AccessTools.Method(typeof(GameServer), "ClientWriteIngame"),
                 transpiler: new HarmonyMethod(typeof(NetworkQueuePatch), nameof(Transpiler)),
                 finalizer: new HarmonyMethod(typeof(NetworkQueuePatch), nameof(Finish)));

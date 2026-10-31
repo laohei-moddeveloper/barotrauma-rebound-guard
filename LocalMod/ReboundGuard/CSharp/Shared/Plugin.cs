@@ -24,8 +24,8 @@ namespace ReboundGuard
     public partial class Plugin : IAssemblyPlugin
     {
         internal const string HarmonyId = "barotrauma.reboundguard.experimental.v040";
-        internal const string ModVersion = "0.4.0";
-        internal const string BuildLabel = "engine-hotpaths-20261021";
+        internal const string ModVersion = "0.4.1";
+        internal const string BuildLabel = "compat-1.13.5-20261031";
         private Harmony harmony;
         private static long windowStart;
         private static int steps;
@@ -48,24 +48,25 @@ namespace ReboundGuard
                 ResetWindow();
                 SubsystemProfiler.Reset();
                 BinaryEvidence.Report();
-                if (Settings.Diagnostics)
+                FeatureInstaller.TryInstall(harmony, "simulation monitor", () =>
                 {
-                    harmony.Patch(AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) }),
+                    if (Settings.Diagnostics) harmony.Patch(AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) }),
                         prefix: new HarmonyMethod(typeof(Plugin), nameof(BeforeStep)),
                         postfix: new HarmonyMethod(typeof(Plugin), nameof(AfterStep)),
                         finalizer: new HarmonyMethod(typeof(Plugin), nameof(FinishStep)));
-                }
-                InstallClientPatch(harmony);
-                InstallServerPatch(harmony);
-                LuaBridgeOptimizer.Install(harmony);
-                LoadingLifecyclePatch.Install(harmony);
-                BodyMaintenance.Install(harmony);
-                ContainerEffectFastPath.Install(harmony);
-                ParallelConstraintPreparation.Install(harmony);
-                NearbyItemIndex.Install(harmony);
-                LiveStatusTagIndex.Install(harmony);
-                ConstraintSolverResearch.Install(harmony);
-                if (Settings.DetailedProfiling) { SubsystemProfiler.Install(harmony); }
+                });
+                FeatureInstaller.TryInstall(harmony, "client patches", () => InstallClientPatch(harmony));
+                FeatureInstaller.TryInstall(harmony, "server patches", () => InstallServerPatch(harmony));
+                FeatureInstaller.TryInstall(harmony, "Lua bridge", () => LuaBridgeOptimizer.Install(harmony), LuaBridgeOptimizer.Stop);
+                FeatureInstaller.TryInstall(harmony, "reference lifetime", () => LoadingLifecyclePatch.Install(harmony));
+                FeatureInstaller.TryInstall(harmony, "body maintenance", () => BodyMaintenance.Install(harmony), BodyMaintenance.Reset);
+                FeatureInstaller.TryInstall(harmony, "container search", () => ContainerEffectFastPath.Install(harmony), ContainerEffectFastPath.Reset);
+                FeatureInstaller.TryInstall(harmony, "constraint preparation", () => ParallelConstraintPreparation.Install(harmony), ParallelConstraintPreparation.Reset);
+                FeatureInstaller.TryInstall(harmony, "nearby index", () => NearbyItemIndex.Install(harmony), NearbyItemIndex.Reset);
+                FeatureInstaller.TryInstall(harmony, "status tags", () => LiveStatusTagIndex.Install(harmony), LiveStatusTagIndex.Reset);
+                FeatureInstaller.TryInstall(harmony, "solver research", () => ConstraintSolverResearch.Install(harmony));
+                if (Settings.DetailedProfiling)
+                    FeatureInstaller.TryInstall(harmony, "subsystem profiling", () => SubsystemProfiler.Install(harmony), SubsystemProfiler.Reset);
                 Log("loaded; version=" + ModVersion + "; build=" + BuildLabel + "; simulation monitor=" + Settings.Diagnostics +
                     "; client correction patch=" + ClientPatchInstalled +
                     "; experimental correction=" + Settings.ApplyExperimentalCorrection +

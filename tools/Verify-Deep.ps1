@@ -1,4 +1,4 @@
-param([string]$GameDir='E:\steam\steamapps\common\Barotrauma',[ValidateSet('Client','Server')][string]$Side='Client',[ValidateSet('All','Bridge','Native','Loading','StatusTags','Nearby','Lifecycle')][string]$Suite='All',[string]$ReportPath='')
+param([string]$GameDir='E:\steam\steamapps\common\Barotrauma',[ValidateSet('Client','Server')][string]$Side='Client',[ValidateSet('All','Bridge','Native','Loading','StatusTags','Nearby','Lifecycle','Queue','Compatibility','Dispatch','Stress','Scaffold')][string]$Suite='All',[string]$ReportPath='')
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'Verify.ps1') -GameDir $GameDir -Side $Side -CompileOnly
 $runtime=Join-Path $build ('net8-harness-'+$Side.ToLowerInvariant())
@@ -41,11 +41,11 @@ if($matches -ne 1) {throw "Unknown apphost shape: $matches"}
 $runtimeConfig=Get-Content -Raw -LiteralPath (Join-Path $GameDir ($hostName+'.runtimeconfig.json')) | ConvertFrom-Json -AsHashtable
 $runtimeConfig.runtimeOptions.configProperties['System.Runtime.TieredCompilation']=$false
 $runtimeConfig | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $runtime 'TestRunner.runtimeconfig.json') -Encoding utf8
-$deps=[IO.File]::ReadAllText((Join-Path $GameDir ($hostName+'.deps.json'))).Replace(($hostName+'/1.13.4.0'),'TestRunner/1.0.0').Replace(($hostName+'.dll'),'TestRunner.dll')
+$deps=[IO.File]::ReadAllText((Join-Path $GameDir ($hostName+'.deps.json'))).Replace(($hostName+'/'+[Reflection.AssemblyName]::GetAssemblyName((Join-Path $GameDir ($hostName+'.dll'))).Version),'TestRunner/1.0.0').Replace(($hostName+'.dll'),'TestRunner.dll')
 [IO.File]::WriteAllText((Join-Path $runtime 'TestRunner.deps.json'),$deps)
 $refs.Add([Microsoft.CodeAnalysis.MetadataReference]::CreateFromFile($output))
 $testTrees=[Collections.Generic.List[Microsoft.CodeAnalysis.SyntaxTree]]::new()
-foreach($name in @('Bootstrap.cs','DeepRegression.cs','QueueMembershipTests.cs','FrameHealthTests.cs','BucketStampTests.cs','PhysicsBenchmark.cs','ConstraintSolverTests.cs','ConstraintPreparationTests.cs','NearbyItemIndexTests.cs','ContainerEffectTests.cs','WorldReplayTests.cs','WorldPerformanceTests.cs','PluginLifecycleTests.cs','FieldIterationTests.cs','NativeModHotPathTests.cs','LuaBridgeTests.cs','LoadingLifecycleTests.cs','LiveStatusTagTests.cs')) {
+foreach($name in @('Bootstrap.cs','DeepRegression.cs','QueueMembershipTests.cs','FrameHealthTests.cs','BucketStampTests.cs','PhysicsBenchmark.cs','ConstraintSolverTests.cs','ConstraintPreparationTests.cs','NearbyItemIndexTests.cs','ContainerEffectTests.cs','WorldReplayTests.cs','WorldPerformanceTests.cs','PluginLifecycleTests.cs','FieldIterationTests.cs','NativeModHotPathTests.cs','LuaBridgeTests.cs','LoadingLifecycleTests.cs','LiveStatusTagTests.cs','QueueChurnTests.cs','CompatibilityTests.cs','LuaDispatchSemanticsTests.cs','LuaDispatchStressTests.cs','LuaScaffoldBenchmarkTests.cs')) {
     $testTrees.Add([Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree]::ParseText([IO.File]::ReadAllText((Join-Path $root ('tests\'+$name)))))
 }
 $testOptions=[Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions]::new([Microsoft.CodeAnalysis.OutputKind]::ConsoleApplication)

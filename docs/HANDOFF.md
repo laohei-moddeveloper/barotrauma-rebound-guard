@@ -1,3 +1,17 @@
+# 0.4.1 handoff — 2026-10-31
+
+Current source: 0.4.1, build `compat-1.13.5-20261031`. Integrates published main `03ae30e`; preserve its single-generation bridge, status tags, weak queue caches, incremental nearby maintenance and frame diagnostics.
+
+Read [the current guide](../README-0.4.1.zh-CN.md) and [current report](OPTIMIZATION-0.4.1.zh-CN.md). New runtime allowlist covers exact official Windows 1.13.5.0 LuaCs binaries; unsupported builds still fall back. Argument conversion matches native implicit-operator/null/exception behavior, with weak metadata caches. Feature installation rolls back independently.
+
+`tools/Verify-Portable.py` runs original managed assemblies under an SDK runtime and explicitly records logical-processor overrides. These cover scheduling; they do not add hardware. Use `tools/Verify-Offline.ps1` on Windows for game-bundled runtime checks. Final lab evidence is in `docs/validation/0.4.1/`. No live game/network/GPU/full-loading A/B is implied. User canceled the proposed one-hour endurance plan and requested publication; interrupted prototype counters are not final-package evidence.
+
+Build source with `tools/Write-EvidenceManifest.ps1` then `tools/Build-Release.ps1`. Publish existing Workshop item 3822098302 only with its owning account; do not create a duplicate. Preserve both localized titles and read back the actual publication. A prepared ZIP or GitHub release does not prove a Steam upload.
+
+---
+
+Historical 0.4.0 handoff/evidence follows, retained for comparison.
+
 # Rebound Guard / 深潜稳帧 — development handoff
 
 Latest source increment: **engine-hotpaths-20261021**, based on the published maintenance build. See [implementation, comparisons and validation](ENGINE-HOTPATHS-20261021.zh-CN.md) and [release notes](RELEASE-20261021.zh-CN.md). Adds direct single-generation LuaCs wrappers, live status-tag indexing and frozen dynamic-tag background snapshots. The user requested stopping further research, publishing GitHub first and preparing Steam credentials afterwards; preserve Workshop titles. Older validation/pending notes below are historical and do not describe this increment's status.

@@ -1,0 +1,38 @@
+{
+  "Barotrauma": {
+    "old_version": "1.13.4.0",
+    "new_version": "1.13.5.0",
+    "old_sha256": "BB89B5ADF3C2BE80AA27A24C429F4F653915137D55562F85FEC94A0B918AEE6A",
+    "new_sha256": "EF31A7236DDE833382F53DF71B76C102B0F2BB3BB2A035DEDDA85ED5C276822A",
+    "equal_bodies": 40739,
+    "changed_bodies_count": 26,
+    "scope": "Resolved IL, locals, stack and exception regions only; separate runtime tests required."
+  },
+  "DedicatedServer": {
+    "old_version": "1.13.4.0",
+    "new_version": "1.13.5.0",
+    "old_sha256": "898467AA13A4F5B70B164F1211097B010CA50DE959DE55C7B1CA25988C6DFD8C",
+    "new_sha256": "705A4F5511EDB16CE59CC0F5B5A7F14BB3EB1FFDA3AB4F3C5EDCD49E834D4C16",
+    "equal_bodies": 27498,
+    "changed_bodies_count": 23,
+    "scope": "Resolved IL, locals, stack and exception regions only; separate runtime tests required."
+  },
+  "BarotraumaCore": {
+    "old_version": "1.0.0.0",
+    "new_version": "1.0.0.0",
+    "old_sha256": "0F3DE0513439A01FCADD4012EFE53211C60D6A570C9C60BF182034C8A8F6DE24",
+    "new_sha256": "3DF40ECB5ED3B7EEF7C4E7959D9A802FDB6CCA20E04FFE302A0208EA167AB0F2",
+    "equal_bodies": 622,
+    "changed_bodies_count": 0,
+    "scope": "Resolved IL, locals, stack and exception regions only; separate runtime tests required."
+  },
+  "Farseer.NetStandard": {
+    "old_version": "3.5.0.0",
+    "new_version": "3.5.0.0",
+    "old_sha256": "E1EDC24A290A0FCA629B38B9B76CA23BC191A42B4248C483C296DFBC00C135E1",
+    "new_sha256": "227B945B9F57A592864CE4A17D85725961612B600EC45D7DE0E6FF9514900403",
+    "equal_bodies": 1973,
+    "changed_bodies_count": 0,
+    "scope": "Resolved IL, locals, stack and exception regions only; separate runtime tests required."
+  }
+}

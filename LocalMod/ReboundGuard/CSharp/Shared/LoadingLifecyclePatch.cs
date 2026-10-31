@@ -29,6 +29,7 @@ namespace ReboundGuard
                 known &= disposeHash == "FB38E821D118062141EBF7B486D125A1499972F4196FBBEF7276987032236EF6" ||
                     disposeHash == "CEF37D46058E50D6A2B248D1794E3C56CC35F1328A902C90F2BA50A03EFCF8B8";
             }
+            known |= AuditedBuild.CurrentGame;
             ownerField = AccessTools.Field(iterator, "<>4__this");
             stateField = AccessTools.Field(iterator, "<>1__state");
             if (!known || dispose == null || ownerField == null || stateField == null ||

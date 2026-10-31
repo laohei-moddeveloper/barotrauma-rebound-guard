@@ -26,6 +26,7 @@ namespace ReboundGuard
 
         internal static void Install(Harmony harmony)
         {
+            if (!Settings.SkipIrrelevantContainerSearches) { reason = "disabled"; return; }
             Bind();
             if (!SupportedCodeMatches()) { reason = "unrecognized code; original behavior"; return; }
             harmony.Patch(update, transpiler: new HarmonyMethod(typeof(ContainerEffectFastPath), nameof(Transpiler)));
@@ -56,6 +57,7 @@ namespace ReboundGuard
         internal static bool SupportedCodeMatches()
         {
             Bind();
+            if (AuditedBuild.CurrentGame) return true;
             if (typeof(Item).Assembly.GetName().Version != new Version(1, 13, 4, 0)) return false;
             bool client = typeof(Item).Assembly.GetName().Name == "Barotrauma";
             return Fingerprint(update) == (client ? "F0D3997735C26353D4861439BA94347935B982F695DF44B0AFFE0015ADC50A1F" : "9956365790E2E6FB60BB54F1AE0A6E7CB0460881E25212075CE2EAD45604C012") &&

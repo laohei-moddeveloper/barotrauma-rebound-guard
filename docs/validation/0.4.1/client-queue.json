@@ -1,0 +1,77 @@
+{
+  "checks": 96770,
+  "benchmarks": [
+    {
+      "pending": 256,
+      "native_ms": 0.104239,
+      "v040_ms": 0.495487,
+      "counted_ms": 0.025349,
+      "speedup_over_native": 4.112154325614423,
+      "speedup_over_v040": 19.54660933370153
+    },
+    {
+      "pending": 2048,
+      "native_ms": 6.678117,
+      "v040_ms": 44.051336,
+      "counted_ms": 0.191773,
+      "speedup_over_native": 34.823030353595136,
+      "speedup_over_v040": 229.705620707816
+    },
+    {
+      "pending": 8192,
+      "native_ms": 109.51743,
+      "v040_ms": 535.225699,
+      "counted_ms": 0.733971,
+      "speedup_over_native": 149.21220320693868,
+      "speedup_over_v040": 729.2191367233854
+    }
+  ],
+  "limitation": "Synthetic complete FIFO drain with interleaved missing-member lookups; includes queue/index creation. Not a packet-writing, whole-game or multiplayer latency benchmark.",
+  "harness_context": {
+    "platform": "Linux",
+    "side": "Client",
+    "suite": "Queue",
+    "logical_processor_override": null,
+    "affinity_cpus": 3,
+    "game_binaries": {
+      "Barotrauma.dll": "ef31a7236dde833382f53df71b76c102b0f2bb3bb2a035dedda85ed5c276822a",
+      "BarotraumaCore.dll": "3df40ecb5ed3b7eef7c4e7959d9a802fdb6cca20e04ffe302a0208ea167ab0f2",
+      "Farseer.NetStandard.dll": "227b945b9f57a592864ce4a17d85725961612b600ec45d7de0e6ff9514900403"
+    },
+    "source_sha256": {
+      "LocalMod/ReboundGuard/CSharp/Shared/AuditedBuild.cs": "c2dbd92c813ee6855c25d4ff8938669fdb4b924dd48d3ea379058ea0f759b1e3",
+      "LocalMod/ReboundGuard/CSharp/Shared/BinaryEvidence.cs": "b75de508bb491d04bc644043df99bcd52d1c7bf916cde988eb90b92329171847",
+      "LocalMod/ReboundGuard/CSharp/Shared/BodyMaintenance.cs": "5959bac9f04296717076050d6b1ebb1564537c4299545e2f79dbe482cbf2e302",
+      "LocalMod/ReboundGuard/CSharp/Shared/BucketStamp.cs": "e644cb482f9eac957505f79abf4f8db10f96070c62d8295883e16d2a459cebbe",
+      "LocalMod/ReboundGuard/CSharp/Shared/ConstraintSolverResearch.cs": "63e2e272ba3a0101ec7ea13837bc1501b64bc33a4372b449a8725825b2e1b75e",
+      "LocalMod/ReboundGuard/CSharp/Shared/ContainerEffectFastPath.cs": "aab92df53e0502fd9b9004e51d1b46fcf29f3fc5d05055acd5f3e9598edfd56a",
+      "LocalMod/ReboundGuard/CSharp/Shared/CorrectionTelemetry.cs": "3130988e9dd284b50d96e85554bd3c50bfa15b1cb74bac1db00709fe83d8354e",
+      "LocalMod/ReboundGuard/CSharp/Shared/CrashEvidence.cs": "19d88690883253abe53a06767a05236a7042311fa2ae922c8780845e96a32102",
+      "LocalMod/ReboundGuard/CSharp/Shared/DiagnosticLog.cs": "0d7c606f088b5b53f1d4c27f2788f93ddd6aa9867eebf928dcab3121a05614f8",
+      "LocalMod/ReboundGuard/CSharp/Shared/FeatureInstaller.cs": "d44c10a8e19b6def1f3a83e04dd4dac0f431b8cd129c6c68bd0715618de98bf5",
+      "LocalMod/ReboundGuard/CSharp/Shared/FrameHealth.cs": "bd5c226e5508545c15538451ba742874416d880c5eef920c906e47fccd2c719a",
+      "LocalMod/ReboundGuard/CSharp/Shared/LiveStatusTagIndex.cs": "c484f30f03ff667cc0701eaf9f0bdddc040ba5747313ba2441b0f11e4f7a8ae6",
+      "LocalMod/ReboundGuard/CSharp/Shared/LoadingLifecyclePatch.cs": "e5306ed5b0305f46ea0e4fbcadb8ec6d2f6cbddbaac1c6f02b76680526c33c08",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaArgumentConversion.cs": "885440d15d1d7b1f36b211be99fc1e7f540afa46d8a9d8770996ca8bf970c95d",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaBridgeOptimizer.cs": "14e203210675515535f7ddf84e12cec9c5290a5e444bf973ac825a732e65f216",
+      "LocalMod/ReboundGuard/CSharp/Shared/LuaDirectBridge.cs": "726d8b274410183dca4b802cd02aec9b4af555200b14470af2f5af2332787aee",
+      "LocalMod/ReboundGuard/CSharp/Shared/NativeLoopRange.cs": "27c1ca0732f212a4bdab87bd4a976f4e233ca21406b75889a6a9a353a36de1fb",
+      "LocalMod/ReboundGuard/CSharp/Shared/NativeModHotPaths.cs": "c0d7b7807f7e331d88260226b12f7d98d67c8a7e7ea602be9367402b78e7ae50",
+      "LocalMod/ReboundGuard/CSharp/Shared/NearbyItemIndex.cs": "d74d7494079d225e2ef83c5c138008c158acf55a0fbaf8517195a6d55c9ec9d3",
+      "LocalMod/ReboundGuard/CSharp/Shared/OrderedConstraintSchedule.cs": "5993ac68d9be3de290c39ff59d5a2c78289cb4b093ca59f49af835d9307349ea",
+      "LocalMod/ReboundGuard/CSharp/Shared/ParallelConstraintPreparation.cs": "2f20ef79fb961a95ee94e887a54c32c7a128241e53159bedc043b00a1461234b",
+      "LocalMod/ReboundGuard/CSharp/Shared/PatchSafety.cs": "21a199c40305e756407c5fcefe7c15452089f254b317c0eb79cd0d88b8736f88",
+      "LocalMod/ReboundGuard/CSharp/Shared/Plugin.cs": "a6c4548c8feec654b3a8285d6d2cef3c0289f649e1a5c9b7229b649347ae9013",
+      "LocalMod/ReboundGuard/CSharp/Shared/QueueMembership.cs": "f7e7877dec3a46cb2218972227a1eebf98a8365e8697e2728744ee468ae05495",
+      "LocalMod/ReboundGuard/CSharp/Shared/Settings.cs": "f73f637317e903576d5453e6551af80758b0a88e65c00ce28a66bfaec1b1a60c",
+      "LocalMod/ReboundGuard/CSharp/Shared/StepHealth.cs": "601f5c286000a2abcec345b5882e50cfbd3a067bf92d796140ac772d404b8198",
+      "LocalMod/ReboundGuard/CSharp/Shared/SubsystemProfiler.cs": "fa8e0dfa42f46c63f08a94f066872fc6c7bbfbfc5a180910a83f6ccb5b037463",
+      "LocalMod/ReboundGuard/CSharp/Client/ClientFrameProfiler.cs": "8ef127e7bb9e27b4440ed029f59248a047ce9266ec0e9e896dfbf9ebac139c06",
+      "LocalMod/ReboundGuard/CSharp/Client/CorrectionMath.cs": "6be05ba7b867d77d81be624c55a626015c6a49a9b54142ea0ee55056b981db6d",
+      "LocalMod/ReboundGuard/CSharp/Client/CorrectionPatch.cs": "30da6b7d2efeb17c46d0d8c4df0426702e80b2eab7c2be62855868778fd3e4c6",
+      "LocalMod/ReboundGuard/CSharp/Client/ExitLifetimePatch.cs": "2b19222e5f7902ffc17258604ced5b7b6ddaaa38a18ae5f0bce642f520b421d2"
+    },
+    "source_changed_during_run": false,
+    "limitation": "Managed isolated methods only. Processor override, when set, exercises scheduling despite CI CPU limits; it does not add CPU resources or validate Windows rendering, live networking or whole-game speedup."
+  }
+}

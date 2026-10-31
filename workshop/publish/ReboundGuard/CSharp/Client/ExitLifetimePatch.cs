@@ -23,7 +23,7 @@ namespace ReboundGuard
                 finalizer: new HarmonyMethod(typeof(ExitLifetimePatch), nameof(FlushDeferred)));
             Plugin.Log("exit lifetime fix installed: Client.Quit/content restoration before LuaCs.Dispose; before Steam shutdown");
         }
-        internal static bool SupportedCodeMatches() => Original?.GetMethodBody() != null &&
+        internal static bool SupportedCodeMatches() => AuditedBuild.CurrentGame || Original?.GetMethodBody() != null &&
             Convert.ToHexString(SHA256.HashData(Original.GetMethodBody().GetILAsByteArray())) == "AF417428D630C0AF1487F63ED7C0360DE609F05B892080EF8F181BC8F1B62B28";
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

@@ -24,7 +24,8 @@ namespace ReboundGuard
     public partial class Plugin : IAssemblyPlugin
     {
         internal const string HarmonyId = "barotrauma.reboundguard.experimental.v040";
-        internal const string ModVersion = "0.4.0";
+        internal const string ModVersion = "0.4.1";
+        internal const string BuildLabel = "compat-1.13.5-20261031";
         private Harmony harmony;
         private static long windowStart;
         private static int steps;
@@ -43,27 +44,30 @@ namespace ReboundGuard
                 DiagnosticLog.Start();
                 CrashEvidence.Start();
                 NativeModHotPaths.Start();
+                ResetServerCaches();
                 ResetWindow();
                 SubsystemProfiler.Reset();
                 BinaryEvidence.Report();
-                if (Settings.Diagnostics)
+                FeatureInstaller.TryInstall(harmony, "simulation monitor", () =>
                 {
-                    harmony.Patch(AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) }),
+                    if (Settings.Diagnostics) harmony.Patch(AccessTools.Method(typeof(GameScreen), "Update", new[] { typeof(double) }),
                         prefix: new HarmonyMethod(typeof(Plugin), nameof(BeforeStep)),
                         postfix: new HarmonyMethod(typeof(Plugin), nameof(AfterStep)),
                         finalizer: new HarmonyMethod(typeof(Plugin), nameof(FinishStep)));
-                }
-                InstallClientPatch(harmony);
-                InstallServerPatch(harmony);
-                LuaBridgeOptimizer.Install(harmony);
-                LoadingLifecyclePatch.Install(harmony);
-                BodyMaintenance.Install(harmony);
-                ContainerEffectFastPath.Install(harmony);
-                ParallelConstraintPreparation.Install(harmony);
-                NearbyItemIndex.Install(harmony);
-                ConstraintSolverResearch.Install(harmony);
-                if (Settings.DetailedProfiling) { SubsystemProfiler.Install(harmony); }
-                Log("loaded; version=" + ModVersion + "; simulation monitor=" + Settings.Diagnostics +
+                });
+                FeatureInstaller.TryInstall(harmony, "client patches", () => InstallClientPatch(harmony));
+                FeatureInstaller.TryInstall(harmony, "server patches", () => InstallServerPatch(harmony));
+                FeatureInstaller.TryInstall(harmony, "Lua bridge", () => LuaBridgeOptimizer.Install(harmony), LuaBridgeOptimizer.Stop);
+                FeatureInstaller.TryInstall(harmony, "reference lifetime", () => LoadingLifecyclePatch.Install(harmony));
+                FeatureInstaller.TryInstall(harmony, "body maintenance", () => BodyMaintenance.Install(harmony), BodyMaintenance.Reset);
+                FeatureInstaller.TryInstall(harmony, "container search", () => ContainerEffectFastPath.Install(harmony), ContainerEffectFastPath.Reset);
+                FeatureInstaller.TryInstall(harmony, "constraint preparation", () => ParallelConstraintPreparation.Install(harmony), ParallelConstraintPreparation.Reset);
+                FeatureInstaller.TryInstall(harmony, "nearby index", () => NearbyItemIndex.Install(harmony), NearbyItemIndex.Reset);
+                FeatureInstaller.TryInstall(harmony, "status tags", () => LiveStatusTagIndex.Install(harmony), LiveStatusTagIndex.Reset);
+                FeatureInstaller.TryInstall(harmony, "solver research", () => ConstraintSolverResearch.Install(harmony));
+                if (Settings.DetailedProfiling)
+                    FeatureInstaller.TryInstall(harmony, "subsystem profiling", () => SubsystemProfiler.Install(harmony), SubsystemProfiler.Reset);
+                Log("loaded; version=" + ModVersion + "; build=" + BuildLabel + "; simulation monitor=" + Settings.Diagnostics +
                     "; client correction patch=" + ClientPatchInstalled +
                     "; experimental correction=" + Settings.ApplyExperimentalCorrection +
                     "; diagnostic_file=" + DiagnosticLog.CurrentPath + "; diagnostic_error=" + DiagnosticLog.Failure);
@@ -74,6 +78,8 @@ namespace ReboundGuard
                 ClientPatchInstalled = false;
                 Log("initialization failed; patches removed: " + exception.Message);
                 BodyMaintenance.Reset(); ContainerEffectFastPath.Reset(); NearbyItemIndex.Reset(); ParallelConstraintPreparation.Reset();
+                LiveStatusTagIndex.Reset();
+                ResetServerCaches();
                 SubsystemProfiler.Reset();
                 NativeModHotPaths.Stop(true); CrashEvidence.Stop();
                 LuaBridgeOptimizer.Stop();
@@ -90,10 +96,12 @@ namespace ReboundGuard
             NativeModHotPaths.Stop(true);
             LuaBridgeOptimizer.Stop();
             harmony?.UnpatchSelf();
+            ResetServerCaches();
             ClientPatchInstalled = false;
             BodyMaintenance.Reset();
             ContainerEffectFastPath.Reset();
             NearbyItemIndex.Reset();
+            LiveStatusTagIndex.Reset();
             ParallelConstraintPreparation.Reset();
             SubsystemProfiler.Reset();
             Log("unloaded; version=" + ModVersion);
@@ -106,6 +114,7 @@ namespace ReboundGuard
         {
             // Exclude menu/content compilation from the first simulation window.
             if (!activeWindow && GameMain.NetworkMember != null && GameMain.GameSession != null) StepHealth.Reset();
+            ObserveClientStep();
             if (Settings.DetailedProfiling) SubsystemProfiler.BeginStep();
             stepGcStart = StepHealth.CollectionTotal();
             __state = Stopwatch.GetTimestamp();
@@ -142,7 +151,9 @@ namespace ReboundGuard
             Log(ContainerEffectFastPath.Report());
             Log(ParallelConstraintPreparation.Report());
             Log(NearbyItemIndex.Report());
+            Log(LiveStatusTagIndex.Report());
             Log(StepHealth.Report(now));
+            ReportClientFrames();
             Log(CrashEvidence.MemoryReport());
             Log(CorrectionTelemetry.Report());
             Log(NativeModHotPaths.Report());
@@ -155,6 +166,9 @@ namespace ReboundGuard
         }
 
         static partial void ReportServer();
+        static partial void ObserveClientStep();
+        static partial void ReportClientFrames();
+        static partial void ResetServerCaches();
 
         private static void ResetWindow(bool inactive = true)
         {

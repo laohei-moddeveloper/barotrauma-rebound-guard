@@ -17,10 +17,20 @@ public static class Bootstrap
         {
             if(arguments.Length>2 && arguments[2]!="All")
             {
-                string name = arguments[2] switch { "Bridge" => "LuaBridgeTests", "Loading" => "LoadingLifecycleTests", "Native" => "NativeModHotPathTests",
-                    "StatusTags" => "LiveStatusTagTests", "Nearby" => "NearbyItemIndexTests", "Lifecycle" => "PluginLifecycleTests",
-                    _ => throw new ArgumentException("Unknown isolated suite: " + arguments[2]) };
-                string suite="ReboundGuardTests."+name;
+                string suite = arguments[2] switch {
+                    "Bridge" => "ReboundGuardTests.LuaBridgeTests",
+                    "Loading" => "ReboundGuardTests.LoadingLifecycleTests",
+                    "Native" => "ReboundGuardTests.NativeModHotPathTests",
+                    "Queue" => "ReboundGuardTests.QueueChurnTests",
+                    "Compatibility" => "ReboundGuardTests.CompatibilityTests",
+                    "Dispatch" => "ReboundGuardTests.LuaDispatchSemanticsTests",
+                    "Scaffold" => "ReboundGuardTests.LuaScaffoldBenchmarkTests",
+                    "StatusTags" => "ReboundGuardTests.LiveStatusTagTests",
+                    "Nearby" => "ReboundGuardTests.NearbyItemIndexTests",
+                    "Lifecycle" => "ReboundGuardTests.PluginLifecycleTests",
+                    "Stress" => "ReboundGuardTests.LuaDispatchStressTests",
+                    _ => throw new ArgumentException("Unknown suite: " + arguments[2])
+                };
                 object report=Assembly.GetExecutingAssembly().GetType(suite).GetMethod("Run").Invoke(null,null);
                 File.WriteAllText(arguments[1],System.Text.Json.JsonSerializer.Serialize(report,new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                 Console.WriteLine("PASS: "+suite+"; "+arguments[1]);return 0;

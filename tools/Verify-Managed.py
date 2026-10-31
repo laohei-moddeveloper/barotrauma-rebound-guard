@@ -21,9 +21,9 @@ TESTS = (
     "Bootstrap DeepRegression QueueMembershipTests FrameHealthTests BucketStampTests "
     "PhysicsBenchmark ConstraintSolverTests ConstraintPreparationTests NearbyItemIndexTests "
     "ContainerEffectTests WorldReplayTests WorldPerformanceTests PluginLifecycleTests "
-    "FieldIterationTests NativeModHotPathTests LuaBridgeTests LoadingLifecycleTests LiveStatusTagTests"
+    "FieldIterationTests NativeModHotPathTests LuaBridgeTests LoadingLifecycleTests LiveStatusTagTests CompatibilityTests LuaDispatchSemanticsTests LuaDispatchStressTests LuaScaffoldBenchmarkTests QueueChurnTests"
 ).split()
-SUITES = ("Bridge", "StatusTags", "Nearby", "Loading", "Native", "Lifecycle", "All")
+SUITES = ("Bridge", "StatusTags", "Nearby", "Loading", "Native", "Lifecycle", "All", "Queue", "Compatibility", "Dispatch", "Scaffold", "Stress")
 
 
 def sha(path):

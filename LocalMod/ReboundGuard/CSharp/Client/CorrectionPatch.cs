@@ -17,9 +17,9 @@ namespace ReboundGuard
             ClientFrameProfiler.Install(patcher);
             ExitLifetimePatch.Install(patcher);
             Version version = typeof(Ragdoll).Assembly.GetName().Version;
-            if (version != new Version(1, 13, 4, 0))
+            if (version != new Version(1, 13, 4, 0) && !AuditedBuild.CurrentGame)
             {
-                Log("correction disabled: supported assembly version is 1.13.4.0; found " + version);
+                Log("correction disabled: unsupported assembly; found " + version);
                 return;
             }
             patcher.Patch(AccessTools.Method(typeof(Ragdoll), "UpdateNetPlayerPositionProjSpecific"),

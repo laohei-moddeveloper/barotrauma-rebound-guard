@@ -94,6 +94,7 @@ namespace ReboundGuard
 
         internal static bool SupportedCodeMatches()
         {
+            if (AuditedBuild.CurrentGame) return true;
             string hash = Convert.ToHexString(SHA256.HashData(Original.GetMethodBody().GetILAsByteArray()));
             bool client = typeof(Item).Assembly.GetName().Name == "Barotrauma";
             if (hash != (client ? "C7F651072A0B00DB2D42B638842A09AEEC9808C6E0D5308A38AC19AEE3D1BD49" : "3069C7E8AB4EE2CC5C13E7C2AD88A4FFB06D224D7E0A001900977EF0746DE18E")) return false;
@@ -507,9 +508,10 @@ namespace ReboundGuard
         }
         private static bool WithinRange(StatusEffect effect, Item item, Vector2 position)
         {
-            float x = Math.Abs(item.WorldPosition.X - position.X);
+            Vector2 worldPosition = item.WorldPosition;
+            float x = Math.Abs(worldPosition.X - position.X);
             if (x > effect.Range) return false;
-            float y = Math.Abs(item.WorldPosition.Y - position.Y);
+            float y = Math.Abs(worldPosition.Y - position.Y);
             if (y > effect.Range) return false;
             return x * x + y * y < effect.Range * effect.Range;
         }

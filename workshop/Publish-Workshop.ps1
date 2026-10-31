@@ -11,7 +11,7 @@ $contentId='reboundguard-experimental-040'
 if($Action -eq 'Publish') {
     $manifest=Get-Content -Raw -LiteralPath (Join-Path $folder 'PUBLIC-PACKAGE.json') | ConvertFrom-Json
     if($manifest.format -ne 1 -or $manifest.project -ne $contentId -or $manifest.file_id -ne '3822098302' -or $manifest.app_id -ne 602960){throw 'Unexpected public package target'}
-    if($manifest.validation_status -ne 'research_snapshot_native_validation_pending' -or -not $ResearchSnapshot){throw 'Use the prepared experimental snapshot entry point; validation status must be explicit'}
+    if($manifest.validation_status -notin @('research_snapshot_native_validation_pending','isolated_methods_verified_gameplay_pending') -or -not $ResearchSnapshot){throw 'Use the prepared experimental snapshot entry point; validation status must be explicit'}
     $actual=@(Get-ChildItem -LiteralPath $folder -Recurse -File | ForEach-Object {[IO.Path]::GetRelativePath($folder,$_.FullName).Replace('\','/')} | Where-Object {$_ -ne 'PUBLIC-PACKAGE.json'} | Sort-Object)
     $expected=@($manifest.files | ForEach-Object {$_.path} | Sort-Object -Unique)
     if(($actual -join "`n") -cne ($expected -join "`n") -or $expected.Count -ne $manifest.files.Count){throw 'Public package file list differs from the prepared manifest'}
